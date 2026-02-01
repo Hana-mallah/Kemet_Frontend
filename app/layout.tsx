@@ -21,14 +21,14 @@ const display = DM_Serif_Display({
 export const metadata: Metadata = {
     title: "Kemet - Discover Ancient Wonders",
     description: "Your AI-powered guide to exploring Egypt's ancient wonders, vibrant culture, and breathtaking destinations.",
-    metadataBase: new URL('https://kemet-explorer.com'), // Replace with your actual domain
+    metadataBase: new URL('https://kemetegypttour.vercel.app/'), // Replace with your actual domain
     alternates: {
         canonical: '/',
     },
     openGraph: {
         title: "Kemet - Discover Ancient Wonders",
         description: "Your AI-powered guide to exploring Egypt's ancient wonders, vibrant culture, and breathtaking destinations.",
-        url: 'https://kemet-explorer.com', // Replace with your actual domain
+        url: 'https://kemetegypttour.vercel.app/', // Replace with your actual domain
         siteName: 'Kemet',
         images: [
             {

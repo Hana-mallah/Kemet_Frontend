@@ -2,7 +2,8 @@
 
 import { useState } from "react"
 import { motion } from "framer-motion"
-import { Languages, Volume2, Mic, MicOff, Copy, ArrowRightLeft, Sparkles } from "lucide-react"
+import Link from "next/link"
+import { Languages, Volume2, Mic, MicOff, Copy, ArrowRightLeft, Sparkles, ArrowLeft } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
@@ -39,16 +40,22 @@ export default function TranslatorPage() {
     }
 
     return (
-        <div className="max-w-6xl mx-auto space-y-8">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                <div>
-                    <h1 className="font-display text-3xl font-bold mb-2 flex items-center gap-3">
-                        <span className="bg-egyptian-gold/10 p-2 rounded-xl text-egyptian-gold"><Languages className="w-8 h-8" /></span>
-                        AI Translator
-                    </h1>
-                    <p className="text-gray-600">
-                        Bridge the language gap instantly with our AI-powered English-Arabic translator.
-                    </p>
+        <div className="max-w-6xl mx-auto space-y-6">
+            <div className="mb-2">
+                <Link href="/dashboard" className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 mb-4 transition-colors group">
+                    <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                    Back to Dashboard
+                </Link>
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h1 className="font-display text-2xl sm:text-3xl font-bold mb-1 flex items-center gap-3">
+                            <span className="bg-egyptian-gold/10 p-2 rounded-xl text-egyptian-gold"><Languages className="w-6 h-6 sm:w-8 sm:h-8" /></span>
+                            AI Translator
+                        </h1>
+                        <p className="text-gray-500 text-sm sm:text-base">
+                            Bridge the language gap instantly with our AI-powered English-Arabic translator.
+                        </p>
+                    </div>
                 </div>
             </div>
 

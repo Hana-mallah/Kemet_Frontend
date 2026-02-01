@@ -2,7 +2,8 @@
 
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { Send, Bot, User, Sparkles, AlertCircle } from "lucide-react"
+import Link from "next/link"
+import { Send, Bot, User, Sparkles, AlertCircle, ArrowLeft } from "lucide-react"
 import { Card } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -59,15 +60,21 @@ export default function ChatbotPage() {
 
     return (
         <div className="max-w-5xl mx-auto h-[calc(100vh-8rem)] flex flex-col">
-            <div className="mb-6 flex items-center justify-between">
-                <div>
-                    <h1 className="font-display text-3xl font-bold mb-2 flex items-center gap-3">
-                        <span className="bg-egyptian-gold/10 p-2 rounded-xl text-egyptian-gold"><Bot className="w-8 h-8" /></span>
-                        Travel Assistant
-                    </h1>
-                    <p className="text-gray-600">
-                        Your personal AI guide for all things Egypt.
-                    </p>
+            <div className="mb-6">
+                <Link href="/dashboard" className="inline-flex items-center text-sm text-gray-500 hover:text-gray-900 mb-4 transition-colors group">
+                    <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
+                    Back to Dashboard
+                </Link>
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h1 className="font-display text-2xl sm:text-3xl font-bold mb-1 flex items-center gap-3">
+                            <span className="bg-egyptian-gold/10 p-2 rounded-xl text-egyptian-gold"><Bot className="w-6 h-6 sm:w-8 sm:h-8" /></span>
+                            Travel Assistant
+                        </h1>
+                        <p className="text-gray-500 text-sm sm:text-base">
+                            Your personal AI guide for all things Egypt.
+                        </p>
+                    </div>
                 </div>
             </div>
 
@@ -87,8 +94,8 @@ export default function ChatbotPage() {
                                     {message.role === "user" ? <User className="w-5 h-5 text-white" /> : <Sparkles className="w-4 h-4" />}
                                 </div>
                                 <div className={`p-4 rounded-2xl shadow-sm ${message.role === "user"
-                                        ? "bg-egyptian-terracotta text-white rounded-br-none"
-                                        : "bg-white text-gray-800 border border-gray-100 rounded-bl-none"
+                                    ? "bg-egyptian-terracotta text-white rounded-br-none"
+                                    : "bg-white text-gray-800 border border-gray-100 rounded-bl-none"
                                     }`}>
                                     <p className="text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
                                     <span className={`text-[10px] mt-2 block opacity-70 ${message.role === "user" ? "text-white" : "text-gray-400"}`}>

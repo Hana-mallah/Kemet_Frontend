@@ -89,18 +89,18 @@ export default function DashboardPage() {
                 className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8"
             >
                 {/* Header */}
-                <motion.div variants={item} className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                <motion.div variants={item} className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
-                        <h1 className="font-display text-4xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-2">
+                        <h1 className="font-display text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-2 leading-tight">
                             {mounted ? `${greeting}, ${user?.name?.split(" ")[0]} 👋` : 'Welcome'}
                         </h1>
-                        <p className="text-gray-600 text-lg">
+                        <p className="text-gray-600 text-base sm:text-lg">
                             Ready to explore Egypt&apos;s wonders?
                         </p>
                     </div>
-                    <Link href="/dashboard/trip-planner">
-                        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 h-12 px-6 rounded-xl group">
-                            <Compass className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                    <Link href="/dashboard/trip-planner" className="w-full md:w-auto">
+                        <Button className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 h-14 px-8 rounded-xl group text-base">
+                            <Compass className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
                             Plan New Trip
                         </Button>
                     </Link>
@@ -151,8 +151,8 @@ export default function DashboardPage() {
                                         </div>
                                     </div>
 
-                                    <Link href="/dashboard/travel-plan">
-                                        <Button size="lg" className="bg-white text-blue-700 hover:bg-gray-50 border-none shadow-xl h-14 px-8 rounded-xl font-semibold group">
+                                    <Link href="/dashboard/travel-plan" className="w-full md:w-auto">
+                                        <Button size="lg" className="w-full md:w-auto bg-white text-blue-700 hover:bg-gray-50 border-none shadow-xl h-14 px-8 rounded-xl font-semibold group">
                                             View Itinerary
                                             <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                         </Button>
