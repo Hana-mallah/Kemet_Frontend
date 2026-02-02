@@ -15,7 +15,8 @@ import {
     Compass,
     Sparkles,
     AlertCircle,
-    ArrowRight
+    ArrowRight,
+    Loader2
 } from 'lucide-react'
 import {
     AlertDialog,
