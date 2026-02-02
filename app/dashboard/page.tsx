@@ -4,16 +4,14 @@ import { useState, useEffect } from "react"
 import { motion } from "framer-motion"
 import Link from "next/link"
 import Image from "next/image"
-import { ArrowRight, Map, MessageSquare, Languages, Sparkles, Calendar, MapPin, Clock, TrendingUp, Compass, Heart, Loader2 } from "lucide-react"
+import { ArrowRight, Map, MessageSquare, Sparkles, Calendar, MapPin, Clock, TrendingUp, Compass, Heart, Loader2 } from "lucide-react"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { useAuth } from "@/contexts/AuthContext"
-import { useTravelPlanContext } from "@/contexts/TravelPlanContext"
 import { useGetFavoritesQuery } from "@/store/features/destinations/destinationsApi"
 
 export default function DashboardPage() {
     const { user } = useAuth()
-    const { travelPlan } = useTravelPlanContext()
     const { data: favorites = [], isLoading: isFavoritesLoading } = useGetFavoritesQuery()
     const [greeting, setGreeting] = useState("Hello")
     const [mounted, setMounted] = useState(false)
@@ -35,7 +33,7 @@ export default function DashboardPage() {
             title: "Travel Planner",
             description: "Create your itinerary",
             icon: Map,
-            href: "/dashboard/trip-planner",
+            href: "/dashboard/trips/generate",
             gradient: "from-blue-500 to-cyan-500",
             iconBg: "bg-gradient-to-br from-blue-500 to-cyan-500"
         },
@@ -46,14 +44,6 @@ export default function DashboardPage() {
             href: "/dashboard/chatbot",
             gradient: "from-purple-500 to-pink-500",
             iconBg: "bg-gradient-to-br from-purple-500 to-pink-500"
-        },
-        {
-            title: "Translator",
-            description: "Translate phrases",
-            icon: Languages,
-            href: "/dashboard/translator",
-            gradient: "from-orange-500 to-red-500",
-            iconBg: "bg-gradient-to-br from-orange-500 to-red-500"
         },
         {
             title: "My Favorites",
@@ -98,88 +88,12 @@ export default function DashboardPage() {
                             Ready to explore Egypt&apos;s wonders?
                         </p>
                     </div>
-                    <Link href="/dashboard/trip-planner" className="w-full md:w-auto">
+                    <Link href="/dashboard/trips/generate" className="w-full md:w-auto">
                         <Button className="w-full md:w-auto bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 h-14 px-8 rounded-xl group text-base">
                             <Compass className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
                             Plan New Trip
                         </Button>
                     </Link>
-                </motion.div>
-
-                {/* Travel Plan Widget */}
-                <motion.div variants={item}>
-                    {travelPlan ? (
-                        <Card className="border-none shadow-xl overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-purple-700 text-white">
-                            <CardContent className="p-8">
-                                <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
-                                    <div className="flex-1">
-                                        <div className="flex items-center gap-2 text-blue-100 mb-3">
-                                            <Calendar className="w-5 h-5" />
-                                            <span className="text-sm font-semibold uppercase tracking-wider">Active Trip</span>
-                                        </div>
-                                        <h2 className="font-display text-3xl font-bold mb-6">{travelPlan.name}</h2>
-
-                                        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                                            <div className="bg-white/10 backdrop-blur-sm px-5 py-4 rounded-xl border border-white/20">
-                                                <div className="flex items-center gap-2 text-blue-100 mb-2">
-                                                    <Calendar className="w-4 h-4" />
-                                                    <span className="text-xs font-medium uppercase">Dates</span>
-                                                </div>
-                                                <p className="font-semibold text-lg">
-                                                    {new Date(travelPlan.startDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} - {new Date(travelPlan.endDate).toLocaleDateString(undefined, { month: 'short', day: 'numeric' })}
-                                                </p>
-                                            </div>
-
-                                            <div className="bg-white/10 backdrop-blur-sm px-5 py-4 rounded-xl border border-white/20">
-                                                <div className="flex items-center gap-2 text-blue-100 mb-2">
-                                                    <Clock className="w-4 h-4" />
-                                                    <span className="text-xs font-medium uppercase">Duration</span>
-                                                </div>
-                                                <p className="font-semibold text-lg">{travelPlan.days.length} Days</p>
-                                            </div>
-
-                                            <div className="bg-white/10 backdrop-blur-sm px-5 py-4 rounded-xl border border-white/20">
-                                                <div className="flex items-center gap-2 text-blue-100 mb-2">
-                                                    <Sparkles className="w-4 h-4" />
-                                                    <span className="text-xs font-medium uppercase">Status</span>
-                                                </div>
-                                                <div className="flex items-center gap-2">
-                                                    <span className="w-2 h-2 rounded-full bg-green-400 animate-pulse" />
-                                                    <span className="font-semibold text-lg capitalize">{travelPlan.status}</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <Link href="/dashboard/travel-plan" className="w-full md:w-auto">
-                                        <Button size="lg" className="w-full md:w-auto bg-white text-blue-700 hover:bg-gray-50 border-none shadow-xl h-14 px-8 rounded-xl font-semibold group">
-                                            View Itinerary
-                                            <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                        </Button>
-                                    </Link>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    ) : (
-                        <Card className="border-2 border-dashed border-gray-300 bg-white/50 backdrop-blur-sm hover:border-blue-400 hover:bg-white/80 transition-all duration-300">
-                            <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-                                <div className="w-20 h-20 bg-gradient-to-br from-blue-100 to-purple-100 rounded-2xl flex items-center justify-center mb-6">
-                                    <Map className="w-10 h-10 text-blue-600" />
-                                </div>
-                                <h3 className="font-bold text-2xl mb-3 text-gray-900">No Active Trip</h3>
-                                <p className="text-gray-600 max-w-md mb-8 text-lg">
-                                    Start planning your dream Egyptian adventure and create unforgettable memories
-                                </p>
-                                <Link href="/dashboard/trip-planner">
-                                    <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white h-12 px-8 rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 group">
-                                        <Sparkles className="w-5 h-5 mr-2" />
-                                        Create Your Plan
-                                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                                    </Button>
-                                </Link>
-                            </CardContent>
-                        </Card>
-                    )}
                 </motion.div>
 
                 {/* Quick Actions */}

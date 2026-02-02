@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, AnimatePresence, useReducedMotion } from "framer-motion"
-import { Home, Map, MessageSquare, Languages, LogOut, PanelLeft, Pyramid, Heart, LayoutDashboard } from "lucide-react"
+import { Home, Map, MessageSquare, Languages, LogOut, PanelLeft, Pyramid, Heart, LayoutDashboard, Plane } from "lucide-react"
 import { useAuth } from "@/contexts/AuthContext"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -35,9 +35,8 @@ export default function DashboardLayout({
 
     const navigation = [
         { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-        { name: "Travel Plan", href: "/dashboard/travel-plan", icon: Map },
+        { name: "Trips", href: "/dashboard/trips", icon: Plane },
         { name: "AI Assistant", href: "/dashboard/chatbot", icon: MessageSquare },
-        { name: "Translator", href: "/dashboard/translator", icon: Languages },
         { name: "Favorites", href: "/dashboard/favorites", icon: Heart },
     ]
 
@@ -193,7 +192,7 @@ export default function DashboardLayout({
 
             {/* Mobile Navigation */}
             <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50 pb-safe shadow-[0_-4px_10px_rgba(0,0,0,0.03)]">
-                <div className="grid grid-cols-5 gap-1 p-1">
+                <div className="grid grid-cols-6 gap-1 p-1">
                     {navigation.map((item) => {
                         const Icon = item.icon
                         const active = isActive(item.href)

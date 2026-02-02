@@ -37,8 +37,15 @@ export const authApi = api.injectEndpoints({
                 // Backend shape: { success, data: { accessToken, refreshToken, user, expiresIn } }
                 const data = response?.data || response
 
+                // Robust role detection
+                const rawUser = data?.user || data
+                const rawRole = rawUser?.role !== undefined ? rawUser.role : data?.role
+                const mappedRole = typeof rawRole === 'number'
+                    ? (rawRole === 1 ? 'admin' : 'tourist')
+                    : (String(rawRole).toLowerCase() === 'admin' ? 'admin' : 'tourist')
+
                 // Store expiry time in localStorage
-                const expiresIn = data?.expiresIn || 3600 // Default 1 hour (3600 seconds)
+                const expiresIn = data?.expiresIn || 3600 // Default 1 hour
                 const expiryTime = Date.now() + (expiresIn * 1000)
                 if (typeof window !== 'undefined') {
                     localStorage.setItem('tokenExpiry', expiryTime.toString())
@@ -46,15 +53,15 @@ export const authApi = api.injectEndpoints({
 
                 return {
                     user: {
-                        id: data?.user?.id || data?.userId || '',
-                        name: [data?.user?.firstName, data?.user?.lastName].filter(Boolean).join(' '),
-                        email: data?.user?.email || '',
-                        role: typeof data?.user?.role === 'number' ? (data.user.role === 1 ? 'admin' : 'tourist') : data?.user?.role,
-                        emailVerified: data?.user?.emailVerified,
-                        createdAt: '',
-                        updatedAt: '',
+                        id: rawUser?.id || data?.userId || data?.id || '',
+                        name: rawUser?.name || [rawUser?.firstName, rawUser?.lastName].filter(Boolean).join(' ') || 'User',
+                        email: rawUser?.email || data?.email || '',
+                        role: mappedRole,
+                        emailVerified: rawUser?.emailVerified,
+                        createdAt: rawUser?.createdAt || '',
+                        updatedAt: rawUser?.updatedAt || '',
                     } as User,
-                    token: data?.accessToken,
+                    token: data?.accessToken || data?.token,
                     refreshToken: data?.refreshToken,
                     expiresIn,
                 } as AuthResponse
@@ -80,8 +87,14 @@ export const authApi = api.injectEndpoints({
                 body: userData,
             }),
             transformResponse: (response: any) => {
-                // Backend shape: { success, message, data: { userId, email, firstName, lastName, role, accessToken, refreshToken, expiresIn } }
                 const data = response?.data || response
+
+                // Robust role detection
+                const rawUser = data?.user || data
+                const rawRole = rawUser?.role !== undefined ? rawUser.role : data?.role
+                const mappedRole = typeof rawRole === 'number'
+                    ? (rawRole === 1 ? 'admin' : 'tourist')
+                    : (String(rawRole).toLowerCase() === 'admin' ? 'admin' : 'tourist')
 
                 // Store expiry time in localStorage
                 const expiresIn = data?.expiresIn || 3600
@@ -92,15 +105,15 @@ export const authApi = api.injectEndpoints({
 
                 return {
                     user: {
-                        id: data?.userId || '',
-                        name: [data?.firstName, data?.lastName].filter(Boolean).join(' '),
-                        email: data?.email || '',
-                        role: typeof data?.role === 'number' ? (data.role === 1 ? 'admin' : 'tourist') : data?.role,
+                        id: data?.userId || rawUser?.id || '',
+                        name: rawUser?.name || [data?.firstName || rawUser?.firstName, data?.lastName || rawUser?.lastName].filter(Boolean).join(' ') || 'User',
+                        email: data?.email || rawUser?.email || '',
+                        role: mappedRole,
                         emailVerified: false,
                         createdAt: '',
                         updatedAt: '',
                     } as User,
-                    token: data?.accessToken || '',
+                    token: data?.accessToken || data?.token || '',
                     refreshToken: data?.refreshToken || '',
                     expiresIn,
                 } as AuthResponse

@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { motion, useReducedMotion } from "framer-motion"
-import { LayoutDashboard, Activity, Settings, LogOut, Pyramid, Menu, X } from "lucide-react"
+import { LayoutDashboard, Activity, LogOut, Pyramid, Menu, X, Plane, Users } from "lucide-react"
 import { useAuth } from "@/contexts/AuthContext"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
@@ -55,9 +55,10 @@ export default function AdminLayout({
 
     const navigation = [
         { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
+        { name: "Users", href: "/admin/users", icon: Users },
         { name: "Destinations", href: "/admin/destinations", icon: Pyramid },
+        { name: "Trips", href: "/admin/trips", icon: Plane },
         { name: "Analytics", href: "/admin/analytics", icon: Activity },
-        { name: "Settings", href: "/admin/settings", icon: Settings },
     ]
 
     const isActive = (path: string) => pathname === path
@@ -181,7 +182,7 @@ export default function AdminLayout({
 
             {/* Mobile Navigation */}
             <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
-                <div className="grid grid-cols-6 gap-1 p-2">
+                <div className="grid grid-cols-5 gap-1 p-2">
                     {navigation.map((item) => {
                         const Icon = item.icon
                         const active = isActive(item.href)

@@ -18,20 +18,35 @@ export default function LoginPage() {
     const router = useRouter()
 
     const handleSubmit = async (e: React.FormEvent) => {
+        // Prevent default browser form submission
         e.preventDefault()
         setError("")
+
         try {
+            console.log('Attempting login for:', email)
             const result = await login({ email, password }).unwrap()
-            const roleVal = typeof result.user?.role === 'number'
-                ? (result.user.role === 1 ? 'admin' : 'tourist')
-                : result.user?.role
+            console.log('Login result:', result)
+
+            const roleVal = result.user?.role
+            console.log('Detected Role:', roleVal)
+
             if (roleVal === "admin") {
+                console.log('Navigating to /admin')
                 router.push("/admin")
+            } else if (roleVal === "tourist") {
+                console.log('Navigating to /dashboard')
+                router.push("/dashboard")
             } else {
+                console.warn('Unknown role, defaulting to /dashboard')
                 router.push("/dashboard")
             }
         } catch (err: any) {
-            setError(err?.data?.error?.message || err?.data?.message || "Login failed. Please check your credentials.")
+            console.error('Login error detail:', err)
+            const errorMsg = err?.data?.error?.message ||
+                err?.data?.message ||
+                err?.message ||
+                "Login failed. Please check your credentials."
+            setError(errorMsg)
         }
     }
 

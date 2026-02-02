@@ -254,7 +254,7 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                     <p className="text-gray-600 text-sm mb-6 leading-relaxed">
                                         Add {destination.name} to your personalized Egypt itinerary and let our AI help you plan the perfect trip.
                                     </p>
-                                    <Link href="/dashboard/trip-planner">
+                                    <Link href="/dashboard/trips/generate">
                                         <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11">
                                             Create Travel Plan
                                         </Button>

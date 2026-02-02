@@ -181,6 +181,90 @@ export interface AnalyticsData {
     }
 }
 
+// Trip Management types
+export interface TripActivity {
+    id?: string
+    dayId?: string
+    tripId?: string
+    destinationId: string
+    activityType: number
+    startTime: string
+    durationHours: number
+    description: string
+}
+
+export interface TripDay {
+    id?: string
+    tripId?: string
+    dayNumber: number
+    date: string
+    title: string
+    description: string
+    city: string
+    activities?: TripActivity[]
+}
+
+export interface Trip {
+    id?: string
+    title: string
+    travelCompanions: number
+    travelStyle: number
+    experienceTypes: string[]
+    interests: string[]
+    startDate: string
+    endDate: string
+    durationDays: number
+    price: number
+    description: string
+    imageUrl: string
+    days?: TripDay[]
+}
+
+export interface CreateTripRequest {
+    title: string
+    travelCompanions: number
+    travelStyle: number
+    experienceTypes: string[]
+    interests: string[]
+    startDate: string
+    endDate: string
+    durationDays: number
+    price: number
+    description: string
+    imageUrl: string
+    days?: Omit<TripDay, 'id' | 'tripId'>[]
+}
+
+export interface UpdateTripRequest extends CreateTripRequest {
+    id: string
+}
+
+export interface CreateDayRequest {
+    dayNumber: number
+    date: string
+    title: string
+    description: string
+    city: string
+}
+
+export interface CreateActivityRequest {
+    destinationId: string
+    activityType: number
+    startTime: string
+    durationHours: number
+    description: string
+}
+
+// Trip Generation Request
+export interface GenerateTripRequest {
+    destination?: string
+    interests?: string[]
+    travelStyle?: number
+    durationDays?: number
+    startDate?: string
+    budget?: number
+}
+
 // Form types
 export interface LoginFormData {
     email: string
