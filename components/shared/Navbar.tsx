@@ -22,8 +22,14 @@ export function Navbar() {
                 <div className="flex h-18 items-center justify-between py-2">
                     {/* Logo */}
                     <Link href="/" className="flex items-center space-x-3 group">
-                        <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300 bg-center bg-cover" style={{ backgroundImage: 'url(/logo.png)' }}>
+                        <div className="w-10 h-10 rounded-xl overflow-hidden shadow-lg group-hover:shadow-xl transition-all duration-300">
+                            <img
+                                src="/logo.png"
+                                alt="Logo"
+                                className="w-full h-full object-contain"
+                            />
                         </div>
+
                         <div>
                             <span className="font-display text-xl font-bold text-blue-600">
                                 Kemet
