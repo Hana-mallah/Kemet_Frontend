@@ -103,7 +103,7 @@ Generate the Trip Plan JSON now.`;
 
                     // Step 1: Call Gemini API (using v1 with gemini-2.5-flash)
                     const geminiResponse = await fetch(
-                        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=AIzaSyCQNCO9t9DwYiyyCHRio7FI9LMl7dE-Z5U`,
+                        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=AIzaSyDIXGNWqilYn8rWgykTsaFPtyIDB-zXXyc`,
                         {
                             method: 'POST',
                             headers: {
