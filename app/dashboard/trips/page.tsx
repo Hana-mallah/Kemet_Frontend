@@ -4,6 +4,19 @@ import { useState } from 'react'
 import { useGetAllTripsQuery, useDeleteTripMutation } from '@/store/features/trip/tripApi'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
+import { motion, AnimatePresence } from 'framer-motion'
+import {
+    Calendar,
+    Clock,
+    Users,
+    Trash2,
+    ExternalLink,
+    Map as MapIcon,
+    Compass,
+    Sparkles,
+    AlertCircle,
+    ArrowRight
+} from 'lucide-react'
 import {
     AlertDialog,
     AlertDialogAction,
@@ -14,6 +27,8 @@ import {
     AlertDialogHeader,
     AlertDialogTitle,
 } from "@/components/ui/alert-dialog"
+import { Button } from "@/components/ui/button"
+import { Card, CardContent } from "@/components/ui/card"
 
 export default function TripsPage() {
     const router = useRouter()
@@ -31,8 +46,6 @@ export default function TripsPage() {
             setTripToDelete(null)
         } catch (err) {
             console.error('Failed to delete trip:', err)
-            // You might want to add a toast notification here instead of alert
-            // toast.error("Failed to delete trip")
         } finally {
             setDeletingId(null)
         }
@@ -53,10 +66,14 @@ export default function TripsPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-blue-50 flex items-center justify-center">
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-16 w-16 border-b-4 border-amber-600 mx-auto mb-4"></div>
-                    <p className="text-gray-600">Loading your trips...</p>
+                    <motion.div
+                        animate={{ rotate: 360 }}
+                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                        className="w-16 h-16 border-b-4 border-blue-600 rounded-full mx-auto mb-4"
+                    />
+                    <p className="text-gray-600 font-medium">Gathering your adventures...</p>
                 </div>
             </div>
         )
@@ -64,172 +81,171 @@ export default function TripsPage() {
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-blue-50 flex items-center justify-center">
-                <div className="bg-red-50 border border-red-200 rounded-2xl p-8 max-w-md">
-                    <h2 className="text-red-800 font-semibold text-xl mb-2">Error Loading Trips</h2>
-                    <p className="text-red-600">Failed to load trips. Please try again later.</p>
-                </div>
+            <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 flex items-center justify-center p-4">
+                <Card className="max-w-md w-full border-none shadow-2xl bg-white/80 backdrop-blur-md">
+                    <CardContent className="p-8 text-center">
+                        <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+                        <h2 className="font-display text-2xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h2>
+                        <p className="text-gray-600 mb-6">We couldn't load your trips. This might be a temporary connection issue.</p>
+                        <Button onClick={() => window.location.reload()} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
+                            Retry
+                        </Button>
+                    </CardContent>
+                </Card>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-white to-blue-50 py-12 px-4">
+        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 py-12 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-4">
+                <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
                     <div>
-                        <h1 className="text-5xl font-bold bg-gradient-to-r from-amber-600 to-blue-600 bg-clip-text text-transparent mb-2">
-                            My Trips
+                        <h1 className="font-display text-4xl sm:text-5xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-2 leading-tight">
+                            My Journeys
                         </h1>
                         <p className="text-gray-600 text-lg">
-                            Manage and explore your travel itineraries
+                            Keep track of all your planned adventures in Egypt.
                         </p>
                     </div>
-                    <Link
-                        href="/dashboard/trips/generate"
-                        className="bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-                    >
-                        + Generate New Trip
+                    <Link href="/dashboard/trips/generate">
+                        <Button className="bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white shadow-lg shadow-blue-500/20 h-14 px-8 rounded-xl group text-base font-bold">
+                            <Sparkles className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
+                            Create New Trip
+                        </Button>
                     </Link>
                 </div>
 
-                {/* Trips Grid */}
-                {!trips || trips.length === 0 ? (
-                    <div className="bg-white/80 backdrop-blur-lg rounded-3xl shadow-xl p-12 text-center border border-amber-100">
-                        <div className="max-w-md mx-auto">
-                            <svg className="w-24 h-24 mx-auto mb-6 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
-                            </svg>
-                            <h3 className="text-2xl font-semibold text-gray-700 mb-3">No trips yet</h3>
-                            <p className="text-gray-500 mb-6">
-                                Start planning your next adventure by generating a trip with AI
-                            </p>
-                            <Link
-                                href="/dashboard/trips/generate"
-                                className="inline-block bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white font-semibold py-3 px-8 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200"
-                            >
-                                Generate Your First Trip
-                            </Link>
-                        </div>
-                    </div>
-                ) : (
-                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                        {trips.map((trip) => (
-                            <div
-                                key={trip.id}
-                                className="group bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden border border-gray-100 hover:border-amber-200"
-                            >
-                                {/* Trip Image */}
-                                <div className="relative h-48 overflow-hidden bg-gradient-to-br from-amber-100 to-blue-100">
-                                    {trip.imageUrl ? (
-                                        <img
-                                            src={trip.imageUrl}
-                                            alt={trip.title}
-                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                                        />
-                                    ) : (
-                                        <div className="w-full h-full flex items-center justify-center">
-                                            <svg className="w-20 h-20 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                        </div>
-                                    )}
-                                    <div className="absolute top-3 right-3 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-sm font-semibold text-amber-700">
-                                        ${trip.price}
-                                    </div>
+                {/* Content */}
+                <AnimatePresence mode="wait">
+                    {!trips || trips.length === 0 ? (
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-2xl p-16 text-center border border-white/20"
+                        >
+                            <div className="max-w-md mx-auto">
+                                <div className="w-24 h-24 bg-blue-50 rounded-full flex items-center justify-center mx-auto mb-8">
+                                    <MapIcon className="w-12 h-12 text-blue-600" />
                                 </div>
-
-                                {/* Trip Details */}
-                                <div className="p-6">
-                                    <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2 group-hover:text-amber-600 transition-colors">
-                                        {trip.title}
-                                    </h3>
-
-                                    <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-                                        {trip.description}
-                                    </p>
-
-                                    {/* Trip Meta */}
-                                    <div className="space-y-2 mb-4">
-                                        <div className="flex items-center text-sm text-gray-600">
-                                            <svg className="w-4 h-4 mr-2 text-amber-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                                            </svg>
-                                            {formatDate(trip.startDate)} - {formatDate(trip.endDate)}
-                                        </div>
-                                        <div className="flex items-center text-sm text-gray-600">
-                                            <svg className="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                                            </svg>
-                                            {trip.durationDays} days
-                                        </div>
-                                        <div className="flex items-center text-sm text-gray-600">
-                                            <svg className="w-4 h-4 mr-2 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                                            </svg>
-                                            {trip.travelCompanions} {trip.travelCompanions === 1 ? 'traveler' : 'travelers'}
-                                        </div>
-                                    </div>
-
-                                    {/* Tags */}
-                                    <div className="flex flex-wrap gap-2 mb-4">
-                                        <span className="px-3 py-1 bg-amber-100 text-amber-700 text-xs font-medium rounded-full">
-                                            {getTravelStyleLabel(trip.travelStyle)}
-                                        </span>
-                                        {trip.experienceTypes?.slice(0, 2).map((type, idx) => (
-                                            <span key={idx} className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-medium rounded-full">
-                                                {type}
-                                            </span>
-                                        ))}
-                                    </div>
-
-                                    {/* Actions */}
-                                    <div className="flex gap-2">
-                                        <Link
-                                            href={`/dashboard/trips/view?id=${trip.id}`}
-                                            className="flex-1 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white text-center font-medium py-2 px-4 rounded-lg transition-all duration-200"
-                                        >
-                                            View Details
-                                        </Link>
-                                        <button
-                                            onClick={() => trip.id && setTripToDelete(trip.id)}
-                                            disabled={deletingId === trip.id}
-                                            className="bg-red-50 hover:bg-red-100 text-red-600 font-medium py-2 px-4 rounded-lg transition-all duration-200 disabled:opacity-50"
-                                        >
-                                            {deletingId === trip.id ? '...' : 'Delete'}
-                                        </button>
-                                    </div>
-                                </div>
+                                <h3 className="font-display text-3xl font-bold text-gray-900 mb-4">No trips yet</h3>
+                                <p className="text-gray-600 text-lg mb-8 leading-relaxed">
+                                    The land of Pharaohs is waiting! Start planning your dream vacation with our AI trip generator.
+                                </p>
+                                <Link href="/dashboard/trips/generate">
+                                    <Button size="lg" className="rounded-xl px-10 h-14 bg-gradient-to-r from-blue-600 to-purple-600 text-white group">
+                                        Plan My First Trip
+                                        <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    </Button>
+                                </Link>
                             </div>
-                        ))}
-                    </div>
-                )}
+                        </motion.div>
+                    ) : (
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {trips.map((trip, idx) => (
+                                <motion.div
+                                    key={trip.id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ delay: idx * 0.1 }}
+                                    className="group"
+                                >
+                                    <Card className="border-none shadow-lg hover:shadow-2xl transition-all duration-500 bg-white/80 backdrop-blur-sm overflow-hidden rounded-[2rem] h-full flex flex-col">
+                                        {/* Image Section */}
+                                        <div className="relative h-56 overflow-hidden">
+                                            <img
+                                                src={trip.imageUrl || 'https://images.unsplash.com/photo-1503177119275-0aa32b3a9855?auto=format&fit=crop&q=80'}
+                                                alt={trip.title}
+                                                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                                            />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent" />
+                                            <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-md px-4 py-1.5 rounded-full text-sm font-bold text-gray-900 shadow-lg">
+                                                ${trip.price}
+                                            </div>
+                                            <div className="absolute bottom-4 left-6 right-6">
+                                                <div className="flex gap-2">
+                                                    <span className="px-3 py-1 bg-blue-600/20 backdrop-blur-md border border-blue-400/30 text-blue-100 text-[10px] font-bold uppercase tracking-widest rounded-full">
+                                                        {getTravelStyleLabel(trip.travelStyle)}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <CardContent className="p-8 flex-1 flex flex-col">
+                                            <h3 className="font-display text-2xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-1">
+                                                {trip.title}
+                                            </h3>
+                                            <p className="text-gray-600 text-sm mb-6 line-clamp-2 leading-relaxed">
+                                                {trip.description}
+                                            </p>
+
+                                            <div className="space-y-3 mb-8">
+                                                <div className="flex items-center text-sm font-medium text-gray-500">
+                                                    <Calendar className="w-4 h-4 mr-3 text-blue-500" />
+                                                    {formatDate(trip.startDate)} - {formatDate(trip.endDate)}
+                                                </div>
+                                                <div className="flex items-center text-sm font-medium text-gray-500">
+                                                    <Clock className="w-4 h-4 mr-3 text-purple-500" />
+                                                    {trip.durationDays} Magical Days
+                                                </div>
+                                                <div className="flex items-center text-sm font-medium text-gray-500">
+                                                    <Users className="w-4 h-4 mr-3 text-emerald-500" />
+                                                    {trip.travelCompanions} {trip.travelCompanions === 1 ? 'Explorer' : 'Explorers'}
+                                                </div>
+                                            </div>
+
+                                            <div className="flex gap-3 mt-auto">
+                                                <Link
+                                                    href={`/dashboard/trips/view?id=${trip.id}`}
+                                                    className="flex-[2]"
+                                                >
+                                                    <Button className="w-full h-11 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl shadow-md transition-all">
+                                                        View Details
+                                                        <ExternalLink className="w-4 h-4 ml-2" />
+                                                    </Button>
+                                                </Link>
+                                                <Button
+                                                    size="icon"
+                                                    onClick={() => trip.id && setTripToDelete(trip.id)}
+                                                    variant="outline"
+                                                    className="w-11 h-11 border-gray-100 bg-gray-50 hover:bg-red-50 hover:border-red-100 hover:text-red-600 rounded-xl transition-all"
+                                                >
+                                                    <Trash2 className="w-4 h-4" />
+                                                </Button>
+                                            </div>
+                                        </CardContent>
+                                    </Card>
+                                </motion.div>
+                            ))}
+                        </div>
+                    )}
+                </AnimatePresence>
             </div>
 
             <AlertDialog open={!!tripToDelete} onOpenChange={(open) => !open && setTripToDelete(null)}>
-                <AlertDialogContent>
+                <AlertDialogContent className="rounded-[2rem] border-none p-10 max-w-lg bg-white/90 backdrop-blur-xl shadow-2xl">
                     <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Trip?</AlertDialogTitle>
-                        <AlertDialogDescription>
-                            Are you sure you want to delete <span className="font-semibold text-gray-900">{trips?.find(t => t.id === tripToDelete)?.title}</span>? This action cannot be undone.
+                        <AlertDialogTitle className="font-display text-3xl font-extrabold text-gray-900 mb-2">Delete this trip?</AlertDialogTitle>
+                        <AlertDialogDescription className="text-gray-600 text-lg leading-relaxed">
+                            Are you sure you want to delete <span className="font-bold text-blue-600">"{trips?.find(t => t.id === tripToDelete)?.title}"</span>? All your saved itinerary details will be lost forever.
                         </AlertDialogDescription>
                     </AlertDialogHeader>
-                    <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogFooter className="gap-3 mt-8">
+                        <AlertDialogCancel className="h-12 border-gray-200 bg-white hover:bg-gray-50 rounded-xl font-bold text-gray-600 transition-all">
+                            Cancel
+                        </AlertDialogCancel>
                         <AlertDialogAction
-                            className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
+                            className="bg-red-600 hover:bg-red-700 text-white h-12 px-8 rounded-xl font-bold shadow-lg shadow-red-500/20 transition-all border-none"
                             onClick={(e) => {
                                 e.preventDefault()
                                 handleDelete()
                             }}
                         >
                             {deletingId ? (
-                                <>
-                                    <span className="animate-spin mr-2">⏳</span> Deleting...
-                                </>
+                                <Loader2 className="w-5 h-5 animate-spin" />
                             ) : (
-                                "Delete Trip"
+                                "Yes, Delete It"
                             )}
                         </AlertDialogAction>
                     </AlertDialogFooter>

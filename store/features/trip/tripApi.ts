@@ -38,6 +38,11 @@ export const tripApi = api.injectEndpoints({
                 try {
                     console.log('Generating trip with Gemini...', request)
 
+                    // Fetch destinations from backend dynamically
+                    const destResult = await baseQuery('/Destinations')
+                    const destinationsData = (destResult.data as any)?.data || destResult.data
+                    const allowedDestinations = Array.isArray(destinationsData) ? destinationsData : []
+
                     const systemPrompt = `You are an AI Trip Planning Agent for Kemet platform.
 Your responsibility is to create a personalized travel plan in Egypt based strictly on a Trip Persona provided as input.
 The plan should contain days and day activity in details.
@@ -51,34 +56,7 @@ RULES & CONSTRAINTS:
 5. Prices must be estimated based on TravelStyle.
 
 ALLOWED DESTINATIONS:
-[
-  { "id": "8ad2198a-289e-4e09-a4e0-059d68b014af", "name": "The Great Pyramid of Giza", "city": "Giza", "estimatedPrice": 1000 },
-  { "id": "ec199de0-aa4f-479e-b852-093ac5cbc82b", "name": "Bab Zuwayla", "city": "Cairo", "estimatedPrice": 100 },
-  { "id": "6ba3a297-1c23-41b6-b636-18b1f35f438c", "name": "Dahshur", "city": "Giza", "estimatedPrice": 200 },
-  { "id": "11b040f6-2330-4232-9430-1e1f77125204", "name": "Giza Plateau", "city": "Giza", "estimatedPrice": 700 },
-  { "id": "9af9d86c-8390-4948-a73f-238a871067db", "name": "National Museum of Egyptian Civilization(NMEC)", "city": "Cairo", "estimatedPrice": 500 },
-  { "id": "d50a119d-22db-4912-a7af-2bea87e8e30f", "name": "The Royal Carriages Museum", "city": "Cairo", "estimatedPrice": 300 },
-  { "id": "3031eaac-5e58-4690-b6b6-3ca7d6615029", "name": "Samiha Kamil Palace", "city": "Cairo", "estimatedPrice": 10 },
-  { "id": "a78ab2c9-9067-45e4-b870-867351188b12", "name": "National Military Museum", "city": "Cairo", "estimatedPrice": 200 },
-  { "id": "33e8bc26-7cb5-4eec-9146-87afe3126461", "name": "Al-Mu'izz Street Heritage Sites", "city": "Cairo", "estimatedPrice": 220 },
-  { "id": "747c8d86-640e-483b-ad97-8bdce0abd180", "name": "Grand Egyptian museum", "city": "Giza", "estimatedPrice": 1450 },
-  { "id": "8c904950-1fda-4b46-a12f-900792ce760d", "name": "Imhotep Museum", "city": "Cairo", "estimatedPrice": 600 },
-  { "id": "9ac3489f-a41c-4067-89e7-94c095436c82", "name": "Madrasa and Mausoleum of al-Saleh Najm al-Din Ayyub", "city": "Cairo", "estimatedPrice": 220 },
-  { "id": "dde1681f-52de-4c62-8938-9d65885fc74b", "name": "Baron Empain Palace", "city": "Cairo", "estimatedPrice": 220 },
-  { "id": "18285f23-5f3b-431a-baeb-9ef6785f78eb", "name": "Gayer-Anderson Museum", "city": "Cairo", "estimatedPrice": 100 },
-  { "id": "0dda8961-390c-4b61-8d52-9fa38dafc9ee", "name": "Church of Saint Sergius and Bacchus", "city": "Old Cairo", "estimatedPrice": 0 },
-  { "id": "65851b5e-f5d9-4f35-9182-ab3798bd40ce", "name": "Manial Palace Museum", "city": "Cairo", "estimatedPrice": 220 },
-  { "id": "a303441e-e3c5-4314-bd18-af0038f333fd", "name": "Museum of Islamic Art", "city": "Cairo", "estimatedPrice": 340 },
-  { "id": "2f3eca59-2cf8-41b1-bdc5-ba2dda5d9490", "name": "Helwan Corner Museum", "city": "Cairo", "estimatedPrice": 100 },
-  { "id": "88ded194-52e7-4ac2-8bab-c891edebf7c2", "name": "The Mosque of ‘Amr ibn al-‘As", "city": "Old Cairo", "estimatedPrice": 0 },
-  { "id": "cb38d877-2897-454c-8b19-c9f0fdd954d2", "name": "Mary’s Tree", "city": "Cairo", "estimatedPrice": 100 },
-  { "id": "48966aaa-733e-4380-9247-cc29f175863b", "name": "Rawda Island Nilometer", "city": "Old Cairo", "estimatedPrice": 120 },
-  { "id": "0458c5f3-2b8a-4189-8598-d2c07e9e3bf2", "name": "The Egyptian Museum", "city": "Cairo", "estimatedPrice": 550 },
-  { "id": "ab214538-6129-4d51-ae5a-e27a335400c4", "name": "National Police Museum", "city": "Cairo", "estimatedPrice": 200 },
-  { "id": "78b068fb-e4b0-4d08-ba4f-ebb6993b3279", "name": "Cairo Citadel", "city": "Cairo", "estimatedPrice": 550 },
-  { "id": "27078ad8-5e91-4858-9434-eea2b4741b41", "name": "The Coptic Museum", "city": "Cairo", "estimatedPrice": 280 },
-  { "id": "24037219-b41a-44d8-926a-fe8b7140444c", "name": "Tomb of the Two Brothers", "city": "Giza", "estimatedPrice": 600 }
-]
+${JSON.stringify(allowedDestinations.map(d => ({ id: d.id, name: d.name, city: d.city, estimatedPrice: d.estimatedPrice })), null, 2)}
 
 Output ONLY a JSON object:
 {
@@ -125,7 +103,7 @@ Generate the Trip Plan JSON now.`;
 
                     // Step 1: Call Gemini API (using v1 with gemini-2.5-flash)
                     const geminiResponse = await fetch(
-                        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=AIzaSyD8bMPZ4Ddc84ziYcVSJMMMNXOiar2F_fc`,
+                        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=AIzaSyDX32mDHhzXNJ7tmfEWZSn-4ikqIqr-1-4`,
                         {
                             method: 'POST',
                             headers: {
@@ -209,7 +187,7 @@ Generate the Trip Plan JSON now.`;
                             description: day.description || day.Description || "Exciting day of exploration",
                             city: day.city || day.City || "Cairo",
                             activities: (day.dayActivities || day.activities || day.Activities || []).map((activity: any) => ({
-                                 destinationId: activity.destinationId || activity.DestinationId || "8ad2198a-289e-4e09-a4e0-059d68b014af",
+                                destinationId: activity.destinationId || activity.DestinationId || (allowedDestinations[0]?.id || "8ad2198a-289e-4e09-a4e0-059d68b014af"),
                                 activityType: mapActivityType(activity.type || activity.activityType || activity.Type || 0),
                                 startTime: activity.startTime || activity.StartTime || "09:00",
                                 durationHours: Number(activity.durationHours || activity.Duration || 2),
