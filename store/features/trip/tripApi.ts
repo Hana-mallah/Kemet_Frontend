@@ -32,11 +32,11 @@ export const tripApi = api.injectEndpoints({
             providesTags: (result, error, id) => [{ type: 'Trip', id }],
         }),
 
-        // Generate trip using Google Gemini AI
+        // Generate trip using Grok AI (xAI)
         generateTripWithAI: builder.mutation<Trip, GenerateTripRequest>({
             queryFn: async (request, _api, _extraOptions, baseQuery) => {
                 try {
-                    console.log('Generating trip with Gemini...', request)
+                    console.log('Generating trip with Grok AI...', request)
 
                     // Fetch destinations from backend dynamically
                     const destResult = await baseQuery('/Destinations')
@@ -101,32 +101,36 @@ Description: "Personalized trip to Egypt"
 
 Generate the Trip Plan JSON now.`;
 
-                    // Step 1: Call Gemini API (using v1 with gemini-2.5-flash)
-                    const geminiResponse = await fetch(
-                        `https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent?key=AIzaSyDIXGNWqilYn8rWgykTsaFPtyIDB-zXXyc`,
+                    // Step 1: Call Grok AI API (xAI)
+                    const grokResponse = await fetch(
+                        'https://api.x.ai/v1/chat/completions',
                         {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
+                                'Authorization': 'Bearer xai-gNHVUpgPylh3RaGDFdc2o5RZheLb2xJqrju5liFM2xte5ZsZEwD48P3yYGMS9JfdF4yzhOeHlBRfLHqb',
                             },
                             body: JSON.stringify({
-                                contents: [{
-                                    parts: [{ text: systemPrompt + "\n\n" + userPrompt + "\n\nIMPORTANT: Return ONLY raw JSON. Do not include markdown formatting or explanations." }]
-                                }]
+                                model: 'grok-beta',
+                                messages: [
+                                    { role: 'system', content: systemPrompt },
+                                    { role: 'user', content: userPrompt + "\n\nIMPORTANT: Return ONLY raw JSON. Do not include markdown formatting or explanations." }
+                                ],
+                                temperature: 0.7
                             }),
                         }
                     )
 
-                    if (!geminiResponse.ok) {
-                        const errorData = await geminiResponse.json().catch(() => ({}));
-                        throw new Error(errorData.error?.message || 'Failed to generate trip with Gemini');
+                    if (!grokResponse.ok) {
+                        const errorData = await grokResponse.json().catch(() => ({}));
+                        throw new Error(errorData.error?.message || 'Failed to generate trip with Grok AI');
                     }
 
-                    const geminiData = await geminiResponse.json();
-                    let contentText = geminiData.candidates[0].content.parts[0].text;
+                    const grokData = await grokResponse.json();
+                    let contentText = grokData.choices[0].message.content;
 
                     // --- Robust JSON Extraction ---
-                    // Handles cases where Gemini might wrap output in ```json ... ``` blocks
+                    // Handles cases where Grok might wrap output in ```json ... ``` blocks
                     if (contentText.includes('```')) {
                         const match = contentText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
                         if (match && match[1]) {
@@ -213,11 +217,11 @@ Generate the Trip Plan JSON now.`;
                     const createdTrip = (createResult.data as any)?.data || createResult.data;
                     return { data: createdTrip };
                 } catch (error: any) {
-                    console.error('Gemini integration error:', error);
+                    console.error('Grok AI integration error:', error);
                     return {
                         error: {
                             status: 'CUSTOM_ERROR',
-                            error: error.message || 'Failed to process Gemini trip response',
+                            error: error.message || 'Failed to process Grok AI trip response',
                         },
                     }
                 }
