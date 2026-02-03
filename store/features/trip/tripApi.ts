@@ -32,11 +32,11 @@ export const tripApi = api.injectEndpoints({
             providesTags: (result, error, id) => [{ type: 'Trip', id }],
         }),
 
-        // Generate trip using Grok AI (xAI)
+        // Generate trip using Groq AI
         generateTripWithAI: builder.mutation<Trip, GenerateTripRequest>({
             queryFn: async (request, _api, _extraOptions, baseQuery) => {
                 try {
-                    console.log('Generating trip with Grok AI...', request)
+                    console.log('Generating trip with Groq AI...', request)
 
                     // Fetch destinations from backend dynamically
                     const destResult = await baseQuery('/Destinations')
@@ -54,6 +54,9 @@ RULES & CONSTRAINTS:
 3. Field names MUST match the requested schema. Use "dayActivities" in your internal JSON structure.
 4. Duration MUST match DurationDays exactly. Do NOT exceed it.
 5. Prices must be estimated based on TravelStyle.
+6. CRITICAL: The number of days in the "days" array MUST equal DurationDays exactly.
+7. CRITICAL: Calculate endDate as: startDate + (durationDays - 1) days. For example, a 7-day trip starting Jan 1 ends Jan 7.
+8. Each day in the "days" array must have sequential dates starting from startDate.
 
 ALLOWED DESTINATIONS:
 ${JSON.stringify(allowedDestinations.map(d => ({ id: d.id, name: d.name, city: d.city, estimatedPrice: d.estimatedPrice })), null, 2)}
@@ -101,17 +104,17 @@ Description: "Personalized trip to Egypt"
 
 Generate the Trip Plan JSON now.`;
 
-                    // Step 1: Call Grok AI API (xAI)
-                    const grokResponse = await fetch(
-                        'https://api.x.ai/v1/chat/completions',
+                    // Step 1: Call Groq AI API
+                    const groqResponse = await fetch(
+                        'https://api.groq.com/openai/v1/chat/completions',
                         {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer xai-gNHVUpgPylh3RaGDFdc2o5RZheLb2xJqrju5liFM2xte5ZsZEwD48P3yYGMS9JfdF4yzhOeHlBRfLHqb',
+                                'Authorization': 'Bearer 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',
                             },
                             body: JSON.stringify({
-                                model: 'grok-beta',
+                                model: 'llama-3.3-70b-versatile',
                                 messages: [
                                     { role: 'system', content: systemPrompt },
                                     { role: 'user', content: userPrompt + "\n\nIMPORTANT: Return ONLY raw JSON. Do not include markdown formatting or explanations." }
@@ -121,24 +124,39 @@ Generate the Trip Plan JSON now.`;
                         }
                     )
 
-                    if (!grokResponse.ok) {
-                        const errorData = await grokResponse.json().catch(() => ({}));
-                        throw new Error(errorData.error?.message || 'Failed to generate trip with Grok AI');
+                    if (!groqResponse.ok) {
+                        const errorData = await groqResponse.json().catch(() => ({}));
+                        throw new Error(errorData.error?.message || 'Failed to generate trip with Groq AI');
                     }
 
-                    const grokData = await grokResponse.json();
-                    let contentText = grokData.choices[0].message.content;
+                    const groqData = await groqResponse.json();
+                    let contentText = groqData.choices[0].message.content;
+
+                    console.log('Raw Groq response (first 200 chars):', contentText.substring(0, 200));
 
                     // --- Robust JSON Extraction ---
-                    // Handles cases where Grok might wrap output in ```json ... ``` blocks
+                    // Handles cases where Groq might wrap output in ```json ... ``` blocks
                     if (contentText.includes('```')) {
-                        const match = contentText.match(/```(?:json)?\s*([\s\S]*?)\s*```/);
-                        if (match && match[1]) {
-                            contentText = match[1];
-                        }
+                        // Simple cleanup: remove ```json and ``` markers
+                        contentText = contentText.replace(/```json/g, '').replace(/```/g, '');
                     }
 
                     let rawTripData = JSON.parse(contentText.trim());
+
+                    // --- Date Validation & Correction ---
+                    // Ensure endDate is calculated correctly from startDate + durationDays
+                    const startDate = new Date(rawTripData.startDate || rawTripData.StartDate || request.startDate);
+                    const durationDays = Number(rawTripData.durationDays || rawTripData.DurationDays || request.durationDays || 7);
+
+                    // Calculate correct endDate: startDate + (durationDays - 1) days
+                    // Example: 7-day trip from Jan 1 = Jan 1 to Jan 7 (inclusive)
+                    const endDate = new Date(startDate);
+                    endDate.setDate(startDate.getDate() + (durationDays - 1));
+
+                    // Override AI's endDate with calculated value to ensure consistency
+                    rawTripData.endDate = endDate.toISOString();
+                    rawTripData.startDate = startDate.toISOString();
+                    rawTripData.durationDays = durationDays;
 
                     // --- Mapping Helpers (Map Strings back to Backend IDs) ---
                     const mapTravelStyle = (style: any): number => {
@@ -217,11 +235,11 @@ Generate the Trip Plan JSON now.`;
                     const createdTrip = (createResult.data as any)?.data || createResult.data;
                     return { data: createdTrip };
                 } catch (error: any) {
-                    console.error('Grok AI integration error:', error);
+                    console.error('Groq AI integration error:', error);
                     return {
                         error: {
                             status: 'CUSTOM_ERROR',
-                            error: error.message || 'Failed to process Grok AI trip response',
+                            error: error.message || 'Failed to process Groq AI trip response',
                         },
                     }
                 }

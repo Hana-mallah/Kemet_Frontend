@@ -4,69 +4,77 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 0%;
+    /* Papyrus Cream - #fcfbf8 */
+    --background: 40 33% 98%;
+    /* Deep Obsidian Black - #1c170d */
+    --foreground: 40 36% 8%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 0 0% 0%;
+    --card: 40 33% 98%;
+    --card-foreground: 40 36% 8%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 0%;
+    --popover: 40 33% 98%;
+    --popover-foreground: 40 36% 8%;
 
-    --primary: 210 100% 50%;
-    /* Modern Blue */
-    --primary-foreground: 0 0% 100%;
+    /* Royal Gold - #f4af25 */
+    --primary: 40 89% 55%;
+    --primary-foreground: 40 36% 8%;
 
-    --secondary: 0 0% 96%;
-    /* Light Gray */
-    --secondary-foreground: 0 0% 0%;
+    /* Sandstone Beige variant - #e8e0ce */
+    --secondary: 40 33% 86%;
+    --secondary-foreground: 40 36% 8%;
 
-    --muted: 0 0% 96%;
-    --muted-foreground: 0 0% 45%;
+    --muted: 40 33% 90%;
+    /* Sandstone Beige/Muted Gold - #9c8149 */
+    --muted-foreground: 40 36% 45%;
 
-    --accent: 0 0% 96%;
-    --accent-foreground: 0 0% 0%;
+    --accent: 40 33% 86%;
+    --accent-foreground: 40 36% 8%;
 
     --destructive: 0 65% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 90%;
-    --input: 0 0% 90%;
-    --ring: 210 100% 50%;
+    /* Sandstone Beige variant - #e8e0ce */
+    --border: 40 33% 86%;
+    --input: 40 33% 86%;
+    /* Royal Gold */
+    --ring: 40 89% 55%;
 
     --radius: 0.75rem;
   }
 
   .dark {
-    --background: 0 0% 0%;
-    --foreground: 0 0% 100%;
+    /* Deep Obsidian Black variant - #1c170d */
+    --background: 40 36% 8%;
+    /* Papyrus Cream - #fcfbf8 */
+    --foreground: 40 33% 98%;
 
-    --card: 0 0% 0%;
-    --card-foreground: 0 0% 100%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    --card: 40 36% 12%;
+    --card-foreground: 40 33% 98%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    --popover: 40 36% 12%;
+    --popover-foreground: 40 33% 98%;
 
-    --primary: 43 74% 49%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Royal Gold - #f4af25 */
+    --primary: 40 89% 55%;
+    --primary-foreground: 40 36% 8%;
 
-    --secondary: 16 75% 58%;
-    --secondary-foreground: 210 40% 98%;
+    --secondary: 40 20% 25%;
+    --secondary-foreground: 40 33% 98%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    --muted: 40 20% 20%;
+    /* Muted Sandstone - #a39883 */
+    --muted-foreground: 40 20% 58%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    --accent: 40 20% 25%;
+    --accent-foreground: 40 33% 98%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive-foreground: 40 33% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 43 74% 49%;
+    --border: 40 20% 25%;
+    --input: 40 20% 25%;
+    /* Royal Gold */
+    --ring: 40 89% 55%;
   }
 }
 
@@ -104,7 +112,7 @@
   }
 
   .app-surface {
-    @apply bg-gradient-to-b from-background via-background to-blue-50/50;
+    @apply bg-gradient-to-b from-background via-background to-amber-50/30;
   }
 
   .hide-scrollbar {
@@ -121,39 +129,39 @@
   }
 
   .glass-card {
-    @apply bg-white/80 backdrop-blur-lg border border-white/60 shadow-2xl;
+    @apply bg-white/80 backdrop-blur-lg border border-amber-200/40 shadow-2xl;
   }
 
   .glass-panel {
-    @apply bg-white/50 backdrop-blur-xl border border-white/40 shadow-md;
+    @apply bg-white/50 backdrop-blur-xl border border-amber-200/30 shadow-md;
   }
 
   .dark .glass-card {
-    @apply bg-black/50 backdrop-blur-lg border border-white/20;
+    @apply bg-black/50 backdrop-blur-lg border border-amber-700/30;
   }
 
   .gradient-egyptian {
-    @apply bg-gradient-to-r from-blue-600 via-blue-500 to-blue-400;
+    @apply bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-400;
   }
 
   .gradient-gold {
-    @apply bg-gradient-to-br from-blue-600 to-blue-400;
+    @apply bg-gradient-to-br from-amber-600 to-yellow-500;
   }
 
   .gradient-sunset {
-    @apply bg-gradient-to-b from-blue-600 to-white;
+    @apply bg-gradient-to-b from-amber-600 to-orange-300;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-orange-500 to-orange-400;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-yellow-500;
   }
 
-  .text-orange {
-    @apply text-orange-500;
+  .text-gold {
+    @apply text-amber-600;
   }
 
-  .bg-blue {
-    @apply bg-blue-600;
+  .bg-gold {
+    @apply bg-amber-600;
   }
 }
 

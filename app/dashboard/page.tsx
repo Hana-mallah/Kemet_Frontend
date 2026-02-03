@@ -193,7 +193,7 @@ export default function DashboardPage() {
 
                 {/* Info Cards */}
                 <motion.div variants={item}>
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <div className="max-w-2xl">
                         {/* Did You Know Card */}
                         <Card className="border-none shadow-lg bg-gradient-to-br from-amber-50 to-orange-50 overflow-hidden">
                             <CardContent className="p-6">
@@ -209,30 +209,6 @@ export default function DashboardPage() {
                                         <Button variant="outline" size="sm" className="bg-white hover:bg-gray-50 border-amber-200 text-amber-700 hover:text-amber-800 rounded-lg">
                                             Discover More
                                         </Button>
-                                    </div>
-                                </div>
-                            </CardContent>
-                        </Card>
-
-                        {/* Weather Card */}
-                        <Card className="border-none shadow-lg bg-gradient-to-br from-blue-50 to-cyan-50 overflow-hidden">
-                            <CardContent className="p-6">
-                                <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                                        <MapPin className="w-6 h-6 text-white" />
-                                    </div>
-                                    <div className="flex-1">
-                                        <h3 className="font-bold text-xl mb-3 text-gray-900">Cairo Weather</h3>
-                                        <div className="flex items-center justify-between mb-4">
-                                            <div>
-                                                <p className="text-4xl font-bold text-gray-900">32°C</p>
-                                                <p className="text-gray-600">Sunny & Clear</p>
-                                            </div>
-                                            <div className="text-6xl">☀️</div>
-                                        </div>
-                                        <p className="text-sm text-gray-600 bg-white/60 px-3 py-2 rounded-lg">
-                                            Perfect weather for exploring the Pyramids!
-                                        </p>
                                     </div>
                                 </div>
                             </CardContent>
