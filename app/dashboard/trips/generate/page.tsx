@@ -312,7 +312,7 @@ export default function TripGeneratorPage() {
                     <div className="space-y-8">
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Departure Date</label>
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Start Date</label>
                                 <div className="relative">
                                     <Calendar className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-blue-600" />
                                     <input
