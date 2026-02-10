@@ -53,10 +53,21 @@ RULES & CONSTRAINTS:
 2. Enum values MUST be returned as STRING literals (e.g., "Solo", "Budget", "Sightseeing").
 3. Field names MUST match the requested schema. Use "dayActivities" in your internal JSON structure.
 4. Duration MUST match DurationDays exactly. Do NOT exceed it.
-5. Prices must be estimated based on TravelStyle.
+5. Prices must be estimated based on TravelStyle AND MUST be in Egyptian Pounds (EGP) only.
 6. CRITICAL: The number of days in the "days" array MUST equal DurationDays exactly.
 7. CRITICAL: Calculate endDate as: startDate + (durationDays - 1) days. For example, a 7-day trip starting Jan 1 ends Jan 7.
 8. Each day in the "days" array must have sequential dates starting from startDate.
+
+BUDGET RULES (CRITICAL):
+9. Total trip cost MUST NOT exceed the provided total budget.
+10. The budget MUST be distributed across trip days based on the destinations planned per day.
+11. Each day MUST include a visible allocated per-day budget in Egyptian Pounds (EGP).
+12. The sum of all daily budgets MUST equal the total trip price.
+
+DESTINATION UNIQUENESS:
+13. A destinationId MUST NOT be repeated across the trip.
+14. Visiting the same city multiple times is allowed ONLY if different destinationIds are used.
+15. Do NOT reuse the same destination on multiple days under any circumstances.
 
 ALLOWED DESTINATIONS:
 ${JSON.stringify(allowedDestinations.map(d => ({ id: d.id, name: d.name, city: d.city, estimatedPrice: d.estimatedPrice })), null, 2)}
