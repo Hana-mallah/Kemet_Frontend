@@ -107,12 +107,12 @@ export default function HomePage() {
     ]
 
     return (
-        <div ref={containerRef} className="flex flex-col min-h-screen overflow-x-hidden">
+        <div ref={containerRef} className="flex flex-col min-h-screen overflow-x-hidden bg-background">
             {/* Hero Section */}
             <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
                 {/* Background with subtle gradient */}
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/30" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-600/5 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-background via-amber-50/50 to-amber-100/30" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-gold/10 via-transparent to-transparent" />
 
                 {/* Hero image - Egypt Pyramids */}
                 <div className="absolute inset-0">
@@ -120,14 +120,14 @@ export default function HomePage() {
                         src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1920&h=1080&fit=crop"
                         alt="Egypt Pyramids"
                         fill
-                        className="object-cover opacity-20"
+                        className="object-cover opacity-20 sepia-[.2]"
                         priority
                     />
                 </div>
 
                 {/* Decorative elements */}
-                <div className="absolute top-20 left-20 w-72 h-72 bg-blue-600/10 rounded-full blur-3xl" />
-                <div className="absolute bottom-20 right-20 w-96 h-96 bg-orange-500/10 rounded-full blur-3xl" />
+                <div className="absolute top-20 left-20 w-72 h-72 bg-gold/10 rounded-full blur-3xl" />
+                <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
 
                 <div className="relative container mx-auto px-4 text-center max-w-5xl">
                     <motion.div
@@ -142,17 +142,17 @@ export default function HomePage() {
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.2 }}
                         >
-                            <Badge className="px-6 py-2 bg-white/80 backdrop-blur-md text-orange-500 border-orange-200 shadow-lg hover:shadow-xl transition-all duration-300">
-                                <Sparkles className="h-4 w-4 mr-2" />
+                            <Badge className="px-6 py-2 bg-white/60 backdrop-blur-md text-bronze border-amber-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
+                                <Sparkles className="h-4 w-4 mr-2 text-gold" />
                                 AI-Powered Kemet Explorer
                             </Badge>
                         </motion.div>
 
                         {/* Main heading with better alignment */}
-                        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight">
-                            Discover the <span className="text-gradient">Magic of Egypt</span>
+                        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-bronze">
+                            Discover the <span className="text-transparent bg-clip-text gradient-egyptian">Magic of Egypt</span>
                             <br />
-                            with <span className="text-gradient">Kemet</span>
+                            with <span className="text-transparent bg-clip-text gradient-egyptian">Kemet</span>
                         </h1>
 
                         {/* Subtitle with better alignment */}
@@ -160,7 +160,7 @@ export default function HomePage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed font-light"
+                            className="text-lg md:text-xl text-bronze/80 max-w-3xl mx-auto leading-relaxed font-light"
                         >
                             Your intelligent companion for exploring ancient wonders, vibrant culture, and unforgettable experiences—designed for the modern traveler.
                         </motion.p>
@@ -173,12 +173,12 @@ export default function HomePage() {
                             className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
                         >
                             <Link href="/register">
-                                <Button size="lg" className="h-14 px-8 text-base bg-gradient-to-r from-blue-600 to-blue-500 hover:from-blue-700 hover:to-blue-600 text-white shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl">
+                                <Button size="lg" className="h-14 px-8 text-base gradient-egyptian hover:opacity-90 text-bronze font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl btn-active-taupe">
                                     Start Planning <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </Link>
                             <Link href="/destinations">
-                                <Button size="lg" variant="outline" className="h-14 px-8 text-base border-2 border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 rounded-xl">
+                                <Button size="lg" variant="outline" className="h-14 px-8 text-base border-2 border-amber-200/50 text-bronze hover:border-gold hover:bg-amber-50/50 transition-all duration-300 rounded-xl">
                                     Explore Destinations
                                 </Button>
                             </Link>
@@ -192,7 +192,7 @@ export default function HomePage() {
                         transition={{ delay: 0.8, duration: 0.8 }}
                         className="mt-16"
                     >
-                        <Card className="bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl">
+                        <Card className="bg-white/40 backdrop-blur-xl border border-amber-200/30 shadow-xl rounded-2xl">
                             <CardContent className="p-6">
                                 <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
                                     {[
@@ -207,8 +207,8 @@ export default function HomePage() {
                                             animate={{ opacity: 1, y: 0 }}
                                             transition={{ delay: 0.9 + i * 0.1 }}
                                         >
-                                            <h3 className="text-2xl md:text-3xl font-bold text-orange-500 font-display">{stat.value}</h3>
-                                            <p className="text-xs md:text-sm text-gray-600 uppercase tracking-wider mt-1 font-medium">{stat.label}</p>
+                                            <h3 className="text-2xl md:text-3xl font-bold text-gold font-display">{stat.value}</h3>
+                                            <p className="text-xs md:text-sm text-bronze/70 uppercase tracking-wider mt-1 font-medium">{stat.label}</p>
                                         </motion.div>
                                     ))}
                                 </div>
@@ -218,12 +218,12 @@ export default function HomePage() {
                 </div>
             </section>
 
-            <Separator className="bg-border/60" />
+            <Separator className="bg-amber-200/20" />
 
             {/* Features Section */}
             <section className="py-24 relative">
                 {/* Background decoration */}
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-amber-50/10 to-transparent" />
 
                 <div className="relative container mx-auto px-4">
                     <div className="text-center mb-16">
@@ -233,11 +233,11 @@ export default function HomePage() {
                             transition={{ duration: 0.6 }}
                             viewport={{ once: true }}
                         >
-                            <span className="text-orange-500 font-semibold tracking-wider uppercase text-sm mb-4 block">Smart Travel</span>
-                            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6 leading-tight">
-                                Why Choose <span className="text-gradient">Kemet</span>?
+                            <span className="text-gold font-semibold tracking-wider uppercase text-sm mb-4 block">Smart Travel</span>
+                            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6 leading-tight text-bronze">
+                                Why Choose <span className="text-transparent bg-clip-text gradient-egyptian">Kemet</span>?
                             </h2>
-                            <p className="text-lg text-gray-600 max-w-2xl mx-auto leading-relaxed font-light">
+                            <p className="text-lg text-bronze/80 max-w-2xl mx-auto leading-relaxed font-light">
                                 Experience Egypt like never before with our cutting-edge tourism ecosystem designed for the modern traveler.
                             </p>
                         </motion.div>
@@ -253,13 +253,13 @@ export default function HomePage() {
                                 viewport={{ once: true }}
                                 className="group"
                             >
-                                <Card className="h-full border-0 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white/80 backdrop-blur-sm rounded-2xl overflow-hidden">
+                                <Card className="h-full border-amber-200/30 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white/60 backdrop-blur-sm rounded-2xl overflow-hidden group-hover:bg-white/80">
                                     <div className="p-6">
-                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 ${feature.color} bg-gradient-to-br from-blue-100 to-orange-100`}>
+                                        <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 bg-amber-50 text-gold border border-amber-100`}>
                                             <feature.icon className="h-6 w-6" />
                                         </div>
-                                        <h3 className="font-bold text-xl mb-3 text-gray-900">{feature.title}</h3>
-                                        <p className="text-gray-600 leading-relaxed">
+                                        <h3 className="font-bold text-xl mb-3 text-bronze">{feature.title}</h3>
+                                        <p className="text-bronze/70 leading-relaxed">
                                             {feature.description}
                                         </p>
                                     </div>
@@ -271,11 +271,11 @@ export default function HomePage() {
             </section>
 
             {/* Featured Destinations */}
-            <section className="py-24 relative overflow-hidden">
+            <section className="py-24 relative overflow-hidden bg-background">
                 {/* Sophisticated background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-50 via-white to-blue-50/20" />
-                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-blue-600/5 rounded-full blur-3xl" />
-                <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-orange-500/5 rounded-full blur-3xl" />
+                <div className="absolute inset-0 bg-gradient-to-br from-background via-amber-50/20 to-background" />
+                <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-gold/5 rounded-full blur-3xl" />
+                <div className="absolute bottom-0 left-0 w-[800px] h-[800px] bg-primary/5 rounded-full blur-3xl" />
 
                 <div className="relative container mx-auto px-4">
                     <div className="flex flex-col lg:flex-row justify-between items-end mb-16 gap-8">
@@ -286,11 +286,11 @@ export default function HomePage() {
                             viewport={{ once: true }}
                             className="max-w-2xl"
                         >
-                            <span className="text-orange-500 font-semibold tracking-wider uppercase text-sm mb-4 block">Curated Experiences</span>
-                            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6 leading-tight">
-                                Popular <span className="text-gradient">Destinations</span>
+                            <span className="text-gold font-semibold tracking-wider uppercase text-sm mb-4 block">Curated Experiences</span>
+                            <h2 className="font-display text-3xl md:text-4xl font-bold mb-6 leading-tight text-bronze">
+                                Popular <span className="text-transparent bg-clip-text gradient-egyptian">Destinations</span>
                             </h2>
-                            <p className="text-lg text-gray-600 leading-relaxed font-light max-w-xl">
+                            <p className="text-lg text-bronze/80 leading-relaxed font-light max-w-xl">
                                 Explore Egypt&apos;s most iconic and breathtaking locations, hand-picked for the ultimate experience.
                             </p>
                         </motion.div>
@@ -301,7 +301,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                         >
                             <Link href="/destinations">
-                                <Button size="lg" variant="outline" className="group h-14 px-8 border-2 border-gray-200 hover:border-blue-600 hover:bg-blue-50 transition-all duration-300 rounded-xl">
+                                <Button size="lg" variant="outline" className="group h-14 px-8 border-2 border-amber-200/50 text-bronze hover:border-gold hover:bg-amber-50/50 transition-all duration-300 rounded-xl">
                                     View All Destinations <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
@@ -310,11 +310,11 @@ export default function HomePage() {
 
                     {isLoading ? (
                         <div className="flex justify-center items-center h-96">
-                            <Loader2 className="w-12 h-12 animate-spin text-blue-600" />
+                            <Loader2 className="w-12 h-12 animate-spin text-gold" />
                         </div>
                     ) : featuredDestinations.length === 0 ? (
                         <div className="text-center py-16">
-                            <p className="text-gray-500 text-lg">No destinations available yet.</p>
+                            <p className="text-bronze/60 text-lg">No destinations available yet.</p>
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -327,7 +327,7 @@ export default function HomePage() {
                                     viewport={{ once: true }}
                                 >
                                     <Link href={`/destinations/detail?id=${destination.id}`}>
-                                        <div className="group relative h-[500px] rounded-2xl overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500">
+                                        <div className="group relative h-[500px] rounded-2xl overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 border border-amber-200/20">
                                             <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
                                                 {destination.imageUrl ? (
                                                     <Image
@@ -339,8 +339,8 @@ export default function HomePage() {
                                                         priority
                                                     />
                                                 ) : (
-                                                    <div className="w-full h-full bg-gray-200 flex items-center justify-center">
-                                                        <span className="text-gray-400">No Image</span>
+                                                    <div className="w-full h-full bg-amber-50 flex items-center justify-center">
+                                                        <span className="text-bronze/40">No Image</span>
                                                     </div>
                                                 )}
                                             </div>
@@ -356,7 +356,7 @@ export default function HomePage() {
                                             <div className="absolute bottom-0 left-0 right-0 p-8 transform translate-y-4 group-hover:translate-y-0 transition-all duration-500">
                                                 <h3 className="font-display text-2xl font-bold mb-3 text-white">{destination.name}</h3>
                                                 <p className="text-white/80 mb-4 line-clamp-2 text-base leading-relaxed">{destination.description}</p>
-                                                <div className="flex items-center text-orange-400 font-semibold text-sm uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
+                                                <div className="flex items-center text-primary font-semibold text-sm uppercase tracking-wider opacity-0 group-hover:opacity-100 transition-all duration-500 delay-200">
                                                     Explore Now <ArrowRight className="ml-2 w-4 h-4" />
                                                 </div>
                                             </div>
@@ -372,8 +372,8 @@ export default function HomePage() {
             {/* CTA Section */}
             <section className="relative py-24 overflow-hidden">
                 {/* Elegant background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-600/90 to-black" />
-                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-white/10 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-black via-black/95 to-[#1c170d]" />
+                <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-gold/10 via-transparent to-transparent" />
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-5" />
 
                 {/* Egypt background image */}
@@ -382,13 +382,13 @@ export default function HomePage() {
                         src="https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?w=1920&h=1080&fit=crop"
                         alt="Egypt Desert"
                         fill
-                        className="object-cover opacity-10"
+                        className="object-cover opacity-20 sepia"
                     />
                 </div>
 
                 {/* Floating elements */}
-                <div className="absolute top-20 left-20 w-32 h-32 bg-orange-500/20 rounded-full blur-2xl animate-pulse" />
-                <div className="absolute bottom-20 right-20 w-48 h-48 bg-blue-400/20 rounded-full blur-2xl animate-pulse delay-1000" />
+                <div className="absolute top-20 left-20 w-32 h-32 bg-gold/10 rounded-full blur-2xl animate-pulse" />
+                <div className="absolute bottom-20 right-20 w-48 h-48 bg-primary/10 rounded-full blur-2xl animate-pulse delay-1000" />
 
                 <div className="relative container mx-auto px-4 z-10">
                     <motion.div
@@ -401,9 +401,9 @@ export default function HomePage() {
                         <h2 className="font-display text-3xl md:text-5xl font-bold mb-8 text-white leading-tight">
                             Ready to Write Your
                             <br />
-                            <span className="text-gradient">Own History</span>?
+                            <span className="text-transparent bg-clip-text gradient-egyptian">Own History</span>?
                         </h2>
-                        <p className="text-lg md:text-xl mb-8 text-white/90 leading-relaxed font-light max-w-3xl mx-auto">
+                        <p className="text-lg md:text-xl mb-8 text-white/80 leading-relaxed font-light max-w-3xl mx-auto">
                             Join thousands of travelers who have discovered the secrets of Egypt with our intelligent platform. Your adventure begins here.
                         </p>
                         <motion.div
@@ -413,12 +413,12 @@ export default function HomePage() {
                             viewport={{ once: true }}
                         >
                             <Link href="/register">
-                                <Button size="lg" className="h-14 px-10 text-base bg-white text-blue-600 hover:bg-gray-100 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-xl font-semibold">
+                                <Button size="lg" className="h-14 px-10 text-base gradient-egyptian text-bronze hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-xl font-bold btn-active-taupe">
                                     Create Your Free Account
                                 </Button>
                             </Link>
                         </motion.div>
-                        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/70 text-sm">
+                        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/60 text-sm">
                             <motion.div
                                 initial={{ opacity: 0 }}
                                 whileInView={{ opacity: 1 }}
@@ -426,7 +426,7 @@ export default function HomePage() {
                                 viewport={{ once: true }}
                                 className="flex items-center gap-2"
                             >
-                                <CheckCircle2 className="w-4 h-4 text-orange-400" />
+                                <CheckCircle2 className="w-4 h-4 text-gold" />
                                 <span>Free Plan Available</span>
                             </motion.div>
                             <motion.div
@@ -436,7 +436,7 @@ export default function HomePage() {
                                 viewport={{ once: true }}
                                 className="flex items-center gap-2"
                             >
-                                <CheckCircle2 className="w-4 h-4 text-orange-400" />
+                                <CheckCircle2 className="w-4 h-4 text-gold" />
                                 <span>No Credit Card Required</span>
                             </motion.div>
                             <motion.div
@@ -446,7 +446,7 @@ export default function HomePage() {
                                 viewport={{ once: true }}
                                 className="flex items-center gap-2"
                             >
-                                <CheckCircle2 className="w-4 h-4 text-orange-400" />
+                                <CheckCircle2 className="w-4 h-4 text-gold" />
                                 <span>24/7 Support</span>
                             </motion.div>
                         </div>

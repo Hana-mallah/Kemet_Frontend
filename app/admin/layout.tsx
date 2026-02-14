@@ -64,47 +64,47 @@ export default function AdminLayout({
     const isActive = (path: string) => pathname === path
 
     return (
-        <div className="min-h-screen bg-gray-50 flex">
+        <div className="min-h-screen bg-background flex">
             {/* Sidebar Desktop */}
             <motion.aside
                 initial={reduceMotion ? false as any : { width: 280 }}
                 animate={reduceMotion ? undefined : { width: isSidebarOpen ? 280 : 80 }}
                 transition={reduceMotion ? undefined : { duration: 0.2, ease: "easeInOut" }}
-                className="hidden md:flex flex-col bg-white border-r h-screen sticky top-0 z-30 shadow-sm"
+                className="hidden md:flex flex-col bg-white/60 border-r border-amber-200/40 h-screen sticky top-0 z-30 shadow-sm backdrop-blur-md"
             >
                 <div className="p-6 flex items-center justify-between">
                     {isSidebarOpen ? (
-                        <div className="flex items-center gap-3 font-display font-bold text-xl text-gray-800">
-                            <div className="w-8 h-8 rounded-xl overflow-hidden bg-center bg-cover" style={{ backgroundImage: 'url(/logo.png)' }}></div>
+                        <div className="flex items-center gap-3 font-display font-bold text-xl text-bronze">
+                            <div className="w-8 h-8 rounded-xl overflow-hidden bg-center bg-cover shadow-sm" style={{ backgroundImage: 'url(/logo.png)' }}></div>
                             <span>Kemet</span>
                         </div>
                     ) : (
-                        <div className="w-8 h-8 rounded-xl overflow-hidden bg-center bg-cover" style={{ backgroundImage: 'url(/logo.png)' }}></div>
+                        <div className="w-8 h-8 rounded-xl overflow-hidden bg-center bg-cover shadow-sm" style={{ backgroundImage: 'url(/logo.png)' }}></div>
                     )}
                     <button
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-1.5 rounded-lg hover:bg-gray-100 text-gray-500 hidden lg:block"
+                        className="p-1.5 rounded-lg hover:bg-amber-100/50 text-bronze hidden lg:block"
                     >
                         {isSidebarOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
                     </button>
                 </div>
                 {isSidebarOpen && (
                     <div className="px-6 -mt-4 mb-2">
-                        <Link href="/" className="text-xs text-gray-500 hover:text-gray-800">← Back to Home</Link>
+                        <Link href="/" className="text-xs text-bronze/70 hover:text-bronze">← Back to Home</Link>
                     </div>
                 )}
 
                 <div className={`px-4 mb-6 ${!isSidebarOpen && "text-center"}`}>
-                    <div className={`flex items-center gap-3 p-3 rounded-xl bg-white/5 border border-white/10 ${!isSidebarOpen && "justify-center"}`}>
+                    <div className={`flex items-center gap-3 p-3 rounded-xl bg-white/40 border border-amber-200/30 ${!isSidebarOpen && "justify-center"}`}>
                         <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                            <AvatarFallback className="bg-gradient-to-br from-gray-700 to-gray-600 text-white font-medium">
+                            <AvatarFallback className="bg-gradient-to-br from-amber-600 to-amber-500 text-white font-medium">
                                 {user?.name?.charAt(0) || "A"}
                             </AvatarFallback>
                         </Avatar>
                         {isSidebarOpen && (
                             <div className="overflow-hidden">
-                                <p className="font-semibold text-sm truncate text-gray-900">{user?.name}</p>
-                                <p className="text-xs text-gray-500 truncate">Administrator</p>
+                                <p className="font-semibold text-sm truncate text-bronze">{user?.name}</p>
+                                <p className="text-xs text-bronze/70 truncate">Administrator</p>
                             </div>
                         )}
                     </div>
@@ -120,21 +120,21 @@ export default function AdminLayout({
                                 <div
                                     className={`relative group flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300
           ${active
-                                            ? "bg-gradient-to-r from-gray-900 to-gray-800 text-white shadow-md shadow-black/30"
-                                            : "text-gray-500 hover:bg-gray-100 hover:text-gray-900 dark:hover:bg-gray-800"
+                                            ? "bg-primary text-bronze shadow-md shadow-amber-500/10 font-bold"
+                                            : "text-bronze hover:bg-amber-100/50 hover:text-bronze"
                                         }`}
                                 >
-                                    {/* Active indicator bar */}
+                                    {/* Active indicator bar - removed as background style is strong enough, or change color */}
                                     {active && (
-                                        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 rounded-full bg-blue-500" />
+                                        <span className="absolute left-0 top-1/2 -translate-y-1/2 h-6 w-1 rounded-full bg-bronze" />
                                     )}
 
                                     {/* Icon */}
                                     <Icon
                                         className={`h-5 w-5 transition-all duration-300
             ${active
-                                                ? "text-white"
-                                                : "text-gray-400 group-hover:text-gray-900"
+                                                ? "text-bronze"
+                                                : "text-gold group-hover:text-bronze"
                                             }
             ${!isSidebarOpen && "mx-auto"}
           `}
@@ -145,8 +145,8 @@ export default function AdminLayout({
                                         <span
                                             className={`text-sm font-medium transition-colors duration-300
               ${active
-                                                    ? "text-white"
-                                                    : "text-gray-700 group-hover:text-gray-900"
+                                                    ? "text-bronze"
+                                                    : "text-bronze group-hover:text-bronze"
                                                 }`}
                                         >
                                             {item.name}
@@ -174,14 +174,14 @@ export default function AdminLayout({
             </motion.aside>
 
             {/* Main Content */}
-            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-screen">
+            <main className="flex-1 p-4 md:p-8 overflow-y-auto h-screen bg-transparent">
                 <div className="max-w-7xl mx-auto">
                     {children}
                 </div>
             </main>
 
             {/* Mobile Navigation */}
-            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t z-50">
+            <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white/90 backdrop-blur-md border-t border-amber-200/30 z-50">
                 <div className="grid grid-cols-5 gap-1 p-2">
                     {navigation.map((item) => {
                         const Icon = item.icon
@@ -191,11 +191,11 @@ export default function AdminLayout({
                                 key={item.name}
                                 href={item.href}
                                 className={`flex flex-col items-center py-2 px-1 rounded-lg transition-colors ${active
-                                    ? "text-gray-800 bg-gray-100"
-                                    : "text-gray-500"
+                                    ? "text-bronze bg-amber-100/50 font-bold"
+                                    : "text-bronze/70"
                                     }`}
                             >
-                                <Icon className="h-5 w-5" />
+                                <Icon className={`h-5 w-5 ${active ? "text-bronze" : "text-gold"}`} />
                             </Link>
                         )
                     })}

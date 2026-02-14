@@ -70,7 +70,7 @@ export default function ClientDestination({ destinationId }: { destinationId: st
     }
 
     return (
-        <div className="min-h-screen bg-white">
+        <div className="min-h-screen bg-background">
             {/* Hero Section */}
             <div className="relative h-[50vh] md:h-[60vh] overflow-hidden">
                 {destination.imageUrl ? (
@@ -88,13 +88,13 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                     </div>
                 )}
 
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-transparent" />
 
                 <div className="absolute top-6 right-6 z-10">
                     <Button
                         variant="secondary"
                         size="icon"
-                        className={`rounded-full shadow-lg backdrop-blur-md transition-all ${isFavorite ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-white/20 text-white hover:bg-white/40"
+                        className={`rounded-full shadow-lg backdrop-blur-md transition-all ${isFavorite ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-black/30 text-white hover:bg-black/50 border border-white/20"
                             }`}
                         onClick={toggleFavorite}
                         disabled={isAdding || isRemoving}
@@ -111,18 +111,18 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             transition={{ duration: 0.6 }}
                         >
                             <div className="flex flex-wrap gap-2 mb-4">
-                                <Badge className="bg-white/20 backdrop-blur-md text-white border-white/30">
-                                    <MapPin className="h-3.5 w-3.5 mr-1.5" />
+                                <Badge className="bg-black/60 backdrop-blur-md text-white border-gold/50">
+                                    <MapPin className="h-3.5 w-3.5 mr-1.5 text-gold" />
                                     {destination.city}
                                 </Badge>
                                 {destination.estimatedPrice !== undefined && (
-                                    <Badge className="bg-green-500/80 backdrop-blur-md text-white border-none">
-                                        <DollarSign className="h-3.5 w-3.5 mr-1" />
+                                    <Badge className="bg-primary/90 backdrop-blur-md text-bronze border-none font-bold">
+                                        <DollarSign className="h-3.5 w-3.5 mr-1 text-bronze" />
                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
                                     </Badge>
                                 )}
                             </div>
-                            <h1 className="font-display text-4xl md:text-6xl font-bold text-white mb-2">
+                            <h1 className="font-display text-4xl md:text-6xl font-bold text-white mb-2 drop-shadow-md">
                                 {destination.name}
                             </h1>
                         </motion.div>
@@ -140,15 +140,15 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <Card className="border-gray-200 shadow-sm">
-                                <CardHeader className="border-b border-gray-100">
-                                    <CardTitle className="text-2xl font-display flex items-center gap-2">
-                                        <Info className="w-5 h-5 text-blue-600" />
+                            <Card className="border-amber-200/40 shadow-sm bg-white/60 backdrop-blur-sm">
+                                <CardHeader className="border-b border-amber-200/20">
+                                    <CardTitle className="text-2xl font-display flex items-center gap-2 text-bronze">
+                                        <Info className="w-5 h-5 text-gold" />
                                         About
                                     </CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-6">
-                                    <p className="text-gray-700 leading-relaxed text-base whitespace-pre-line">
+                                    <p className="text-bronze/90 leading-relaxed text-base whitespace-pre-line">
                                         {destination.description}
                                     </p>
                                 </CardContent>
@@ -162,18 +162,18 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.3 }}
                             >
-                                <Card className="border-gray-200 shadow-sm overflow-hidden">
-                                    <CardHeader className="bg-gradient-to-r from-blue-600 to-purple-600 text-white border-none">
-                                        <CardTitle className="flex items-center gap-2 text-xl">
-                                            <Eye className="w-5 h-5" />
+                                <Card className="border-amber-200/40 shadow-sm overflow-hidden">
+                                    <CardHeader className="gradient-egyptian text-white border-none">
+                                        <CardTitle className="flex items-center gap-2 text-xl text-bronze font-bold">
+                                            <Eye className="w-5 h-5 text-bronze" />
                                             Virtual Tour
                                         </CardTitle>
-                                        <p className="text-sm text-white/90 mt-1">
+                                        <p className="text-sm text-bronze/80 mt-1 font-medium">
                                             Experience {destination.name} in immersive 360° virtual reality
                                         </p>
                                     </CardHeader>
                                     <CardContent className="p-0">
-                                        <div className="aspect-video bg-gray-900 relative">
+                                        <div className="aspect-video bg-black relative">
                                             <iframe
                                                 src={destination?.vrUrlImage}
                                                 className="w-full h-full"
@@ -195,25 +195,25 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.4 }}
                         >
-                            <Card className="border-gray-200 shadow-sm">
-                                <CardHeader className="border-b border-gray-100 pb-3">
-                                    <CardTitle className="text-base font-semibold">Practical Information</CardTitle>
+                            <Card className="border-amber-200/40 shadow-sm bg-white/60 backdrop-blur-sm">
+                                <CardHeader className="border-b border-amber-200/20 pb-3">
+                                    <CardTitle className="text-base font-semibold text-bronze">Practical Information</CardTitle>
                                 </CardHeader>
                                 <CardContent className="pt-4 space-y-4">
                                     <div className="flex items-start gap-3">
-                                        <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+                                        <MapPin className="w-4 h-4 text-gold mt-0.5" />
                                         <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide font-bold">Location</p>
-                                            <p className="text-sm font-medium text-gray-900">{destination.city}, Egypt</p>
+                                            <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Location</p>
+                                            <p className="text-sm font-medium text-bronze">{destination.city}, Egypt</p>
                                         </div>
                                     </div>
 
                                     {(destination.fromWorkingHours || destination.endWorkingHours) && (
                                         <div className="flex items-start gap-3">
-                                            <Clock className="w-4 h-4 text-gray-400 mt-0.5" />
+                                            <Clock className="w-4 h-4 text-gold mt-0.5" />
                                             <div>
-                                                <p className="text-xs text-gray-500 uppercase tracking-wide font-bold">Working Hours</p>
-                                                <p className="text-sm font-medium text-gray-900">
+                                                <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Working Hours</p>
+                                                <p className="text-sm font-medium text-bronze">
                                                     {destination.fromWorkingHours?.substring(0, 5) || "09:00"} - {destination.endWorkingHours?.substring(0, 5) || "18:00"}
                                                 </p>
                                             </div>
@@ -222,10 +222,10 @@ export default function ClientDestination({ destinationId }: { destinationId: st
 
                                     {destination.estimatedPrice !== undefined && (
                                         <div className="flex items-start gap-3">
-                                            <DollarSign className="w-4 h-4 text-gray-400 mt-0.5" />
+                                            <DollarSign className="w-4 h-4 text-gold mt-0.5" />
                                             <div>
-                                                <p className="text-xs text-gray-500 uppercase tracking-wide font-bold">Estimated Entry Fee</p>
-                                                <p className="text-sm font-medium text-gray-900">
+                                                <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Estimated Entry Fee</p>
+                                                <p className="text-sm font-medium text-bronze">
                                                     {destination.estimatedPrice === 0 ? "Free Entry" : `${destination.estimatedPrice} EGP`}
                                                 </p>
                                             </div>
@@ -233,10 +233,10 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                     )}
 
                                     <div className="flex items-start gap-3">
-                                        <Calendar className="w-4 h-4 text-gray-400 mt-0.5" />
+                                        <Calendar className="w-4 h-4 text-gold mt-0.5" />
                                         <div>
-                                            <p className="text-xs text-gray-500 uppercase tracking-wide font-bold">Best Time to Visit</p>
-                                            <p className="text-sm font-medium text-gray-900">October - April</p>
+                                            <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Best Time to Visit</p>
+                                            <p className="text-sm font-medium text-bronze">October - April</p>
                                         </div>
                                     </div>
                                 </CardContent>
@@ -248,14 +248,14 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.5 }}
                         >
-                            <Card className="border-gray-200 shadow-sm sticky top-6">
+                            <Card className="border-amber-200/40 shadow-sm sticky top-6 bg-white/60 backdrop-blur-sm">
                                 <CardContent className="p-6">
-                                    <h3 className="font-bold text-lg mb-2 text-gray-900">Plan Your Visit</h3>
-                                    <p className="text-gray-600 text-sm mb-6 leading-relaxed">
+                                    <h3 className="font-bold text-lg mb-2 text-bronze">Plan Your Visit</h3>
+                                    <p className="text-bronze/80 text-sm mb-6 leading-relaxed">
                                         Add {destination.name} to your personalized Egypt itinerary and let our AI help you plan the perfect trip.
                                     </p>
                                     <Link href="/dashboard/trips/generate">
-                                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white h-11">
+                                        <Button className="w-full bg-primary hover:bg-primary/90 text-bronze font-bold h-11 shadow-lg shadow-amber-500/20 btn-active-taupe">
                                             Create Travel Plan
                                         </Button>
                                     </Link>

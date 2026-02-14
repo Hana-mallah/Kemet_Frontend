@@ -96,11 +96,11 @@ export default function AdminDestinationsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
                 <div>
-                    <h1 className="text-3xl font-display font-bold text-gray-900">Destinations</h1>
-                    <p className="text-gray-600 mt-1">Manage all travel destinations</p>
+                    <h1 className="text-3xl font-display font-bold text-bronze">Destinations</h1>
+                    <p className="text-bronze/80 mt-1">Manage all travel destinations</p>
                 </div>
                 <Link href="/admin/destinations/create">
-                    <Button className="bg-blue-600 hover:bg-blue-700 text-white shadow-sm">
+                    <Button className="bg-primary hover:bg-primary/90 text-bronze shadow-sm font-bold btn-active-taupe">
                         <Plus className="w-4 h-4 mr-2" />
                         Add Destination
                     </Button>
@@ -109,57 +109,57 @@ export default function AdminDestinationsPage() {
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <Card className="border-gray-200">
+                <Card className="border-amber-200/40 bg-white/60 shadow-sm">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Total Destinations</p>
-                                <p className="text-2xl font-bold text-gray-900 mt-1">{stats.total}</p>
+                                <p className="text-xs font-bold text-bronze/60 uppercase tracking-widest">Total Destinations</p>
+                                <p className="text-2xl font-bold text-bronze mt-1">{stats.total}</p>
                             </div>
-                            <div className="h-12 w-12 bg-blue-100 rounded-lg flex items-center justify-center">
-                                <MapPin className="h-6 w-6 text-blue-600" />
+                            <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
+                                <MapPin className="h-6 w-6 text-gold" />
                             </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border-gray-200">
+                <Card className="border-amber-200/40 bg-white/60 shadow-sm">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600">Cities</p>
-                                <p className="text-2xl font-bold text-gray-900 mt-1">{stats.cities}</p>
+                                <p className="text-xs font-bold text-bronze/60 uppercase tracking-widest">Cities</p>
+                                <p className="text-2xl font-bold text-bronze mt-1">{stats.cities}</p>
                             </div>
-                            <div className="h-12 w-12 bg-orange-100 rounded-lg flex items-center justify-center">
-                                <MapPin className="h-6 w-6 text-orange-600" />
+                            <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
+                                <MapPin className="h-6 w-6 text-gold" />
                             </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border-gray-200">
+                <Card className="border-amber-200/40 bg-white/60 shadow-sm">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600">With Images</p>
-                                <p className="text-2xl font-bold text-gray-900 mt-1">{stats.withImages}</p>
+                                <p className="text-xs font-bold text-bronze/60 uppercase tracking-widest">With Images</p>
+                                <p className="text-2xl font-bold text-bronze mt-1">{stats.withImages}</p>
                             </div>
-                            <div className="h-12 w-12 bg-green-100 rounded-lg flex items-center justify-center">
-                                <ImageIcon className="h-6 w-6 text-green-600" />
+                            <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
+                                <ImageIcon className="h-6 w-6 text-gold" />
                             </div>
                         </div>
                     </CardContent>
                 </Card>
 
-                <Card className="border-gray-200">
+                <Card className="border-amber-200/40 bg-white/60 shadow-sm">
                     <CardContent className="p-6">
                         <div className="flex items-center justify-between">
                             <div>
-                                <p className="text-sm font-medium text-gray-600">With VR Tours</p>
-                                <p className="text-2xl font-bold text-gray-900 mt-1">{stats.withVR}</p>
+                                <p className="text-xs font-bold text-bronze/60 uppercase tracking-widest">With VR Tours</p>
+                                <p className="text-2xl font-bold text-bronze mt-1">{stats.withVR}</p>
                             </div>
-                            <div className="h-12 w-12 bg-purple-100 rounded-lg flex items-center justify-center">
-                                <Video className="h-6 w-6 text-purple-600" />
+                            <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
+                                <Video className="h-6 w-6 text-gold" />
                             </div>
                         </div>
                     </CardContent>
@@ -167,17 +167,17 @@ export default function AdminDestinationsPage() {
             </div>
 
             {/* Table */}
-            <Card className="border-gray-200">
-                <CardHeader className="border-b border-gray-200 bg-gray-50/50">
+            <Card className="border-amber-200/40 bg-white/60 shadow-sm">
+                <CardHeader className="border-b border-amber-200/20 bg-amber-50/20">
                     <div className="flex items-center justify-between">
-                        <CardTitle className="text-lg font-semibold">All Destinations</CardTitle>
+                        <CardTitle className="text-lg font-semibold text-bronze">All Destinations</CardTitle>
                         <div className="relative w-full max-w-sm">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-4 h-4" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gold w-4 h-4" />
                             <Input
                                 placeholder="Search destinations..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="pl-9 h-9 bg-white"
+                                className="pl-9 h-9 bg-white/80 border-amber-200/40 focus:border-gold focus:ring-gold text-bronze placeholder:text-bronze/40"
                             />
                         </div>
                     </div>
@@ -185,27 +185,27 @@ export default function AdminDestinationsPage() {
                 <CardContent className="p-0">
                     <Table>
                         <TableHeader>
-                            <TableRow className="bg-gray-50/50">
-                                <TableHead className="w-[80px]">Image</TableHead>
-                                <TableHead>Name</TableHead>
-                                <TableHead>City</TableHead>
-                                <TableHead>Price</TableHead>
-                                <TableHead className="w-[120px]">Features</TableHead>
-                                <TableHead className="text-right w-[140px]">Actions</TableHead>
+                            <TableRow className="bg-amber-50/30 hover:bg-amber-50/40 border-b border-amber-200/20">
+                                <TableHead className="w-[80px] text-bronze/70">Image</TableHead>
+                                <TableHead className="text-bronze/70">Name</TableHead>
+                                <TableHead className="text-bronze/70">City</TableHead>
+                                <TableHead className="text-bronze/70">Price</TableHead>
+                                <TableHead className="w-[120px] text-bronze/70">Features</TableHead>
+                                <TableHead className="text-right w-[140px] text-bronze/70">Actions</TableHead>
                             </TableRow>
                         </TableHeader>
                         <TableBody>
                             {filteredDestinations.length === 0 ? (
                                 <TableRow>
-                                    <TableCell colSpan={5} className="h-32 text-center text-gray-500">
+                                    <TableCell colSpan={6} className="h-32 text-center text-bronze/50">
                                         No destinations found.
                                     </TableCell>
                                 </TableRow>
                             ) : (
                                 filteredDestinations.map((destination) => (
-                                    <TableRow key={destination.id} className="hover:bg-gray-50/50">
+                                    <TableRow key={destination.id} className="hover:bg-amber-50/40 border-b border-amber-200/20">
                                         <TableCell>
-                                            <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-gray-100 border border-gray-200">
+                                            <div className="relative w-14 h-14 rounded-lg overflow-hidden bg-amber-50 border border-amber-100">
                                                 {destination.imageUrl ? (
                                                     <Image
                                                         src={destination.imageUrl}
@@ -215,38 +215,38 @@ export default function AdminDestinationsPage() {
                                                     />
                                                 ) : (
                                                     <div className="w-full h-full flex items-center justify-center">
-                                                        <ImageIcon className="w-5 h-5 text-gray-400" />
+                                                        <ImageIcon className="w-5 h-5 text-bronze/30" />
                                                     </div>
                                                 )}
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="font-medium text-gray-900">{destination.name}</div>
-                                            <div className="text-sm text-gray-500 line-clamp-1 mt-0.5">
+                                            <div className="font-medium text-bronze">{destination.name}</div>
+                                            <div className="text-sm text-bronze/60 line-clamp-1 mt-0.5">
                                                 {destination.description}
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="flex items-center text-gray-700">
-                                                <MapPin className="w-3.5 h-3.5 mr-1.5 text-gray-400" />
+                                            <div className="flex items-center text-bronze/80">
+                                                <MapPin className="w-3.5 h-3.5 mr-1.5 text-gold" />
                                                 {destination.city}
                                             </div>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="font-semibold text-gray-900">
+                                            <div className="font-bold text-bronze">
                                                 {destination.estimatedPrice ?? 0} EGP
                                             </div>
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex gap-1.5">
                                                 {destination.imageUrl && (
-                                                    <Badge variant="secondary" className="text-xs bg-green-100 text-green-700 hover:bg-green-100">
+                                                    <Badge variant="secondary" className="text-xs bg-amber-100 text-bronze hover:bg-amber-200 border-none">
                                                         <ImageIcon className="w-3 h-3 mr-1" />
                                                         Image
                                                     </Badge>
                                                 )}
                                                 {destination.vrUrlImage && (
-                                                    <Badge variant="secondary" className="text-xs bg-purple-100 text-purple-700 hover:bg-purple-100">
+                                                    <Badge variant="secondary" className="text-xs bg-amber-100 text-bronze hover:bg-amber-200 border-none">
                                                         <Video className="w-3 h-3 mr-1" />
                                                         VR
                                                     </Badge>
@@ -256,34 +256,34 @@ export default function AdminDestinationsPage() {
                                         <TableCell className="text-right">
                                             <div className="flex items-center justify-end gap-1">
                                                 <Link href={`/destinations/detail?id=${destination.id}`} target="_blank">
-                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-600 hover:text-blue-600 hover:bg-blue-50">
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-bronze/60 hover:text-gold hover:bg-amber-50">
                                                         <Eye className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
                                                 <Link href={`/admin/destinations/edit?id=${destination.id}`}>
-                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-600 hover:text-orange-600 hover:bg-orange-50">
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-bronze/60 hover:text-gold hover:bg-amber-50">
                                                         <Edit className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
 
                                                 <AlertDialog>
                                                     <AlertDialogTrigger asChild>
-                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-600 hover:text-red-600 hover:bg-red-50">
+                                                        <Button variant="ghost" size="icon" className="h-8 w-8 text-bronze/60 hover:text-red-600 hover:bg-red-50">
                                                             <Trash2 className="w-4 h-4" />
                                                         </Button>
                                                     </AlertDialogTrigger>
-                                                    <AlertDialogContent>
+                                                    <AlertDialogContent className="bg-white/95 backdrop-blur-md border-amber-200/40">
                                                         <AlertDialogHeader>
-                                                            <AlertDialogTitle>Delete Destination?</AlertDialogTitle>
-                                                            <AlertDialogDescription>
+                                                            <AlertDialogTitle className="text-bronze">Delete Destination?</AlertDialogTitle>
+                                                            <AlertDialogDescription className="text-bronze/70">
                                                                 This will permanently delete &quot;{destination.name}&quot;. This action cannot be undone.
                                                             </AlertDialogDescription>
                                                         </AlertDialogHeader>
                                                         <AlertDialogFooter>
-                                                            <AlertDialogCancel>Cancel</AlertDialogCancel>
+                                                            <AlertDialogCancel className="text-bronze border-amber-200/40 hover:bg-amber-50">Cancel</AlertDialogCancel>
                                                             <AlertDialogAction
                                                                 onClick={() => handleDelete(destination.id)}
-                                                                className="bg-red-600 hover:bg-red-700"
+                                                                className="bg-red-600 hover:bg-red-700 text-white"
                                                             >
                                                                 Delete
                                                             </AlertDialogAction>

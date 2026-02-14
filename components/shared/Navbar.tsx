@@ -31,10 +31,10 @@ export function Navbar() {
                         </div>
 
                         <div>
-                            <span className="font-display text-xl font-bold text-blue-600">
+                            <span className="font-display text-xl font-bold text-bronze">
                                 Kemet
                             </span>
-                            <p className="text-xs text-gray-500 font-medium">Discover Ancient Wonders</p>
+                            <p className="text-xs text-bronze/80 font-medium">Discover Ancient Wonders</p>
                         </div>
                     </Link>
 
@@ -42,19 +42,19 @@ export function Navbar() {
                     <div className="hidden lg:flex items-center space-x-1">
                         <Link
                             href="/"
-                            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive("/") ? "bg-blue-600 text-white shadow-md" : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-primary text-bronze shadow-md" : "text-bronze hover:bg-amber-100/50 hover:text-bronze"}`}
                         >
                             Home
                         </Link>
                         <Link
                             href="/destinations"
-                            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive("/destinations") ? "bg-blue-600 text-white shadow-md" : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-primary text-bronze shadow-md" : "text-bronze hover:bg-amber-100/50 hover:text-bronze"}`}
                         >
                             Destinations
                         </Link>
                         <Link
                             href="/about"
-                            className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive("/about") ? "bg-blue-600 text-white shadow-md" : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-primary text-bronze shadow-md" : "text-bronze hover:bg-amber-100/50 hover:text-bronze"}`}
                         >
                             About Kemet
                         </Link>
@@ -63,21 +63,21 @@ export function Navbar() {
                             <>
                                 <Link
                                     href={isAdmin ? "/admin" : "/dashboard"}
-                                    className={`px-4 py-2 rounded-xl text-sm font-medium transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-blue-600 text-white shadow-md" : "text-gray-700 hover:bg-gray-100 hover:text-blue-600"}`}
+                                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-primary text-bronze shadow-md" : "text-bronze hover:bg-amber-100/50 hover:text-bronze"}`}
                                 >
                                     {isAdmin ? "Admin" : "Dashboard"}
                                 </Link>
-                                <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-gray-200">
+                                <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-amber-200">
                                     <div className="flex items-center space-x-2">
-                                        <div className="w-8 h-8 bg-blue-600/20 rounded-full flex items-center justify-center">
-                                            <User className="h-4 w-4 text-blue-600" />
+                                        <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                                            <User className="h-4 w-4 text-bronze chat-bubble-icon" />
                                         </div>
                                         <div className="hidden sm:block">
-                                            <p className="text-sm font-medium text-gray-900">{user?.name?.split(" ")[0]}</p>
-                                            <p className="text-xs text-gray-500">Explorer</p>
+                                            <p className="text-sm font-bold text-bronze">{user?.name?.split(" ")[0]}</p>
+                                            <p className="text-xs text-bronze/70">Explorer</p>
                                         </div>
                                     </div>
-                                    <Button onClick={logout} variant="outline" size="sm" className="hover:bg-red-50 hover:border-red-200 hover:text-red-600">
+                                    <Button onClick={logout} variant="outline" size="sm" className="hover:bg-red-50 hover:border-red-200 hover:text-red-900 border-amber-200 text-bronze btn-active-taupe">
                                         <LogOut className="h-4 w-4" />
                                     </Button>
                                 </div>
@@ -85,12 +85,12 @@ export function Navbar() {
                         ) : (
                             <div className="flex items-center space-x-3 ml-4">
                                 <Link href="/login">
-                                    <Button variant="ghost" size="sm" className="hover:bg-gray-100 text-gray-700">
+                                    <Button variant="ghost" size="sm" className="hover:bg-amber-100/50 text-bronze font-bold btn-active-taupe">
                                         Login
                                     </Button>
                                 </Link>
                                 <Link href="/register">
-                                    <Button size="sm" className="bg-blue-600 hover:bg-blue-700 text-white shadow-lg shadow-blue-600/20">
+                                    <Button size="sm" className="bg-primary hover:bg-primary/90 text-bronze font-bold shadow-lg shadow-amber-500/20 btn-active-taupe">
                                         Get Started
                                     </Button>
                                 </Link>
@@ -100,7 +100,7 @@ export function Navbar() {
 
                     {/* Mobile menu button */}
                     <button
-                        className="lg:hidden rounded-xl p-2.5 hover:bg-gray-100 transition-colors"
+                        className="lg:hidden rounded-xl p-2.5 hover:bg-amber-100/50 transition-colors text-bronze"
                         onClick={() => setIsOpen(!isOpen)}
                     >
                         {isOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
@@ -113,58 +113,58 @@ export function Navbar() {
                         <div className="glass-card rounded-2xl p-4 space-y-2">
                             <Link
                                 href="/"
-                                className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive("/") ? "bg-blue-600 text-white" : "text-gray-800 hover:bg-gray-100"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-primary text-bronze" : "text-bronze hover:bg-amber-100/50"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Home
                             </Link>
                             <Link
                                 href="/destinations"
-                                className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive("/destinations") ? "bg-blue-600 text-white" : "text-gray-800 hover:bg-gray-100"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-primary text-bronze" : "text-bronze hover:bg-amber-100/50"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Destinations
                             </Link>
                             <Link
                                 href="/about"
-                                className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive("/about") ? "bg-blue-600 text-white" : "text-gray-800 hover:bg-gray-100"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-primary text-bronze" : "text-bronze hover:bg-amber-100/50"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 About Egypt
                             </Link>
                             {isAuthenticated ? (
                                 <>
-                                    <div className="border-t border-gray-200 pt-2 mt-2">
+                                    <div className="border-t border-amber-200 pt-2 mt-2">
                                         <Link
                                             href={isAdmin ? "/admin" : "/dashboard"}
-                                            className={`block rounded-xl px-4 py-3 text-sm font-medium transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-blue-600 text-white" : "text-gray-800 hover:bg-gray-100"}`}
+                                            className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-primary text-bronze" : "text-bronze hover:bg-amber-100/50"}`}
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {isAdmin ? "Admin" : "Dashboard"}
                                         </Link>
                                         <div className="flex items-center justify-between px-4 py-3">
                                             <div className="flex items-center space-x-2">
-                                                <div className="w-8 h-8 bg-blue-600/20 rounded-full flex items-center justify-center">
-                                                    <User className="h-4 w-4 text-blue-600" />
+                                                <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
+                                                    <User className="h-4 w-4 text-bronze" />
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-medium text-gray-900">{user?.name?.split(" ")[0]}</p>
-                                                    <p className="text-xs text-gray-500">Explorer</p>
+                                                    <p className="text-sm font-bold text-bronze">{user?.name?.split(" ")[0]}</p>
+                                                    <p className="text-xs text-bronze/70">Explorer</p>
                                                 </div>
                                             </div>
                                         </div>
-                                        <Button variant="outline" className="w-full hover:bg-red-50 hover:border-red-200 hover:text-red-600">
+                                        <Button variant="outline" className="w-full hover:bg-red-50 hover:border-red-200 hover:text-red-900 border-amber-200 text-bronze btn-active-taupe">
                                             <LogOut className="h-4 w-4 mr-2" /> Logout
                                         </Button>
                                     </div>
                                 </>
                             ) : (
-                                <div className="space-y-2 border-t border-gray-200 pt-2 mt-2">
+                                <div className="space-y-2 border-t border-amber-200 pt-2 mt-2">
                                     <Link href="/login" className="block" onClick={() => setIsOpen(false)}>
-                                        <Button variant="outline" className="w-full hover:bg-gray-100 text-gray-700">Login</Button>
+                                        <Button variant="outline" className="w-full hover:bg-amber-100/50 text-bronze font-bold border-amber-200 btn-active-taupe">Login</Button>
                                     </Link>
                                     <Link href="/register" className="block" onClick={() => setIsOpen(false)}>
-                                        <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                                        <Button className="w-full bg-primary hover:bg-primary/90 text-bronze font-bold btn-active-taupe">
                                             Get Started
                                         </Button>
                                     </Link>

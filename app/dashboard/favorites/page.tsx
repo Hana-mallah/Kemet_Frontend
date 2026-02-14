@@ -68,7 +68,7 @@ export default function FavoritesPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gray-50/50 py-12">
+        <div className="min-h-screen bg-background py-12">
             <div className="container mx-auto px-4 max-w-6xl">
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6 mb-12">
@@ -76,12 +76,12 @@ export default function FavoritesPage() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                     >
-                        <h1 className="font-display text-4xl font-bold text-gray-900 mb-2">My Favorites</h1>
-                        <p className="text-gray-600">All the places you&apos;ve saved for your adventure</p>
+                        <h1 className="font-display text-4xl font-bold text-bronze mb-2">My Favorites</h1>
+                        <p className="text-bronze/80">All the places you&apos;ve saved for your adventure</p>
                     </motion.div>
 
                     <Link href="/destinations">
-                        <Button variant="outline" className="border-blue-200 text-blue-700 hover:bg-blue-50">
+                        <Button variant="outline" className="border-amber-200 text-bronze hover:bg-amber-50 rounded-xl">
                             Explore More
                         </Button>
                     </Link>
@@ -98,7 +98,7 @@ export default function FavoritesPage() {
                                 transition={{ duration: 0.4, delay: index * 0.05 }}
                             >
                                 <Link href={`/destinations/detail?id=${destination.id}`} className="block h-full group">
-                                    <Card className="h-full overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 relative group bg-white">
+                                    <Card className="h-full overflow-hidden border-none shadow-md hover:shadow-xl transition-all duration-300 relative group bg-white/80 backdrop-blur-sm">
                                         <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
                                             {destination.imageUrl ? (
                                                 <Image
@@ -113,11 +113,11 @@ export default function FavoritesPage() {
                                                 </div>
                                             )}
 
-                                            <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60" />
+                                            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60" />
 
                                             <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
-                                                <div className="bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1">
-                                                    <MapPin className="h-3 w-3" />
+                                                <div className="bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-medium text-white border border-gold/30 flex items-center gap-1">
+                                                    <MapPin className="h-3 w-3 text-gold" />
                                                     {destination.city}
                                                 </div>
 
@@ -133,8 +133,8 @@ export default function FavoritesPage() {
 
                                             {destination.estimatedPrice !== undefined && (
                                                 <div className="absolute bottom-3 left-3 z-10">
-                                                    <div className="bg-blue-600/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-white flex items-center gap-1">
-                                                        <DollarSign className="h-3 w-3" />
+                                                    <div className="bg-primary/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-bronze flex items-center gap-1 shadow-sm">
+                                                        <DollarSign className="h-3 w-3 text-bronze" />
                                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
                                                     </div>
                                                 </div>
@@ -142,15 +142,15 @@ export default function FavoritesPage() {
                                         </div>
 
                                         <CardContent className="p-5">
-                                            <h3 className="font-display text-xl font-bold text-gray-900 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                                            <h3 className="font-display text-xl font-bold text-bronze mb-2 line-clamp-1 group-hover:text-gold transition-colors">
                                                 {destination.name}
                                             </h3>
 
-                                            <p className="text-sm text-gray-600 line-clamp-2 mb-4 leading-relaxed">
+                                            <p className="text-sm text-bronze/80 line-clamp-2 mb-4 leading-relaxed">
                                                 {destination.description}
                                             </p>
 
-                                            <div className="flex items-center text-blue-600 text-sm font-semibold group-hover:gap-2 transition-all">
+                                            <div className="flex items-center text-gold text-sm font-semibold group-hover:gap-2 transition-all">
                                                 View Details
                                                 <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                             </div>
@@ -165,17 +165,17 @@ export default function FavoritesPage() {
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
                     >
-                        <Card className="border-2 border-dashed border-gray-200 bg-white">
+                        <Card className="border-2 border-dashed border-amber-200/50 bg-white/60">
                             <CardContent className="py-20 text-center flex flex-col items-center">
-                                <div className="w-20 h-20 bg-gray-50 rounded-full flex items-center justify-center mb-6">
-                                    <Heart className="w-10 h-10 text-gray-300" />
+                                <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mb-6 border border-amber-100">
+                                    <Heart className="w-10 h-10 text-gold/50" />
                                 </div>
-                                <h3 className="text-2xl font-bold text-gray-900 mb-2">No favorites yet</h3>
-                                <p className="text-gray-500 max-w-xs mb-8">
+                                <h3 className="text-2xl font-bold text-bronze mb-2">No favorites yet</h3>
+                                <p className="text-bronze/60 max-w-xs mb-8">
                                     Browse destinations and click the heart icon to save them here.
                                 </p>
                                 <Link href="/destinations">
-                                    <Button size="lg" className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 rounded-xl h-12 shadow-lg hover:shadow-xl transition-all">
+                                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-bronze font-bold px-8 rounded-xl h-12 shadow-lg hover:shadow-amber-500/20 transition-all btn-active-taupe">
                                         Browse Destinations
                                     </Button>
                                 </Link>

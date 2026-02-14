@@ -67,35 +67,35 @@ export default function DestinationsPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
+            <div className="min-h-screen flex items-center justify-center bg-background">
+                <Loader2 className="h-12 w-12 animate-spin text-primary" />
             </div>
         )
     }
 
     if (error) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50 flex-col gap-4">
+            <div className="min-h-screen flex items-center justify-center bg-background flex-col gap-4">
                 <p className="text-red-500 font-semibold text-lg">Failed to load destinations.</p>
-                <Button onClick={() => window.location.reload()}>Try Again</Button>
+                <Button onClick={() => window.location.reload()} className="bg-primary text-bronze hover:bg-primary/90">Try Again</Button>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen bg-background">
             {/* Header */}
-            <div className="bg-white border-b border-gray-200">
+            <div className="bg-white/60 backdrop-blur-sm border-b border-amber-200/40">
                 <div className="container mx-auto px-4 py-16 md:py-20">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         className="max-w-2xl mx-auto text-center"
                     >
-                        <h1 className="font-display text-4xl md:text-5xl font-bold mb-4 text-gray-900">
+                        <h1 className="font-display text-4xl md:text-5xl font-bold mb-4 text-bronze">
                             Explore Egypt
                         </h1>
-                        <p className="text-lg text-gray-600">
+                        <p className="text-lg text-bronze/80">
                             Discover ancient wonders and unforgettable experiences across the land of the Pharaohs
                         </p>
                     </motion.div>
@@ -110,14 +110,14 @@ export default function DestinationsPage() {
                     transition={{ delay: 0.1 }}
                     className="mb-10"
                 >
-                    <Card className="border-gray-200 shadow-sm">
+                    <Card className="border-amber-200/40 shadow-sm bg-white/60">
                         <CardContent className="p-4">
                             <div className="relative">
-                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 h-5 w-5" />
+                                <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gold h-5 w-5" />
                                 <Input
                                     type="text"
                                     placeholder="Search destinations, landmarks, cities..."
-                                    className="pl-12 h-12 bg-white border-gray-200"
+                                    className="pl-12 h-12 bg-white/80 border-amber-200/40 focus:border-gold focus:ring-gold text-bronze placeholder:text-bronze/50"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -129,8 +129,8 @@ export default function DestinationsPage() {
                 {/* Results Count */}
                 {filteredDestinations.length > 0 && (
                     <div className="mb-6">
-                        <p className="text-sm text-gray-600">
-                            Showing <span className="font-semibold text-gray-900">{filteredDestinations.length}</span> destination{filteredDestinations.length !== 1 ? 's' : ''}
+                        <p className="text-sm text-bronze/80">
+                            Showing <span className="font-semibold text-bronze">{filteredDestinations.length}</span> destination{filteredDestinations.length !== 1 ? 's' : ''}
                         </p>
                     </div>
                 )}
@@ -189,7 +189,7 @@ export default function DestinationsPage() {
                                             {/* Price Badge */}
                                             {destination.estimatedPrice !== undefined && (
                                                 <div className="absolute bottom-3 left-3 z-10">
-                                                    <div className="bg-blue-600/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-white flex items-center gap-1 shadow-sm">
+                                                    <div className="bg-primary/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-bronze flex items-center gap-1 shadow-sm">
                                                         <DollarSign className="h-3 w-3" />
                                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
                                                     </div>
@@ -198,15 +198,15 @@ export default function DestinationsPage() {
                                         </div>
 
                                         <CardContent className="p-5">
-                                            <h3 className="font-display text-xl font-bold text-gray-900 mb-2 line-clamp-1 group-hover:text-blue-600 transition-colors">
+                                            <h3 className="font-display text-xl font-bold text-bronze mb-2 line-clamp-1 group-hover:text-gold transition-colors">
                                                 {destination.name}
                                             </h3>
 
-                                            <p className="text-sm text-gray-600 line-clamp-2 mb-4 leading-relaxed">
+                                            <p className="text-sm text-bronze/80 line-clamp-2 mb-4 leading-relaxed">
                                                 {destination.description}
                                             </p>
 
-                                            <div className="flex items-center text-blue-600 text-sm font-medium group-hover:gap-2 transition-all">
+                                            <div className="flex items-center text-gold text-sm font-medium group-hover:gap-2 transition-all">
                                                 View Details
                                                 <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                             </div>

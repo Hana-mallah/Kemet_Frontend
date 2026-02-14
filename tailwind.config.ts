@@ -78,7 +78,10 @@ const config = {
                     800: "#9a3412",
                     900: "#7c2d12",
                     950: "#431407"
-                }
+                },
+                bronze: "hsl(var(--brand-bronze))",
+                gold: "hsl(var(--metallic-gold))",
+                taupe: "hsl(var(--soft-taupe))",
             },
             borderRadius: {
                 lg: "var(--radius)",

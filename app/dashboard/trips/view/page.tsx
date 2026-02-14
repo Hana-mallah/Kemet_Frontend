@@ -94,7 +94,7 @@ function TripDetailContent() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 py-12 px-4 sm:px-6 lg:px-8 font-sans">
+        <div className="min-h-screen bg-background py-12 px-4 sm:px-6 lg:px-8 font-sans">
             <div className="max-w-5xl mx-auto">
                 {/* Header Actions */}
                 <motion.div
@@ -104,7 +104,7 @@ function TripDetailContent() {
                 >
                     <Link
                         href="/dashboard/trips"
-                        className="inline-flex items-center text-blue-600 hover:text-blue-700 font-semibold transition-all group"
+                        className="inline-flex items-center text-bronze hover:text-gold font-semibold transition-all group"
                     >
                         <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
                         Back to My Trips
@@ -115,7 +115,7 @@ function TripDetailContent() {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-white/80 backdrop-blur-xl rounded-[2rem] shadow-2xl overflow-hidden border border-white/20 mb-10"
+                    className="bg-white/60 backdrop-blur-xl rounded-[2rem] shadow-2xl overflow-hidden border border-amber-200/40 mb-10"
                 >
                     <div className="relative h-[25rem] sm:h-[30rem]">
                         <img
@@ -123,20 +123,20 @@ function TripDetailContent() {
                             alt={trip.title}
                             className="w-full h-full object-cover"
                         />
-                        <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/20 to-transparent" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent" />
                         <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-12">
                             <div className="flex flex-wrap items-center gap-3 mb-4">
                                 {trip.experienceTypes?.map((type, idx) => (
-                                    <span key={idx} className="px-4 py-1.5 bg-blue-600/20 backdrop-blur-md border border-blue-400/30 text-blue-100 text-[10px] font-bold uppercase tracking-wider rounded-full">
+                                    <span key={idx} className="px-4 py-1.5 bg-black/60 backdrop-blur-md border border-gold/30 text-gold text-[10px] font-bold uppercase tracking-wider rounded-full">
                                         {type}
                                     </span>
                                 ))}
                             </div>
-                            <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight">
+                            <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight drop-shadow-lg">
                                 {trip.title}
                             </h1>
                             <div className="flex items-center text-white/90 font-medium">
-                                <DollarSign className="w-6 h-6 text-emerald-400 mr-1" />
+                                <DollarSign className="w-6 h-6 text-primary mr-1" />
                                 <span className="text-3xl font-bold text-white mr-2">{trip.price}</span>
                                 <span className="text-white/60 text-base">Total Estimated Price</span>
                             </div>
@@ -144,15 +144,15 @@ function TripDetailContent() {
                     </div>
 
                     <div className="p-8 sm:p-12">
-                        <p className="text-gray-600 text-lg sm:text-xl leading-relaxed mb-10">
+                        <p className="text-bronze/80 text-lg sm:text-xl leading-relaxed mb-10">
                             {trip.description}
                         </p>
 
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
-                            <StatCard icon={<Clock className="w-6 h-6" />} label="Duration" value={`${trip.durationDays} Days`} gradient="from-blue-600 to-cyan-500" />
-                            <StatCard icon={<Users className="w-6 h-6" />} label="Travelers" value={trip.travelCompanions} gradient="from-purple-600 to-pink-500" />
-                            <StatCard icon={<Calendar className="w-6 h-6" />} label="Start Date" value={new Date(trip.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} gradient="from-emerald-600 to-teal-500" />
-                            <StatCard icon={<Compass className="w-6 h-6" />} label="Interests" value={trip.interests?.[0] || 'Culture'} gradient="from-orange-600 to-amber-500" />
+                            <StatCard icon={<Clock className="w-6 h-6" />} label="Duration" value={`${trip.durationDays} Days`} />
+                            <StatCard icon={<Users className="w-6 h-6" />} label="Travelers" value={trip.travelCompanions} />
+                            <StatCard icon={<Calendar className="w-6 h-6" />} label="Start Date" value={new Date(trip.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} />
+                            <StatCard icon={<Compass className="w-6 h-6" />} label="Interests" value={trip.interests?.[0] || 'Culture'} />
                         </div>
                     </div>
                 </motion.div>
@@ -160,17 +160,17 @@ function TripDetailContent() {
                 {/* Itinerary Section */}
                 <div className="space-y-10">
                     <div className="flex items-center gap-4 mb-2">
-                        <div className="w-1.5 h-10 bg-gradient-to-b from-blue-600 to-purple-600 rounded-full" />
-                        <h2 className="font-display text-3xl font-bold text-gray-900">Your Detailed Itinerary</h2>
+                        <div className="w-1.5 h-10 gradient-egyptian rounded-full" />
+                        <h2 className="font-display text-3xl font-bold text-bronze">Your Detailed Itinerary</h2>
                     </div>
 
                     {!trip.days || trip.days.length === 0 ? (
                         <Card className="border-none shadow-xl bg-white/60 backdrop-blur-sm p-16 text-center">
-                            <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                                <Calendar className="w-8 h-8 text-gray-400" />
+                            <div className="w-16 h-16 bg-amber-50 rounded-full flex items-center justify-center mx-auto mb-6 border border-amber-100">
+                                <Calendar className="w-8 h-8 text-gold/50" />
                             </div>
-                            <h3 className="font-display text-xl font-bold text-gray-900 mb-2">Itinerary Pending</h3>
-                            <p className="text-gray-500">The daily breakdown for this journey hasn't been finalized yet.</p>
+                            <h3 className="font-display text-xl font-bold text-bronze mb-2">Itinerary Pending</h3>
+                            <p className="text-bronze/60">The daily breakdown for this journey hasn't been finalized yet.</p>
                         </Card>
                     ) : (
                         <div className="space-y-12">
@@ -180,36 +180,36 @@ function TripDetailContent() {
                                     initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    className="relative pl-8 sm:pl-12 border-l-2 border-dashed border-blue-200"
+                                    className="relative pl-8 sm:pl-12 border-l-2 border-dashed border-gold/30"
                                 >
                                     {/* Timeline Marker */}
-                                    <div className="absolute top-0 left-0 -translate-x-1/2 w-8 h-8 rounded-full bg-gradient-to-br from-blue-600 to-purple-600 flex items-center justify-center text-white font-bold text-sm shadow-lg shadow-blue-200">
+                                    <div className="absolute top-0 left-0 -translate-x-1/2 w-8 h-8 rounded-full gradient-egyptian flex items-center justify-center text-bronze font-bold text-sm shadow-lg shadow-amber-500/20 ring-4 ring-background">
                                         {day.dayNumber}
                                     </div>
 
-                                    <div className="bg-white/70 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-white/50 group hover:shadow-2xl transition-all duration-300">
+                                    <div className="bg-white/60 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-amber-200/40 group hover:shadow-2xl transition-all duration-300">
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                                             <div>
-                                                <div className="text-blue-600 font-bold uppercase tracking-widest text-[10px] mb-1">
+                                                <div className="text-gold font-bold uppercase tracking-widest text-[10px] mb-1">
                                                     {formatDate(day.date)}
                                                 </div>
-                                                <h3 className="font-display text-2xl font-extrabold text-gray-900">
+                                                <h3 className="font-display text-2xl font-extrabold text-bronze">
                                                     {day.title}
                                                 </h3>
                                             </div>
-                                            <div className="flex items-center bg-gray-100/80 px-4 py-2 rounded-xl text-gray-600 font-medium text-sm">
-                                                <MapPin className="w-4 h-4 mr-2" />
+                                            <div className="flex items-center bg-amber-50/50 px-4 py-2 rounded-xl text-bronze/80 font-medium text-sm border border-amber-100/50">
+                                                <MapPin className="w-4 h-4 mr-2 text-gold" />
                                                 {day.city}
                                             </div>
                                         </div>
 
-                                        <p className="text-gray-600 text-lg mb-8 leading-relaxed italic border-l-4 border-amber-200 pl-4 py-1">
+                                        <p className="text-bronze/80 text-lg mb-8 leading-relaxed italic border-l-4 border-gold/50 pl-4 py-1">
                                             {day.description}
                                         </p>
 
                                         {/* Activities */}
                                         <div className="space-y-4">
-                                            <div className="flex items-center gap-2 text-gray-400 mb-4">
+                                            <div className="flex items-center gap-2 text-bronze/50 mb-4">
                                                 <Navigation className="w-4 h-4" />
                                                 <span className="text-[10px] font-bold uppercase tracking-widest">Daily Activities</span>
                                             </div>
@@ -218,24 +218,24 @@ function TripDetailContent() {
                                                 {day.activities?.map((activity) => (
                                                     <div
                                                         key={activity.id}
-                                                        className="bg-white p-5 rounded-2xl border border-gray-100 shadow-sm hover:border-blue-200 hover:shadow-md transition-all group/activity"
+                                                        className="bg-white/80 p-5 rounded-2xl border border-amber-100/50 shadow-sm hover:border-gold/50 hover:shadow-md transition-all group/activity hover:bg-white"
                                                     >
                                                         <div className="flex items-start gap-4">
-                                                            <div className="w-10 h-10 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center flex-shrink-0 group-hover/activity:bg-blue-600 group-hover/activity:text-white transition-all">
+                                                            <div className="w-10 h-10 rounded-xl bg-amber-50 text-gold flex items-center justify-center flex-shrink-0 group-hover/activity:bg-primary group-hover/activity:text-bronze transition-all">
                                                                 <Clock className="w-5 h-5" />
                                                             </div>
                                                             <div className="flex-1">
                                                                 <div className="flex items-center justify-between mb-1">
                                                                     <div className="flex items-center gap-2">
-                                                                        <span className="text-gray-900 font-bold text-sm">{activity.startTime}</span>
-                                                                        <span className="w-1 h-1 bg-gray-300 rounded-full" />
-                                                                        <span className="text-blue-600 text-[10px] font-bold uppercase tracking-tighter">
+                                                                        <span className="text-bronze font-bold text-sm">{activity.startTime}</span>
+                                                                        <span className="w-1 h-1 bg-gold/50 rounded-full" />
+                                                                        <span className="text-gold text-[10px] font-bold uppercase tracking-tighter">
                                                                             {getActivityTypeLabel(activity.activityType)}
                                                                         </span>
                                                                     </div>
-                                                                    <div className="text-gray-400 text-xs">{activity.durationHours}h</div>
+                                                                    <div className="text-bronze/40 text-xs">{activity.durationHours}h</div>
                                                                 </div>
-                                                                <p className="text-gray-600 text-sm leading-snug">
+                                                                <p className="text-bronze/70 text-sm leading-snug">
                                                                     {activity.description}
                                                                 </p>
                                                             </div>
@@ -255,14 +255,14 @@ function TripDetailContent() {
     )
 }
 
-function StatCard({ icon, label, value, gradient }: { icon: React.ReactNode, label: string, value: string | number, gradient: string }) {
+function StatCard({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | number }) {
     return (
-        <div className="bg-white/50 p-6 rounded-2xl border border-white/20 shadow-sm flex flex-col items-center text-center group hover:bg-white transition-all">
-            <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center text-white mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+        <div className="bg-white/60 p-6 rounded-2xl border border-amber-200/30 shadow-sm flex flex-col items-center text-center group hover:bg-white transition-all">
+            <div className={`w-12 h-12 rounded-xl gradient-egyptian flex items-center justify-center text-bronze mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
                 {icon}
             </div>
-            <div className="text-[10px] text-gray-500 font-bold uppercase tracking-widest mb-1">{label}</div>
-            <div className="text-lg font-bold text-gray-900 leading-tight">{value}</div>
+            <div className="text-[10px] text-bronze/60 font-bold uppercase tracking-widest mb-1">{label}</div>
+            <div className="text-lg font-bold text-bronze leading-tight">{value}</div>
         </div>
     )
 }

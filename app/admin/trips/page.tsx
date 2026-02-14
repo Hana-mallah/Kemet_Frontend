@@ -67,26 +67,26 @@ export default function AdminTripsPage() {
             {/* Header */}
             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                 <div>
-                    <h1 className="text-3xl font-bold text-gray-900">Trip Management</h1>
-                    <p className="text-gray-600 mt-1">Manage all user trips and itineraries</p>
+                    <h1 className="text-3xl font-bold text-bronze">Trip Management</h1>
+                    <p className="text-bronze/80 mt-1">Manage all user trips and itineraries</p>
                 </div>
-                <div className="text-sm text-gray-600 bg-gray-100 px-4 py-2 rounded-lg">
-                    Total Trips: <span className="font-semibold text-gray-900">{trips?.length || 0}</span>
+                <div className="text-sm text-bronze/80 bg-amber-50 px-4 py-2 rounded-lg border border-amber-200/50">
+                    Total Trips: <span className="font-semibold text-bronze">{trips?.length || 0}</span>
                 </div>
             </div>
 
             {/* Search Bar */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4">
+            <div className="bg-white/60 rounded-xl shadow-sm border border-amber-200/40 p-4">
                 <div className="relative">
                     <input
                         type="text"
                         placeholder="Search trips by title or description..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        className="w-full pl-10 pr-4 py-2 border border-amber-200/40 rounded-lg focus:ring-2 focus:ring-gold focus:border-transparent bg-white text-bronze placeholder:text-bronze/40"
                     />
                     <svg
-                        className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400"
+                        className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gold"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -97,53 +97,53 @@ export default function AdminTripsPage() {
             </div>
 
             {/* Trips Table */}
-            <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+            <div className="bg-white/60 rounded-xl shadow-sm border border-amber-200/40 overflow-hidden">
                 {!filteredTrips || filteredTrips.length === 0 ? (
                     <div className="p-12 text-center">
-                        <svg className="w-16 h-16 mx-auto mb-4 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-16 h-16 mx-auto mb-4 text-bronze/30" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0021 18.382V7.618a1 1 0 00-.553-.894L15 4m0 13V4m0 0L9 7" />
                         </svg>
-                        <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                        <h3 className="text-lg font-semibold text-bronze/70 mb-2">
                             {searchTerm ? 'No trips found' : 'No trips yet'}
                         </h3>
-                        <p className="text-gray-500">
+                        <p className="text-bronze/50">
                             {searchTerm ? 'Try adjusting your search terms' : 'Trips will appear here once users create them'}
                         </p>
                     </div>
                 ) : (
                     <div className="overflow-x-auto">
                         <table className="w-full">
-                            <thead className="bg-gray-50 border-b border-gray-200">
+                            <thead className="bg-amber-50/50 border-b border-amber-200/40">
                                 <tr>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-bronze/70 uppercase tracking-wider">
                                         Trip
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-bronze/70 uppercase tracking-wider">
                                         Duration
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-bronze/70 uppercase tracking-wider">
                                         Dates
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-bronze/70 uppercase tracking-wider">
                                         Style
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-bronze/70 uppercase tracking-wider">
                                         Price
                                     </th>
-                                    <th className="px-6 py-3 text-left text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-left text-xs font-semibold text-bronze/70 uppercase tracking-wider">
                                         Days
                                     </th>
-                                    <th className="px-6 py-3 text-right text-xs font-semibold text-gray-600 uppercase tracking-wider">
+                                    <th className="px-6 py-3 text-right text-xs font-semibold text-bronze/70 uppercase tracking-wider">
                                         Actions
                                     </th>
                                 </tr>
                             </thead>
-                            <tbody className="divide-y divide-gray-200">
+                            <tbody className="divide-y divide-amber-200/20">
                                 {filteredTrips.map((trip) => (
-                                    <tr key={trip.id} className="hover:bg-gray-50 transition-colors">
+                                    <tr key={trip.id} className="hover:bg-amber-50/40 transition-colors">
                                         <td className="px-6 py-4">
                                             <div className="flex items-center">
-                                                <div className="h-12 w-12 flex-shrink-0 rounded-lg overflow-hidden bg-gradient-to-br from-blue-100 to-purple-100">
+                                                <div className="h-12 w-12 flex-shrink-0 rounded-lg overflow-hidden bg-amber-50 border border-amber-100">
                                                     {trip.imageUrl ? (
                                                         <img
                                                             src={trip.imageUrl}
@@ -152,45 +152,45 @@ export default function AdminTripsPage() {
                                                         />
                                                     ) : (
                                                         <div className="h-full w-full flex items-center justify-center">
-                                                            <svg className="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                            <svg className="w-6 h-6 text-gold" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                                             </svg>
                                                         </div>
                                                     )}
                                                 </div>
                                                 <div className="ml-4">
-                                                    <div className="text-sm font-semibold text-gray-900 line-clamp-1">
+                                                    <div className="text-sm font-semibold text-bronze line-clamp-1">
                                                         {trip.title}
                                                     </div>
-                                                    <div className="text-sm text-gray-500 line-clamp-1">
+                                                    <div className="text-sm text-bronze/60 line-clamp-1">
                                                         {trip.description}
                                                     </div>
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">{trip.durationDays} days</div>
+                                            <div className="text-sm text-bronze">{trip.durationDays} days</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">{formatDate(trip.startDate)}</div>
-                                            <div className="text-xs text-gray-500">{formatDate(trip.endDate)}</div>
+                                            <div className="text-sm text-bronze">{formatDate(trip.startDate)}</div>
+                                            <div className="text-xs text-bronze/60">{formatDate(trip.endDate)}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">
+                                            <span className="px-3 py-1 inline-flex text-xs leading-5 font-semibold rounded-full bg-black/60 backdrop-blur-md border border-gold/30 text-gold">
                                                 {getTravelStyleLabel(trip.travelStyle)}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm font-semibold text-gray-900">${trip.price}</div>
+                                            <div className="text-sm font-semibold text-bronze">${trip.price}</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
-                                            <div className="text-sm text-gray-900">{trip.days?.length || 0} days</div>
+                                            <div className="text-sm text-bronze">{trip.days?.length || 0} days</div>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                             <div className="flex items-center justify-end gap-2">
                                                 <Link
                                                     href={`/dashboard/trips/view?id=${trip.id}`}
-                                                    className="text-blue-600 hover:text-blue-900 transition-colors"
+                                                    className="text-gold hover:text-bronze transition-colors"
                                                     title="View Details"
                                                 >
                                                     <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -201,7 +201,7 @@ export default function AdminTripsPage() {
                                                 <button
                                                     onClick={() => trip.id && handleDelete(trip.id)}
                                                     disabled={deletingId === trip.id}
-                                                    className="text-red-600 hover:text-red-900 transition-colors disabled:opacity-50"
+                                                    className="text-red-400 hover:text-red-600 transition-colors disabled:opacity-50"
                                                     title="Delete Trip"
                                                 >
                                                     {deletingId === trip.id ? (
@@ -228,25 +228,25 @@ export default function AdminTripsPage() {
             {/* Stats Cards */}
             {trips && trips.length > 0 && (
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <div className="text-sm text-gray-600 mb-1">Total Trips</div>
-                        <div className="text-3xl font-bold text-gray-900">{trips.length}</div>
+                    <div className="bg-white/60 rounded-xl shadow-sm border border-amber-200/40 p-6">
+                        <div className="text-xs font-bold text-bronze/60 uppercase tracking-widest mb-1">Total Trips</div>
+                        <div className="text-3xl font-bold text-bronze">{trips.length}</div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <div className="text-sm text-gray-600 mb-1">Total Days</div>
-                        <div className="text-3xl font-bold text-gray-900">
+                    <div className="bg-white/60 rounded-xl shadow-sm border border-amber-200/40 p-6">
+                        <div className="text-xs font-bold text-bronze/60 uppercase tracking-widest mb-1">Total Days</div>
+                        <div className="text-3xl font-bold text-bronze">
                             {trips.reduce((sum, trip) => sum + (trip.days?.length || 0), 0)}
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <div className="text-sm text-gray-600 mb-1">Avg Duration</div>
-                        <div className="text-3xl font-bold text-gray-900">
+                    <div className="bg-white/60 rounded-xl shadow-sm border border-amber-200/40 p-6">
+                        <div className="text-xs font-bold text-bronze/60 uppercase tracking-widest mb-1">Avg Duration</div>
+                        <div className="text-3xl font-bold text-bronze">
                             {Math.round(trips.reduce((sum, trip) => sum + trip.durationDays, 0) / trips.length)} days
                         </div>
                     </div>
-                    <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-                        <div className="text-sm text-gray-600 mb-1">Avg Price</div>
-                        <div className="text-3xl font-bold text-gray-900">
+                    <div className="bg-white/60 rounded-xl shadow-sm border border-amber-200/40 p-6">
+                        <div className="text-xs font-bold text-bronze/60 uppercase tracking-widest mb-1">Avg Price</div>
+                        <div className="text-3xl font-bold text-bronze">
                             ${Math.round(trips.reduce((sum, trip) => sum + trip.price, 0) / trips.length)}
                         </div>
                     </div>
