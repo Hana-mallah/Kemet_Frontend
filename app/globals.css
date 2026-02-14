@@ -4,77 +4,85 @@
 
 @layer base {
   :root {
-    /* Papyrus Cream - #fcfbf8 */
-    --background: 40 33% 98%;
+    /* Warm Parchment/Cream - #F2EBD8 */
+    --background: 44 47% 90%;
     /* Deep Obsidian Black - #1c170d */
     --foreground: 40 36% 8%;
 
-    --card: 40 33% 98%;
+    --card: 44 47% 90%;
     --card-foreground: 40 36% 8%;
 
-    --popover: 40 33% 98%;
+    --popover: 44 47% 90%;
     --popover-foreground: 40 36% 8%;
 
-    /* Royal Gold - #f4af25 */
-    --primary: 40 89% 55%;
+    /* Vibrant Gold - #F3BF26 */
+    --primary: 45 90% 55%;
     --primary-foreground: 40 36% 8%;
 
-    /* Sandstone Beige variant - #e8e0ce */
-    --secondary: 40 33% 86%;
+    /* Soft Taupe - #C7B69A */
+    --secondary: 40 27% 69%;
     --secondary-foreground: 40 36% 8%;
 
-    --muted: 40 33% 90%;
-    /* Sandstone Beige/Muted Gold - #9c8149 */
-    --muted-foreground: 40 36% 45%;
+    --muted: 44 30% 85%;
+    /* Muted Bronze - #92772C */
+    --muted-foreground: 44 53% 37%;
 
-    --accent: 40 33% 86%;
+    --accent: 44 30% 85%;
     --accent-foreground: 40 36% 8%;
 
     --destructive: 0 65% 55%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Sandstone Beige variant - #e8e0ce */
-    --border: 40 33% 86%;
-    --input: 40 33% 86%;
-    /* Royal Gold */
-    --ring: 40 89% 55%;
+    /* Metallic Gold - #D4AF37 */
+    --border: 47 65% 52%;
+    --input: 47 65% 52%;
+    /* Vibrant Gold */
+    --ring: 45 90% 55%;
 
     --radius: 0.75rem;
+
+    /* Custom Variables */
+    --brand-bronze: 44 53% 37%;
+    /* #92772C */
+    --metallic-gold: 47 65% 52%;
+    /* #D4AF37 */
+    --soft-taupe: 40 27% 69%;
+    /* #C7B69A */
   }
 
   .dark {
     /* Deep Obsidian Black variant - #1c170d */
     --background: 40 36% 8%;
-    /* Papyrus Cream - #fcfbf8 */
-    --foreground: 40 33% 98%;
+    /* Warm Parchment - #F2EBD8 */
+    --foreground: 44 47% 90%;
 
     --card: 40 36% 12%;
-    --card-foreground: 40 33% 98%;
+    --card-foreground: 44 47% 90%;
 
     --popover: 40 36% 12%;
-    --popover-foreground: 40 33% 98%;
+    --popover-foreground: 44 47% 90%;
 
-    /* Royal Gold - #f4af25 */
-    --primary: 40 89% 55%;
+    /* Vibrant Gold - #F3BF26 */
+    --primary: 45 90% 55%;
     --primary-foreground: 40 36% 8%;
 
     --secondary: 40 20% 25%;
-    --secondary-foreground: 40 33% 98%;
+    --secondary-foreground: 44 47% 90%;
 
     --muted: 40 20% 20%;
-    /* Muted Sandstone - #a39883 */
-    --muted-foreground: 40 20% 58%;
+    /* Muted Bronze - #92772C lightened for dark mode? Keeping consistent for now */
+    --muted-foreground: 44 53% 50%;
 
     --accent: 40 20% 25%;
-    --accent-foreground: 40 33% 98%;
+    --accent-foreground: 44 47% 90%;
 
     --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 40 33% 98%;
+    --destructive-foreground: 44 47% 90%;
 
     --border: 40 20% 25%;
     --input: 40 20% 25%;
-    /* Royal Gold */
-    --ring: 40 89% 55%;
+    /* Vibrant Gold */
+    --ring: 45 90% 55%;
   }
 }
 
@@ -112,7 +120,8 @@
   }
 
   .app-surface {
-    @apply bg-gradient-to-b from-background via-background to-amber-50/30;
+    /* Updated gradient to match new warm parchment background */
+    @apply bg-gradient-to-b from-background via-background to-amber-100/30;
   }
 
   .hide-scrollbar {
@@ -129,11 +138,11 @@
   }
 
   .glass-card {
-    @apply bg-white/80 backdrop-blur-lg border border-amber-200/40 shadow-2xl;
+    @apply bg-white/60 backdrop-blur-lg border border-amber-200/40 shadow-2xl;
   }
 
   .glass-panel {
-    @apply bg-white/50 backdrop-blur-xl border border-amber-200/30 shadow-md;
+    @apply bg-white/40 backdrop-blur-xl border border-amber-200/30 shadow-md;
   }
 
   .dark .glass-card {
@@ -141,27 +150,45 @@
   }
 
   .gradient-egyptian {
-    @apply bg-gradient-to-r from-amber-600 via-amber-500 to-yellow-400;
+    @apply bg-gradient-to-r from-[hsl(var(--brand-bronze))] via-[hsl(var(--metallic-gold))] to-[hsl(var(--primary))];
   }
 
   .gradient-gold {
-    @apply bg-gradient-to-br from-amber-600 to-yellow-500;
+    @apply bg-gradient-to-br from-[hsl(var(--metallic-gold))] to-[hsl(var(--primary))];
   }
 
   .gradient-sunset {
-    @apply bg-gradient-to-b from-amber-600 to-orange-300;
+    @apply bg-gradient-to-b from-[hsl(var(--brand-bronze))] to-orange-300;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-amber-600 to-yellow-500;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-bronze))] to-[hsl(var(--primary))];
   }
 
   .text-gold {
-    @apply text-amber-600;
+    @apply text-[hsl(var(--metallic-gold))];
+  }
+
+  .text-bronze {
+    @apply text-[hsl(var(--brand-bronze))];
   }
 
   .bg-gold {
-    @apply bg-amber-600;
+    @apply bg-[hsl(var(--primary))];
+  }
+
+  .bg-bronze {
+    @apply bg-[hsl(var(--brand-bronze))];
+  }
+
+  /* Custom icon color utility */
+  .icon-gold {
+    @apply text-[hsl(var(--metallic-gold))];
+  }
+
+  /* Active button state */
+  .btn-active-taupe:active {
+    @apply bg-[hsl(var(--soft-taupe))];
   }
 }
 
