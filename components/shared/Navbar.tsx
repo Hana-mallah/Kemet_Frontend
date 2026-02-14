@@ -31,7 +31,7 @@ export function Navbar() {
                         </div>
 
                         <div>
-                            <span className="font-display text-xl font-bold text-bronze">
+                            <span className="font-display text-xl font-bold text-logo">
                                 Kemet
                             </span>
                             <p className="text-xs text-bronze/80 font-medium">Discover Ancient Wonders</p>

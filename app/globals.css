@@ -4,85 +4,92 @@
 
 @layer base {
   :root {
-    /* Warm Parchment/Cream - #F2EBD8 */
-    --background: 44 47% 90%;
-    /* Deep Obsidian Black - #1c170d */
-    --foreground: 40 36% 8%;
+    /* Background - #fefefe */
+    --background: 0 0% 99.6%;
+    /* Text - #732c02 */
+    --foreground: 22 97% 23%;
 
-    --card: 44 47% 90%;
-    --card-foreground: 40 36% 8%;
+    --card: 0 0% 99.6%;
+    --card-foreground: 22 97% 23%;
 
-    --popover: 44 47% 90%;
-    --popover-foreground: 40 36% 8%;
+    --popover: 0 0% 99.6%;
+    --popover-foreground: 22 97% 23%;
 
-    /* Vibrant Gold - #F3BF26 */
-    --primary: 45 90% 55%;
-    --primary-foreground: 40 36% 8%;
+    /* Logo Color - #ffb200 */
+    --primary: 42 100% 50%;
+    --primary-foreground: 22 97% 23%;
 
-    /* Soft Taupe - #C7B69A */
-    --secondary: 40 27% 69%;
-    --secondary-foreground: 40 36% 8%;
+    /* Secondary */
+    --secondary: 40 27% 90%;
+    --secondary-foreground: 22 97% 23%;
 
-    --muted: 44 30% 85%;
-    /* Muted Bronze - #92772C */
-    --muted-foreground: 44 53% 37%;
+    --muted: 40 20% 90%;
+    --muted-foreground: 22 80% 30%;
 
-    --accent: 44 30% 85%;
-    --accent-foreground: 40 36% 8%;
+    --accent: 40 20% 90%;
+    --accent-foreground: 22 97% 23%;
 
-    --destructive: 0 65% 55%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    /* Metallic Gold - #D4AF37 */
-    --border: 47 65% 52%;
-    --input: 47 65% 52%;
-    /* Vibrant Gold */
-    --ring: 45 90% 55%;
+    --border: 22 30% 80%;
+    --input: 22 30% 80%;
+    --ring: 42 100% 50%;
 
     --radius: 0.75rem;
 
-    /* Custom Variables */
-    --brand-bronze: 44 53% 37%;
-    /* #92772C */
-    --metallic-gold: 47 65% 52%;
-    /* #D4AF37 */
-    --soft-taupe: 40 27% 69%;
-    /* #C7B69A */
+    /* Custom Variables per Strict User Requirements */
+    /* #732c02 */
+    --brand-text: 22 97% 23%;
+    /* #ffb200 */
+    --brand-logo: 42 100% 50%;
+    /* #ffa300 */
+    --brand-icon: 38 100% 50%;
+
+    /* Legacy variables remapped to strict requirements */
+    --brand-bronze: 22 97% 23%;
+    /* Remapped to #732c02 */
+    --metallic-gold: 38 100% 50%;
+    /* Remapped to #ffa300 (Icons) */
+    --soft-taupe: 40 27% 85%;
   }
 
   .dark {
-    /* Deep Obsidian Black variant - #1c170d */
-    --background: 40 36% 8%;
-    /* Warm Parchment - #F2EBD8 */
-    --foreground: 44 47% 90%;
+    /* Enforcing Light Mode global override as requested by 'Set background color of all pages to #fefefe' */
+    --background: 0 0% 99.6%;
+    --foreground: 22 97% 23%;
 
-    --card: 40 36% 12%;
-    --card-foreground: 44 47% 90%;
+    --card: 0 0% 99.6%;
+    --card-foreground: 22 97% 23%;
 
-    --popover: 40 36% 12%;
-    --popover-foreground: 44 47% 90%;
+    --popover: 0 0% 99.6%;
+    --popover-foreground: 22 97% 23%;
 
-    /* Vibrant Gold - #F3BF26 */
-    --primary: 45 90% 55%;
-    --primary-foreground: 40 36% 8%;
+    --primary: 42 100% 50%;
+    --primary-foreground: 22 97% 23%;
 
-    --secondary: 40 20% 25%;
-    --secondary-foreground: 44 47% 90%;
+    --secondary: 40 27% 90%;
+    --secondary-foreground: 22 97% 23%;
 
-    --muted: 40 20% 20%;
-    /* Muted Bronze - #92772C lightened for dark mode? Keeping consistent for now */
-    --muted-foreground: 44 53% 50%;
+    --muted: 40 20% 90%;
+    --muted-foreground: 22 80% 30%;
 
-    --accent: 40 20% 25%;
-    --accent-foreground: 44 47% 90%;
+    --accent: 40 20% 90%;
+    --accent-foreground: 22 97% 23%;
 
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 44 47% 90%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
 
-    --border: 40 20% 25%;
-    --input: 40 20% 25%;
-    /* Vibrant Gold */
-    --ring: 45 90% 55%;
+    --border: 22 30% 80%;
+    --input: 22 30% 80%;
+    --ring: 42 100% 50%;
+
+    --brand-text: 22 97% 23%;
+    --brand-logo: 42 100% 50%;
+    --brand-icon: 38 100% 50%;
+    --brand-bronze: 22 97% 23%;
+    --metallic-gold: 38 100% 50%;
+    --soft-taupe: 40 27% 85%;
   }
 }
 
@@ -92,12 +99,15 @@
   }
 
   body {
-    @apply bg-background text-foreground selection:bg-primary/20 selection:text-primary;
+    @apply bg-background text-foreground;
     font-feature-settings: "rlig" 1, "calt" 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-weight: 500;
+    font-weight: 700;
+    /* Strict Requirement: Make all text bold */
+    color: hsl(var(--brand-text));
+    /* #732c02 */
   }
 
   h1,
@@ -105,12 +115,16 @@
   h3,
   h4,
   h5,
-  h6 {
-    @apply font-bold tracking-tight;
-  }
-
-  p {
-    @apply leading-relaxed;
+  h6,
+  p,
+  span,
+  div,
+  a,
+  li,
+  button,
+  input {
+    /* Inherit bold weight */
+    font-weight: 700;
   }
 }
 
@@ -120,8 +134,7 @@
   }
 
   .app-surface {
-    /* Updated gradient to match new warm parchment background */
-    @apply bg-gradient-to-b from-background via-background to-amber-100/30;
+    @apply bg-background;
   }
 
   .hide-scrollbar {
@@ -138,55 +151,75 @@
   }
 
   .glass-card {
-    @apply bg-white/60 backdrop-blur-lg border border-amber-200/40 shadow-2xl;
+    @apply bg-white/80 backdrop-blur-lg border border-border/50 shadow-xl;
   }
 
   .glass-panel {
-    @apply bg-white/40 backdrop-blur-xl border border-amber-200/30 shadow-md;
+    @apply bg-white/60 backdrop-blur-xl border border-border/30 shadow-md;
   }
 
   .dark .glass-card {
-    @apply bg-black/50 backdrop-blur-lg border border-amber-700/30;
+    @apply bg-white/80 backdrop-blur-lg border border-border/50 shadow-xl;
   }
 
+  /* Gradients updated to use strict palette */
+  /** 
+   * Note: Original gradients used multiple colors. 
+   * Strict rules might imply removing gradients if they deviate too much, 
+   * but aesthetics requirement suggests keeping them aligned with new palette.
+   * Using Logo (#ffb200) to Icon (#ffa300) creates a subtle golden gradient.
+   */
   .gradient-egyptian {
-    @apply bg-gradient-to-r from-[hsl(var(--brand-bronze))] via-[hsl(var(--metallic-gold))] to-[hsl(var(--primary))];
+    @apply bg-gradient-to-r from-[hsl(var(--brand-logo))] to-[hsl(var(--brand-icon))];
   }
 
   .gradient-gold {
-    @apply bg-gradient-to-br from-[hsl(var(--metallic-gold))] to-[hsl(var(--primary))];
-  }
-
-  .gradient-sunset {
-    @apply bg-gradient-to-b from-[hsl(var(--brand-bronze))] to-orange-300;
+    @apply bg-gradient-to-br from-[hsl(var(--brand-logo))] to-[hsl(var(--brand-icon))];
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-bronze))] to-[hsl(var(--primary))];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-logo))] to-[hsl(var(--brand-icon))];
   }
 
+  /* Utility mapping for compatibility with previous code */
   .text-gold {
-    @apply text-[hsl(var(--metallic-gold))];
+    @apply text-[hsl(var(--brand-text))];
+    /* Remapped to text color to satisfy "All text... #732c02" */
   }
 
   .text-bronze {
-    @apply text-[hsl(var(--brand-bronze))];
+    @apply text-[hsl(var(--brand-text))];
+    /* Strict text color #732c02 */
   }
 
   .bg-gold {
-    @apply bg-[hsl(var(--primary))];
+    @apply bg-[hsl(var(--brand-logo))];
   }
 
   .bg-bronze {
-    @apply bg-[hsl(var(--brand-bronze))];
+    @apply bg-[hsl(var(--brand-text))];
   }
 
-  /* Custom icon color utility */
+  /* Specific icon utilities */
   .icon-gold {
-    @apply text-[hsl(var(--metallic-gold))];
+    @apply text-[hsl(var(--brand-icon))];
+    /* Icons only: #ffa300 */
   }
 
-  /* Active button state */
+  .icon-brand {
+    @apply text-[hsl(var(--brand-icon))];
+  }
+
+  .text-logo {
+    @apply text-[hsl(var(--brand-logo))];
+    /* Logo text: #ffb200 */
+  }
+
+  .text-price {
+    @apply text-[hsl(var(--brand-text))];
+    /* Price text: #732c02 */
+  }
+
   .btn-active-taupe:active {
     @apply bg-[hsl(var(--soft-taupe))];
   }

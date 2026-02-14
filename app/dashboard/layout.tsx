@@ -146,7 +146,7 @@ export default function DashboardLayout({
                                     ? "bg-primary text-bronze shadow-md shadow-amber-500/10 font-bold"
                                     : "text-bronze hover:bg-amber-100/50 hover:text-bronze"
                                     }`}>
-                                    <Icon className={`h-5 w-5 flex-shrink-0 ${!isSidebarOpen && "mx-auto"} ${active ? "text-bronze" : "text-gold group-hover:text-bronze"}`} />
+                                    <Icon className={`h-5 w-5 flex-shrink-0 ${!isSidebarOpen && "mx-auto"} ${active ? "text-bronze" : "icon-gold group-hover:text-bronze"}`} />
                                     {isSidebarOpen && (
                                         <motion.span
                                             initial={shouldReduceMotion ? false as any : { opacity: 0 }}
@@ -205,7 +205,7 @@ export default function DashboardLayout({
                                     : "text-bronze/70 hover:bg-amber-50"
                                     }`}
                             >
-                                <Icon className={`h-5 w-5 ${active ? "stroke-[2.5px] text-bronze" : "stroke-[1.5px] text-gold"}`} />
+                                <Icon className={`h-5 w-5 ${active ? "stroke-[2.5px] text-bronze" : "stroke-[1.5px] icon-gold"}`} />
                                 <span className={`text-[9px] mt-1 font-bold truncate w-full text-center ${active ? "text-bronze" : "text-bronze/70"}`}>
                                     {item.name.split(" ")[0]}
                                 </span>

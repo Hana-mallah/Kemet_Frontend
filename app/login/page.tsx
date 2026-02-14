@@ -51,11 +51,9 @@ export default function LoginPage() {
     }
 
     return (
-        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden">
+        <div className="min-h-screen flex items-center justify-center p-4 relative overflow-hidden bg-background">
             {/* Animated Background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-purple-50" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(59,130,246,0.1),transparent_50%)]" />
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(168,85,247,0.1),transparent_50%)]" />
+            <div className="absolute inset-0 bg-gradient-to-br from-amber-50/50 via-background to-amber-100/30" />
 
             <motion.div
                 initial={{ opacity: 0, y: 20 }}
@@ -69,14 +67,14 @@ export default function LoginPage() {
                         initial={{ scale: 0 }}
                         animate={{ scale: 1 }}
                         transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-                        className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-blue-600 to-purple-600 mb-6 shadow-lg shadow-blue-500/30"
+                        className="inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-gradient-to-br from-brand-logo to-brand-icon mb-6 shadow-lg shadow-amber-500/20"
                     >
-                        <Sparkles className="w-8 h-8 text-white" />
+                        <Sparkles className="w-8 h-8 text-brand-text" />
                     </motion.div>
-                    <h1 className="font-display text-4xl font-bold tracking-tight mb-3 bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent">
+                    <h1 className="font-display text-4xl font-bold tracking-tight mb-3 text-logo">
                         Welcome Back
                     </h1>
-                    <p className="text-gray-600 text-lg">Sign in to continue your journey</p>
+                    <p className="text-brand-text/80 text-lg font-bold">Sign in to continue your journey</p>
                 </div>
 
                 {/* Form Card */}
@@ -84,16 +82,16 @@ export default function LoginPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="bg-white/70 backdrop-blur-xl rounded-3xl shadow-2xl shadow-gray-200/50 border border-white/60 p-8"
+                    className="glass-card rounded-3xl p-8"
                 >
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Email Field */}
                         <div className="space-y-2">
-                            <Label htmlFor="email" className="text-sm font-semibold text-gray-700">
+                            <Label htmlFor="email" className="text-sm font-bold text-brand-text">
                                 Email Address
                             </Label>
                             <div className="relative group">
-                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+                                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-icon group-focus-within:text-logo transition-colors" />
                                 <Input
                                     id="email"
                                     type="email"
@@ -101,7 +99,7 @@ export default function LoginPage() {
                                     value={email}
                                     onChange={(e) => setEmail(e.target.value)}
                                     required
-                                    className="pl-12 h-14 bg-white/50 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-xl transition-all"
+                                    className="pl-12 h-14 bg-white/50 border-border focus:border-brand-logo focus:ring-2 focus:ring-brand-logo/20 rounded-xl transition-all font-bold text-brand-text placeholder:text-brand-text/50"
                                 />
                             </div>
                         </div>
@@ -109,18 +107,18 @@ export default function LoginPage() {
                         {/* Password Field */}
                         <div className="space-y-2">
                             <div className="flex items-center justify-between">
-                                <Label htmlFor="password" className="text-sm font-semibold text-gray-700">
+                                <Label htmlFor="password" className="text-sm font-bold text-brand-text">
                                     Password
                                 </Label>
                                 <Link
                                     href="/forgot-password"
-                                    className="text-sm font-medium text-blue-600 hover:text-blue-700 transition-colors"
+                                    className="text-sm font-bold text-logo hover:text-brand-icon transition-colors"
                                 >
                                     Forgot?
                                 </Link>
                             </div>
                             <div className="relative group">
-                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 group-focus-within:text-blue-600 transition-colors" />
+                                <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-brand-icon group-focus-within:text-logo transition-colors" />
                                 <Input
                                     id="password"
                                     type="password"
@@ -128,7 +126,7 @@ export default function LoginPage() {
                                     value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     required
-                                    className="pl-12 h-14 bg-white/50 border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 rounded-xl transition-all"
+                                    className="pl-12 h-14 bg-white/50 border-border focus:border-brand-logo focus:ring-2 focus:ring-brand-logo/20 rounded-xl transition-all font-bold text-brand-text placeholder:text-brand-text/50"
                                 />
                             </div>
                         </div>
@@ -141,7 +139,7 @@ export default function LoginPage() {
                                 className="flex items-start gap-3 p-4 bg-red-50 border border-red-200 rounded-xl"
                             >
                                 <AlertCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
-                                <p className="text-sm text-red-700 leading-relaxed">{error}</p>
+                                <p className="text-sm text-red-700 leading-relaxed font-bold">{error}</p>
                             </motion.div>
                         )}
 
@@ -149,17 +147,17 @@ export default function LoginPage() {
                         <Button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full h-14 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 group"
+                            className="w-full h-14 gradient-egyptian hover:opacity-90 text-brand-text font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group btn-active-taupe"
                         >
                             {isLoading ? (
                                 <span className="flex items-center gap-2">
-                                    <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
+                                    <div className="w-5 h-5 border-2 border-brand-text/30 border-t-brand-text rounded-full animate-spin" />
                                     Signing in...
                                 </span>
                             ) : (
                                 <span className="flex items-center gap-2">
                                     Sign In
-                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                    <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform icon-gold" />
                                 </span>
                             )}
                         </Button>
@@ -171,12 +169,12 @@ export default function LoginPage() {
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 0.4 }}
-                    className="text-center text-gray-600 mt-6"
+                    className="text-center text-brand-text/80 mt-6 font-bold"
                 >
                     Don&apos;t have an account?{" "}
                     <Link
                         href="/register"
-                        className="font-semibold text-blue-600 hover:text-blue-700 transition-colors"
+                        className="font-bold text-logo hover:text-brand-icon transition-colors"
                     >
                         Sign up for free
                     </Link>
