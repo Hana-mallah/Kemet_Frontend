@@ -20,7 +20,7 @@ export default function AdminDashboardPage() {
             change: "+12%", // Fallback or dynamic if backend provides
             trend: "up",
             icon: Users,
-            color: "text-blue-500",
+            color: "text-[#F3BF26]",
             bg: "bg-blue-50"
         },
         {
@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
             change: "+8%",
             trend: "up",
             icon: ActivityIcon,
-            color: "text-green-500",
+            color: "text-[#F3BF26]",
             bg: "bg-green-50"
         },
         {
@@ -38,7 +38,7 @@ export default function AdminDashboardPage() {
             change: "+2 New",
             trend: "up",
             icon: MapPin,
-            color: "text-gray-700",
+            color: "text-[#F3BF26]",
             bg: "bg-gray-50"
         },
         {
@@ -47,7 +47,7 @@ export default function AdminDashboardPage() {
             change: "Stable",
             trend: "neutral",
             icon: Eye,
-            color: "text-purple-500",
+            color: "text-[#F3BF26]",
             bg: "bg-purple-50"
         }
     ]
@@ -72,12 +72,12 @@ export default function AdminDashboardPage() {
             >
                 <div className="flex justify-between items-end mb-8">
                     <div>
-                        <h1 className="font-display text-3xl font-bold mb-2 text-gray-900">Dashboard Overview</h1>
-                        <p className="text-gray-500">
+                        <h1 className="font-display text-3xl font-bold mb-2 text-bronze">Dashboard Overview</h1>
+                        <p className="text-bronze/70">
                             Monitor platform performance, user growth, and system health.
                         </p>
                     </div>
-                    <Badge variant="outline" className="px-4 py-2 border-gray-200 bg-white text-gray-500 font-normal shadow-sm">
+                    <Badge variant="outline" className="px-4 py-2 border-gray-200 bg-white text-bronze/60 font-normal shadow-sm">
                         Last updated: Just now
                     </Badge>
                 </div>
@@ -106,8 +106,8 @@ export default function AdminDashboardPage() {
                                             )}
                                         </div>
                                         <div>
-                                            <p className="text-sm text-gray-500 font-medium mb-1">{stat.title}</p>
-                                            <h3 className="text-3xl font-bold text-gray-900">{stat.value}</h3>
+                                            <p className="text-sm text-bronze/70 font-medium mb-1">{stat.title}</p>
+                                            <h3 className="text-3xl font-bold text-bronze">{stat.value}</h3>
                                         </div>
                                     </CardContent>
                                 </Card>
@@ -120,7 +120,7 @@ export default function AdminDashboardPage() {
                     {/* User Growth Chart */}
                     <Card className="lg:col-span-2 border-none shadow-md bg-white/80 backdrop-blur-sm">
                         <CardHeader>
-                            <CardTitle className="text-gray-900">User Growth Analytics</CardTitle>
+                            <CardTitle className="text-bronze">User Growth Analytics</CardTitle>
                             <CardDescription>Monthly active users trend over the last 6 months</CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -149,15 +149,15 @@ export default function AdminDashboardPage() {
                     {/* Feature Usage Radialish thing or list */}
                     <Card className="border-none shadow-md bg-white/80 backdrop-blur-sm">
                         <CardHeader>
-                            <CardTitle className="text-gray-900">Feature Usage</CardTitle>
+                            <CardTitle className="text-bronze">Feature Usage</CardTitle>
                             <CardDescription>Most used tools this week</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-6">
                             {(Object.entries(featureUsage) as [string, number][]).map(([feature, usage], i) => (
                                 <div key={feature} className="space-y-2">
                                     <div className="flex justify-between text-sm">
-                                        <span className="font-medium capitalize text-gray-700">{feature}</span>
-                                        <span className="font-bold text-gray-900">{usage.toLocaleString()}</span>
+                                        <span className="font-medium capitalize text-bronze/80">{feature}</span>
+                                        <span className="font-bold text-bronze">{usage.toLocaleString()}</span>
                                     </div>
                                     <div className="h-2 w-full bg-gray-100 rounded-full overflow-hidden">
                                         <motion.div
@@ -175,7 +175,7 @@ export default function AdminDashboardPage() {
 
                             <div className="pt-4 border-t border-gray-100 mt-4">
                                 <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-xl text-sm text-blue-700">
-                                    <Users className="w-4 h-4 flex-shrink-0" />
+                                    <Users className="w-4 h-4 flex-shrink-0 text-[#F3BF26]" />
                                     <span>User engagement up by 15% this week</span>
                                 </div>
                             </div>
@@ -187,7 +187,7 @@ export default function AdminDashboardPage() {
                     {/* Destination Views */}
                     <Card className="border-none shadow-md bg-white/80 backdrop-blur-sm">
                         <CardHeader>
-                            <CardTitle className="text-gray-900">Top Destinations</CardTitle>
+                            <CardTitle className="text-bronze">Top Destinations</CardTitle>
                             <CardDescription>Most viewed location pages</CardDescription>
                         </CardHeader>
                         <CardContent>
@@ -208,25 +208,25 @@ export default function AdminDashboardPage() {
                     {/* System Health */}
                     <Card className="border-none shadow-md bg-white/80 backdrop-blur-sm">
                         <CardHeader>
-                            <CardTitle className="text-gray-900">System Health</CardTitle>
+                            <CardTitle className="text-bronze">System Health</CardTitle>
                             <CardDescription>Real-time server status</CardDescription>
                         </CardHeader>
                         <CardContent>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-gray-50/50 rounded-2xl flex flex-col items-center justify-center text-center border border-gray-100">
-                                    <ActivityIcon className="w-8 h-8 text-green-500 mb-2" />
-                                    <p className="text-gray-500 text-sm mb-1">Status</p>
-                                    <p className="font-bold text-lg capitalize text-gray-900">{systemHealth.status}</p>
+                                    <ActivityIcon className="w-8 h-8 text-[#F3BF26] mb-2" />
+                                    <p className="text-bronze/70 text-sm mb-1">Status</p>
+                                    <p className="font-bold text-lg capitalize text-bronze">{systemHealth.status}</p>
                                 </div>
                                 <div className="p-4 bg-gray-50/50 rounded-2xl flex flex-col items-center justify-center text-center border border-gray-100">
-                                    <Clock className="w-8 h-8 text-blue-500 mb-2" />
-                                    <p className="text-gray-500 text-sm mb-1">Uptime</p>
-                                    <p className="font-bold text-lg text-gray-900">{systemHealth.uptime}%</p>
+                                    <Clock className="w-8 h-8 text-[#F3BF26] mb-2" />
+                                    <p className="text-bronze/70 text-sm mb-1">Uptime</p>
+                                    <p className="font-bold text-lg text-bronze">{systemHealth.uptime}%</p>
                                 </div>
                                 <div className="p-4 bg-gray-50/50 rounded-2xl flex flex-col items-center justify-center text-center col-span-2 border border-gray-100">
                                     <div className="w-full flex justify-between items-center mb-2 px-4">
-                                        <span className="text-gray-500 text-sm">Response Time</span>
-                                        <span className="font-bold text-gray-900">{systemHealth.responseTime}ms</span>
+                                        <span className="text-bronze/70 text-sm">Response Time</span>
+                                        <span className="font-bold text-bronze">{systemHealth.responseTime}ms</span>
                                     </div>
                                     <div className="w-full px-4">
                                         <div className="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
@@ -239,7 +239,7 @@ export default function AdminDashboardPage() {
                         </CardContent>
                     </Card>
                 </div>
-            </motion.div>
-        </div>
+            </motion.div >
+        </div >
     )
 }

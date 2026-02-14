@@ -43,7 +43,7 @@ export default function AdminLayout({
                 <div className="flex flex-col items-center gap-4">
                     {/* Using a simple div instead of Lucide icon to avoid any import issues in this specific block if imports change, 
                          but existing imports are fine. */}
-                    <div className="w-10 h-10 border-4 border-gray-200 border-t-blue-600 rounded-full animate-spin"></div>
+                    <div className="w-10 h-10 border-4 border-gray-200 border-t-[#F3BF26] rounded-full animate-spin"></div>
                 </div>
             </div>
         )
@@ -134,7 +134,7 @@ export default function AdminLayout({
                                         className={`h-5 w-5 transition-all duration-300
             ${active
                                                 ? "text-bronze"
-                                                : "text-gold group-hover:text-bronze"
+                                                : "text-[#F3BF26] group-hover:text-bronze"
                                             }
             ${!isSidebarOpen && "mx-auto"}
           `}

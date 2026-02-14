@@ -78,7 +78,7 @@ export default function AdminDestinationsPage() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-96">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#F3BF26]" />
             </div>
         )
     }
@@ -117,7 +117,7 @@ export default function AdminDestinationsPage() {
                                 <p className="text-2xl font-bold text-bronze mt-1">{stats.total}</p>
                             </div>
                             <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
-                                <MapPin className="h-6 w-6 text-gold" />
+                                <MapPin className="h-6 w-6 text-[#732c02]" />
                             </div>
                         </div>
                     </CardContent>
@@ -131,7 +131,7 @@ export default function AdminDestinationsPage() {
                                 <p className="text-2xl font-bold text-bronze mt-1">{stats.cities}</p>
                             </div>
                             <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
-                                <MapPin className="h-6 w-6 text-gold" />
+                                <MapPin className="h-6 w-6 text-[#732c02]" />
                             </div>
                         </div>
                     </CardContent>
@@ -145,7 +145,7 @@ export default function AdminDestinationsPage() {
                                 <p className="text-2xl font-bold text-bronze mt-1">{stats.withImages}</p>
                             </div>
                             <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
-                                <ImageIcon className="h-6 w-6 text-gold" />
+                                <ImageIcon className="h-6 w-6 text-[#F3BF26]" />
                             </div>
                         </div>
                     </CardContent>
@@ -159,7 +159,7 @@ export default function AdminDestinationsPage() {
                                 <p className="text-2xl font-bold text-bronze mt-1">{stats.withVR}</p>
                             </div>
                             <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
-                                <Video className="h-6 w-6 text-gold" />
+                                <Video className="h-6 w-6 text-[#F3BF26]" />
                             </div>
                         </div>
                     </CardContent>
@@ -172,7 +172,7 @@ export default function AdminDestinationsPage() {
                     <div className="flex items-center justify-between">
                         <CardTitle className="text-lg font-semibold text-bronze">All Destinations</CardTitle>
                         <div className="relative w-full max-w-sm">
-                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gold w-4 h-4" />
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#732c02] w-4 h-4" />
                             <Input
                                 placeholder="Search destinations..."
                                 value={searchTerm}
@@ -228,7 +228,7 @@ export default function AdminDestinationsPage() {
                                         </TableCell>
                                         <TableCell>
                                             <div className="flex items-center text-bronze/80">
-                                                <MapPin className="w-3.5 h-3.5 mr-1.5 text-gold" />
+                                                <MapPin className="w-3.5 h-3.5 mr-1.5 text-[#732c02]" />
                                                 {destination.city}
                                             </div>
                                         </TableCell>
@@ -241,13 +241,13 @@ export default function AdminDestinationsPage() {
                                             <div className="flex gap-1.5">
                                                 {destination.imageUrl && (
                                                     <Badge variant="secondary" className="text-xs bg-amber-100 text-bronze hover:bg-amber-200 border-none">
-                                                        <ImageIcon className="w-3 h-3 mr-1" />
+                                                        <ImageIcon className="w-3 h-3 mr-1 text-[#F3BF26]" />
                                                         Image
                                                     </Badge>
                                                 )}
                                                 {destination.vrUrlImage && (
                                                     <Badge variant="secondary" className="text-xs bg-amber-100 text-bronze hover:bg-amber-200 border-none">
-                                                        <Video className="w-3 h-3 mr-1" />
+                                                        <Video className="w-3 h-3 mr-1 text-[#F3BF26]" />
                                                         VR
                                                     </Badge>
                                                 )}
@@ -256,12 +256,12 @@ export default function AdminDestinationsPage() {
                                         <TableCell className="text-right">
                                             <div className="flex items-center justify-end gap-1">
                                                 <Link href={`/destinations/detail?id=${destination.id}`} target="_blank">
-                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-bronze/60 hover:text-gold hover:bg-amber-50">
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-bronze/60 hover:text-[#732c02] hover:bg-amber-50">
                                                         <Eye className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
                                                 <Link href={`/admin/destinations/edit?id=${destination.id}`}>
-                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-bronze/60 hover:text-gold hover:bg-amber-50">
+                                                    <Button variant="ghost" size="icon" className="h-8 w-8 text-bronze/60 hover:text-[#732c02] hover:bg-amber-50">
                                                         <Edit className="w-4 h-4" />
                                                     </Button>
                                                 </Link>
