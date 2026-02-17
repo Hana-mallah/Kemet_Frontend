@@ -122,7 +122,7 @@ Generate the Trip Plan JSON now.`;
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': 'Bearer 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',
+                                'Authorization': 'Bearer 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',
                             },
                             body: JSON.stringify({
                                 model: 'llama-3.3-70b-versatile',
