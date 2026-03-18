@@ -14,7 +14,7 @@ export default function ChatbotPage() {
         script.onload = () => {
             if ((window as any).voiceflow && (window as any).voiceflow.chat) {
                 (window as any).voiceflow.chat.load({
-                    verify: { projectID: '697a92f06ec8e10f285aac74' },
+                    verify: { projectID: '69b9ec849fc094e86ed82949' },
                     url: 'https://general-runtime.voiceflow.com',
                     versionID: 'production',
                     voice: {
@@ -30,7 +30,6 @@ export default function ChatbotPage() {
         document.body.appendChild(script)
 
         return () => {
-            // Clean up if necessary (Voiceflow doesn't usually expose a destroy method easily, but we can remove the script)
             if (document.body.contains(script)) {
                 document.body.removeChild(script)
             }
