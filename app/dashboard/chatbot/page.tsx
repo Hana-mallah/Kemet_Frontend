@@ -14,7 +14,7 @@ export default function ChatbotPage() {
         script.onload = () => {
             if ((window as any).voiceflow && (window as any).voiceflow.chat) {
                 (window as any).voiceflow.chat.load({
-                    verify: { projectID: '69b9ec849fc094e86ed82949' },
+                    verify: { projectID: '697a92f06ec8e10f285aac74' },
                     url: 'https://general-runtime.voiceflow.com',
                     versionID: 'production',
                     voice: {
