@@ -377,38 +377,7 @@ export default function HomePage() {
                                 </Button>
                             </Link>
                         </motion.div>
-                        <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-6 text-white/60 text-sm">
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ delay: 0.4 }}
-                                viewport={{ once: true }}
-                                className="flex items-center gap-2"
-                            >
-                                <CheckCircle2 className="w-4 h-4 text-gold" />
-                                <span>Free Plan Available</span>
-                            </motion.div>
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ delay: 0.5 }}
-                                viewport={{ once: true }}
-                                className="flex items-center gap-2"
-                            >
-                                <CheckCircle2 className="w-4 h-4 text-gold" />
-                                <span>No Credit Card Required</span>
-                            </motion.div>
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ delay: 0.6 }}
-                                viewport={{ once: true }}
-                                className="flex items-center gap-2"
-                            >
-                                <CheckCircle2 className="w-4 h-4 text-gold" />
-                                <span>24/7 Support</span>
-                            </motion.div>
-                        </div>
+
                     </motion.div>
                 </div>
             </section>

@@ -37,11 +37,6 @@ export function Footer() {
                                     Plan Your Trip
                                 </Link>
                             </li>
-                            <li>
-                                <Link href="/dashboard/vr-tours" className="text-sm hover:text-egyptian-gold transition-colors">
-                                    VR Tours
-                                </Link>
-                            </li>
                         </ul>
                     </div>
 
