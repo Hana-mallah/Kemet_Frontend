@@ -136,18 +136,6 @@ export default function HomePage() {
                         transition={{ duration: 1, ease: "easeOut" }}
                         className="space-y-6"
                     >
-                        {/* Elegant badge */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.2 }}
-                        >
-                            <Badge className="px-6 py-2 bg-white/60 backdrop-blur-md text-bronze border-amber-200/50 shadow-lg hover:shadow-xl transition-all duration-300">
-                                <Sparkles className="h-4 w-4 mr-2 text-gold" />
-                                AI-Powered Kemet Explorer
-                            </Badge>
-                        </motion.div>
-
                         {/* Main heading with better alignment */}
                         <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-bronze">
                             Discover the <span className="text-transparent bg-clip-text gradient-egyptian">Magic of Egypt</span>
@@ -174,7 +162,7 @@ export default function HomePage() {
                         >
                             <Link href="/register">
                                 <Button size="lg" className="h-14 px-8 text-base gradient-egyptian hover:opacity-90 text-bronze font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl btn-active-taupe">
-                                    Start Planning <ArrowRight className="ml-2 h-4 w-4" />
+                                    Sign Up <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </Link>
                             <Link href="/destinations">
@@ -185,36 +173,7 @@ export default function HomePage() {
                         </motion.div>
                     </motion.div>
 
-                    {/* Stats card with better alignment */}
-                    <motion.div
-                        initial={{ opacity: 0, y: 30 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ delay: 0.8, duration: 0.8 }}
-                        className="mt-16"
-                    >
-                        <Card className="bg-white/40 backdrop-blur-xl border border-amber-200/30 shadow-xl rounded-2xl">
-                            <CardContent className="p-6">
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-                                    {[
-                                        { label: "Years History", value: "7,000+" },
-                                        { label: "Active Users", value: "50k+" },
-                                        { label: "Destinations", value: "100+" },
-                                        { label: "AI Plans Created", value: "120k+" },
-                                    ].map((stat, i) => (
-                                        <motion.div
-                                            key={i}
-                                            initial={{ opacity: 0, y: 20 }}
-                                            animate={{ opacity: 1, y: 0 }}
-                                            transition={{ delay: 0.9 + i * 0.1 }}
-                                        >
-                                            <h3 className="text-2xl md:text-3xl font-bold text-gold font-display">{stat.value}</h3>
-                                            <p className="text-xs md:text-sm text-bronze/70 uppercase tracking-wider mt-1 font-medium">{stat.label}</p>
-                                        </motion.div>
-                                    ))}
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </motion.div>
+
                 </div>
             </section>
 
