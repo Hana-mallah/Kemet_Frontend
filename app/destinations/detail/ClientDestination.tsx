@@ -116,9 +116,13 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                     {destination.city}
                                 </Badge>
                                 {destination.estimatedPrice !== undefined && (
-                                    <Badge className="bg-primary/90 backdrop-blur-md text-bronze border-none font-bold">
-                                        <DollarSign className="h-3.5 w-3.5 mr-1 text-bronze" />
+                                    <Badge className="bg-primary/90 backdrop-blur-md text-bronze border-none font-bold rounded-full px-3">
                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
+                                    </Badge>
+                                )}
+                                {destination.vrUrlImage && (
+                                    <Badge className="bg-primary/90 backdrop-blur-md text-bronze border-none font-bold rounded-full px-3">
+                                        VR
                                     </Badge>
                                 )}
                             </div>
@@ -222,7 +226,7 @@ export default function ClientDestination({ destinationId }: { destinationId: st
 
                                     {destination.estimatedPrice !== undefined && (
                                         <div className="flex items-start gap-3">
-                                            <DollarSign className="w-4 h-4 text-gold mt-0.5" />
+                                            <div className="w-4 h-4 mt-0.5" />
                                             <div>
                                                 <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Estimated Entry Fee</p>
                                                 <p className="text-sm font-medium text-bronze">
@@ -231,14 +235,6 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                             </div>
                                         </div>
                                     )}
-
-                                    <div className="flex items-start gap-3">
-                                        <Calendar className="w-4 h-4 text-gold mt-0.5" />
-                                        <div>
-                                            <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Best Time to Visit</p>
-                                            <p className="text-sm font-medium text-bronze">October - April</p>
-                                        </div>
-                                    </div>
                                 </CardContent>
                             </Card>
                         </motion.div>

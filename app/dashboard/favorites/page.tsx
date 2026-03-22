@@ -131,14 +131,18 @@ export default function FavoritesPage() {
                                                 </Button>
                                             </div>
 
-                                            {destination.estimatedPrice !== undefined && (
-                                                <div className="absolute bottom-3 left-3 z-10">
-                                                    <div className="bg-primary/90 backdrop-blur-sm px-2.5 py-1 rounded-lg text-xs font-bold text-bronze flex items-center gap-1 shadow-sm">
-                                                        <DollarSign className="h-3 w-3 text-bronze" />
+                                            <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2">
+                                                {destination.estimatedPrice !== undefined && (
+                                                    <div className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-bronze shadow-sm">
                                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
                                                     </div>
-                                                </div>
-                                            )}
+                                                )}
+                                                {destination.vrUrlImage && (
+                                                    <div className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-bronze shadow-sm">
+                                                        VR
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
 
                                         <CardContent className="p-5">
