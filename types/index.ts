@@ -260,7 +260,10 @@ export interface GenerateTripRequest {
     destination?: string
     interests?: string[]
     travelStyle?: number
+    groupSize?: number
     durationDays?: number
+    durationMin?: number
+    durationMax?: number
     startDate?: string
     budget?: number
 }
