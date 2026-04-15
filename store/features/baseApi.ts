@@ -206,6 +206,7 @@ export const api = createApi({
         'Auth',
         'TravelPlan',
         'Destination',
+        'Category',
         'Analytics',
         'Booking',
         'Review',

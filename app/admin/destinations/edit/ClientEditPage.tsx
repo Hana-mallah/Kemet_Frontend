@@ -1,9 +1,9 @@
 "use client"
 
-import { useEffect } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { ArrowLeft, Loader2, Save, Clock, DollarSign } from "lucide-react"
+import { ArrowLeft, Loader2, Save, Clock, DollarSign, PlusCircle, Trash2 } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -14,7 +14,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form"
 import { useToast } from "@/components/ui/use-toast"
 import Link from "next/link"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useUpdateDestinationMutation, useGetDestinationQuery } from "@/store/features/destinations/destinationsApi"
+import { useGetCategoriesQuery, useCreateCategoryMutation, useDeleteCategoryMutation } from "@/store/features/categories/categoriesApi"
 
 const destinationSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -25,6 +27,7 @@ const destinationSchema = z.object({
     estimatedPrice: z.coerce.number().min(0, "Price must be at least 0"),
     fromWorkingHours: z.string().min(5, "Format: HH:mm:ss"),
     endWorkingHours: z.string().min(5, "Format: HH:mm:ss"),
+    categoryId: z.string().min(1, "Category is required"),
 })
 
 type DestinationFormValues = z.infer<typeof destinationSchema>
@@ -34,6 +37,40 @@ export default function ClientEditPage({ destinationId }: { destinationId: strin
     const { toast } = useToast()
     const { data: destination, isLoading: isFetching } = useGetDestinationQuery(destinationId)
     const [updateDestination, { isLoading: isUpdating }] = useUpdateDestinationMutation()
+
+    const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery()
+    const [createCategory, { isLoading: isCreatingCategory }] = useCreateCategoryMutation()
+    const [deleteCategory] = useDeleteCategoryMutation()
+    
+    const [newCategoryName, setNewCategoryName] = useState("")
+    const [isCreatingCat, setIsCreatingCat] = useState(false)
+
+    const handleCreateCategory = async (e: React.MouseEvent) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (!newCategoryName.trim()) return
+        try {
+            await createCategory({ title: newCategoryName }).unwrap()
+            setNewCategoryName("")
+            setIsCreatingCat(false)
+            toast({ title: "Success", description: "Category created successfully" })
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to create category", variant: "destructive" })
+        }
+    }
+
+    const handleDeleteCategory = async (e: React.MouseEvent, id: string) => {
+        e.preventDefault()
+        e.stopPropagation()
+        if (window.confirm("Are you sure you want to delete this category?")) {
+            try {
+                await deleteCategory(id).unwrap()
+                toast({ title: "Success", description: "Category deleted" })
+            } catch (error) {
+                toast({ title: "Error", description: "Failed to delete category", variant: "destructive" })
+            }
+        }
+    }
 
     const form = useForm<DestinationFormValues>({
         resolver: zodResolver(destinationSchema),
@@ -46,6 +83,7 @@ export default function ClientEditPage({ destinationId }: { destinationId: strin
             estimatedPrice: 0,
             fromWorkingHours: "09:00:00",
             endWorkingHours: "18:00:00",
+            categoryId: "",
         },
     })
 
@@ -61,6 +99,7 @@ export default function ClientEditPage({ destinationId }: { destinationId: strin
                 estimatedPrice: destination.estimatedPrice || 0,
                 fromWorkingHours: destination.fromWorkingHours || "09:00:00",
                 endWorkingHours: destination.endWorkingHours || "18:00:00",
+                categoryId: destination.categoryId || "",
             })
         }
     }, [destination, form])
@@ -131,6 +170,76 @@ export default function ClientEditPage({ destinationId }: { destinationId: strin
                                         <FormControl>
                                             <Input placeholder="e.g. Pyramids of Giza" {...field} />
                                         </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="categoryId"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Category</FormLabel>
+                                        <Select onValueChange={field.onChange} value={field.value || ""}>
+                                            <FormControl>
+                                                <SelectTrigger>
+                                                    <SelectValue placeholder="Select a category" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                {isLoadingCategories ? (
+                                                    <div className="flex items-center justify-center p-4"><Loader2 className="w-4 h-4 animate-spin" /></div>
+                                                ) : categories?.map((cat) => (
+                                                    <div key={cat.id} className="relative flex items-center group">
+                                                        <SelectItem value={cat.id} className="pr-10 flex-1">{cat.title}</SelectItem>
+                                                        <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center z-20">
+                                                            <Button
+                                                                type="button"
+                                                                variant="ghost" 
+                                                                size="icon" 
+                                                                className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-100" 
+                                                                onClick={(e) => handleDeleteCategory(e, cat.id)}
+                                                            >
+                                                                <Trash2 className="w-4 h-4" />
+                                                            </Button>
+                                                        </div>
+                                                    </div>
+                                                ))}
+                                                <div className="p-2 border-t mt-1">
+                                                    {isCreatingCat ? (
+                                                        <div className="flex items-center gap-2" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
+                                                            <Input 
+                                                                value={newCategoryName} 
+                                                                onChange={(e) => setNewCategoryName(e.target.value)} 
+                                                                placeholder="New category..." 
+                                                                className="h-8 text-sm"
+                                                                autoFocus
+                                                                onKeyDown={(e) => {
+                                                                    if(e.key === 'Enter') {
+                                                                        e.preventDefault();
+                                                                        handleCreateCategory(e as any);
+                                                                    }
+                                                                }}
+                                                            />
+                                                            <Button type="button" size="sm" className="h-8" onClick={handleCreateCategory} disabled={isCreatingCategory}>
+                                                                {isCreatingCategory ? <Loader2 className="w-3 h-3 animate-spin"/> : "Save"}
+                                                            </Button>
+                                                            <Button type="button" size="sm" variant="ghost" className="h-8" onClick={(e) => { e.stopPropagation(); setIsCreatingCat(false); }}>Cancel</Button>
+                                                        </div>
+                                                    ) : (
+                                                        <Button 
+                                                            type="button" 
+                                                            variant="ghost" 
+                                                            className="w-full justify-start text-blue-600 hover:text-blue-700 h-8 text-sm" 
+                                                            onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsCreatingCat(true); }}
+                                                        >
+                                                            <PlusCircle className="mr-2 h-4 w-4" /> Add new category
+                                                        </Button>
+                                                    )}
+                                                </div>
+                                            </SelectContent>
+                                        </Select>
                                         <FormMessage />
                                     </FormItem>
                                 )}

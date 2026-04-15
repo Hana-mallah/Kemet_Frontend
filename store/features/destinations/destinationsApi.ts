@@ -11,6 +11,7 @@ export interface Destination {
     estimatedPrice?: number
     fromWorkingHours?: string
     endWorkingHours?: string
+    categoryId?: string
     isFavorite?: boolean // Client-side helper
 }
 
