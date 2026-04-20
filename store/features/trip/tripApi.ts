@@ -52,7 +52,7 @@ RULES & CONSTRAINTS:
 1. Focus ONLY on destinations and activities in Egypt that are in the provided list.
 2. Enum values MUST be returned as STRING literals (e.g., "Solo", "Budget", "Sightseeing").
 3. Field names MUST match the requested schema. Use "dayActivities" in your internal JSON structure.
-4. DurationDays is provided to you as a fixed number. The number of days in the "days" array MUST equal DurationDays exactly. Do NOT change it.
+4. Duration MUST match DurationDays exactly. Do NOT exceed it.
 5. Prices must be estimated based on TravelStyle AND MUST be in Egyptian Pounds (EGP) only.
 6. CRITICAL: The number of days in the "days" array MUST equal DurationDays exactly.
 7. CRITICAL: Calculate endDate as: startDate + (durationDays - 1) days. For example, a 7-day trip starting Jan 1 ends Jan 7.
@@ -104,47 +104,28 @@ Output ONLY a JSON object:
   ]
 }`;
 
-                    const durationMin = request.durationMin ?? request.durationDays ?? 3;
-                    const durationMax = request.durationMax ?? request.durationDays ?? durationMin;
-
-                    // Compute exact days from budget ÷ estimated daily cost, clamped to range
-                    // Daily cost estimates in EGP: Budget ~800, Comfortable ~1500, Luxury ~3000
-                    const dailyRates: Record<number, number> = { 0: 800, 1: 1500, 2: 3000 };
-                    const dailyRate = dailyRates[request.travelStyle ?? 1] ?? 1500;
-                    const budgetBasedDays = Math.round((request.budget ?? 5000) / dailyRate);
-                    const computedDuration = Math.min(durationMax, Math.max(durationMin, budgetBasedDays));
-
                     const userPrompt = `INPUT: Trip Persona
-TravelCompanions: ${request.groupSize === 1 ? 'Solo' : request.groupSize === 2 ? 'Couple' : request.groupSize === 4 ? 'Family' : request.groupSize === 6 ? 'Friends' : 'Solo'}
+TravelCompanions: ${request.travelStyle === 0 ? 'Solo' : request.travelStyle === 1 ? 'Couple' : 'Family'}
 TravelStyle: ${request.travelStyle === 0 ? 'Budget' : request.travelStyle === 1 ? 'MidBudget' : 'Luxury'}
 ExperienceTypes: ${JSON.stringify(request.interests)}
 Interests: ${JSON.stringify(request.interests)}
 StartDate: ${request.startDate}
-DurationDays: ${computedDuration}
-TotalBudget: ${request.budget} EGP
+DurationDays: ${request.durationDays}
 Description: "Personalized trip to Egypt"
 
-Generate the Trip Plan JSON now. The trip MUST have exactly ${computedDuration} days.`;
+Generate the Trip Plan JSON now.`;
 
                     // Step 1: Call Groq AI API
-                    const groqApiBase = process.env.NEXT_PUBLIC_GROQ_API_BASE || 'https://api.groq.com/openai/v1';
-                    const groqApiKey = process.env.NEXT_PUBLIC_GROQ_API_KEY;
-                    const groqModel = process.env.NEXT_PUBLIC_GROQ_MODEL || 'llama-3.3-70b-versatile';
-
-                    if (!groqApiKey) {
-                        throw new Error('NEXT_PUBLIC_GROQ_API_KEY is not set in your .env file.');
-                    }
-
                     const groqResponse = await fetch(
-                        `${groqApiBase}/chat/completions`,
+                        'https://api.groq.com/openai/v1/chat/completions',
                         {
                             method: 'POST',
                             headers: {
                                 'Content-Type': 'application/json',
-                                'Authorization': `Bearer ${groqApiKey}`,
+                                'Authorization': 'Bearer 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',
                             },
                             body: JSON.stringify({
-                                model: groqModel,
+                                model: 'llama-3.3-70b-versatile',
                                 messages: [
                                     { role: 'system', content: systemPrompt },
                                     { role: 'user', content: userPrompt + "\n\nIMPORTANT: Return ONLY raw JSON. Do not include markdown formatting or explanations." }
@@ -174,10 +155,9 @@ Generate the Trip Plan JSON now. The trip MUST have exactly ${computedDuration} 
                     let rawTripData = JSON.parse(contentText.trim());
 
                     // --- Date Validation & Correction ---
-                    // Use our pre-computed duration as the authoritative value (AI must follow it)
-                    const durationDays = computedDuration;
-
+                    // Ensure endDate is calculated correctly from startDate + durationDays
                     const startDate = new Date(rawTripData.startDate || rawTripData.StartDate || request.startDate);
+                    const durationDays = Number(rawTripData.durationDays || rawTripData.DurationDays || request.durationDays || 7);
 
                     // Calculate correct endDate: startDate + (durationDays - 1) days
                     // Example: 7-day trip from Jan 1 = Jan 1 to Jan 7 (inclusive)
@@ -224,7 +204,7 @@ Generate the Trip Plan JSON now. The trip MUST have exactly ${computedDuration} 
                     const tripObject = {
                         title: String(rawTripData.title || rawTripData.Title || "Personalized Egypt Adventure").substring(0, 200),
                         description: String(rawTripData.description || rawTripData.Description || "A carefully curated journey through the wonders of Egypt"),
-                        travelCompanions: mapTravelCompanions(rawTripData.travelCompanions || rawTripData.TravelCompanions || (request.groupSize === 1 ? 'Solo' : request.groupSize === 2 ? 'Couple' : request.groupSize === 4 ? 'Family' : request.groupSize === 6 ? 'Friends' : 'Solo')),
+                        travelCompanions: mapTravelCompanions(rawTripData.travelCompanions || rawTripData.TravelCompanions || request.travelStyle),
                         travelStyle: mapTravelStyle(rawTripData.travelStyle || rawTripData.TravelStyle || request.travelStyle),
                         experienceTypes: Array.isArray(rawTripData.experienceTypes) ? rawTripData.experienceTypes : (request.interests || []),
                         interests: Array.isArray(rawTripData.interests) ? rawTripData.interests : (request.interests || []),

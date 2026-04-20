@@ -34,30 +34,28 @@ interface TripPreferences {
     travelStyle: number
     groupSize: number
     durationDays: number
-    durationMin: number
-    durationMax: number
     startDate: string
     budget: number
     interests: string[]
 }
 
 const travelStyles = [
-    { id: 0, label: 'Budget-Friendly', description: 'LE 50-100/day', icon: DollarSign, budget: 3000, gradient: "from-blue-500 to-cyan-500" },
-    { id: 1, label: 'Comfortable', description: 'LE 100-200/day', icon: Hotel, budget: 5000, gradient: "from-purple-500 to-pink-500" },
-    { id: 2, label: 'Luxury Experience', description: 'LE 200+/day', icon: Star, budget: 10000, gradient: "from-orange-500 to-amber-500" },
+    { id: 0, label: 'Budget-Friendly', description: '$50-100/day', icon: DollarSign, budget: 3000, gradient: "from-blue-500 to-cyan-500" },
+    { id: 1, label: 'Comfortable', description: '$100-200/day', icon: Hotel, budget: 5000, gradient: "from-purple-500 to-pink-500" },
+    { id: 2, label: 'Luxury Experience', description: '$200+/day', icon: Star, budget: 10000, gradient: "from-orange-500 to-amber-500" },
 ]
 
 const groupSizes = [
     { id: 1, label: 'Solo Adventure', description: 'Just me', icon: Users },
     { id: 2, label: 'Couple', description: '2 people', icon: Heart },
-    { id: 4, label: 'family', description: '3-4 people', icon: Users },
-    { id: 6, label: 'friend', description: '5+ people', icon: Users },
+    { id: 4, label: 'Small Group', description: '3-4 people', icon: Users },
+    { id: 6, label: 'Large Group', description: '5+ people', icon: Users },
 ]
 
 const durations = [
-    { id: 3, label: 'Quick Getaway', description: '3-5 days', icon: Calendar, min: 3, max: 5 },
-    { id: 7, label: 'Week Adventure', description: '7-10 days', icon: Calendar, min: 7, max: 10 },
-    { id: 14, label: 'Extended Journey', description: '14+ days', icon: Calendar, min: 14, max: 21 },
+    { id: 3, label: 'Quick Getaway', description: '3-5 days', icon: Calendar },
+    { id: 7, label: 'Week Adventure', description: '7-10 days', icon: Calendar },
+    { id: 14, label: 'Extended Journey', description: '14+ days', icon: Calendar },
 ]
 
 const interests = [
@@ -115,8 +113,6 @@ export default function TripGeneratorPage() {
         travelStyle: 1,
         groupSize: 1,
         durationDays: 7,
-        durationMin: 7,
-        durationMax: 10,
         startDate: new Date().toISOString().split('T')[0],
         budget: 5000,
         interests: [],
@@ -156,10 +152,7 @@ export default function TripGeneratorPage() {
                 destination: 'Egypt',
                 interests: preferences.interests,
                 travelStyle: preferences.travelStyle,
-                groupSize: preferences.groupSize,
                 durationDays: preferences.durationDays,
-                durationMin: preferences.durationMin,
-                durationMax: preferences.durationMax,
                 startDate: preferences.startDate,
                 budget: preferences.budget,
             }
@@ -263,7 +256,7 @@ export default function TripGeneratorPage() {
                                         ? 'border-emerald-500 bg-white shadow-xl shadow-emerald-200/50'
                                         : 'border-gray-100 bg-white hover:border-emerald-200'
                                         }`}
-                                    onClick={() => setPreferences(prev => ({ ...prev, durationDays: duration.id, durationMin: duration.min, durationMax: duration.max }))}
+                                    onClick={() => setPreferences(prev => ({ ...prev, durationDays: duration.id }))}
                                 >
                                     <div className="text-center">
                                         <div className={`w-14 h-14 mx-auto mb-4 rounded-xl flex items-center justify-center ${isSelected ? 'bg-emerald-600 text-white shadow-lg' : 'bg-gray-50 text-gray-400'}`}>
@@ -354,7 +347,7 @@ export default function TripGeneratorPage() {
                             <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                                 <SummaryBadge label="Style" value={travelStyles.find(s => s.id === preferences.travelStyle)?.label} />
                                 <SummaryBadge label="Explorers" value={`${preferences.groupSize} People`} />
-                                <SummaryBadge label="Duration" value={durations.find(d => d.id === preferences.durationDays)?.description ?? `${preferences.durationDays} Days`} />
+                                <SummaryBadge label="Duration" value={`${preferences.durationDays} Days`} />
                                 <SummaryBadge label="Interests" value={`${preferences.interests.length} Categories`} />
                                 <SummaryBadge label="Budget" value={`$${preferences.budget.toLocaleString()}`} />
                                 <SummaryBadge label="Start" value={new Date(preferences.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} />
