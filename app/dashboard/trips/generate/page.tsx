@@ -549,20 +549,39 @@ export default function TripGeneratorPage() {
 
                 {/* Error State */}
                 <AnimatePresence>
-                    {error && (
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0 }}
-                            className="mt-8 p-6 bg-red-50 rounded-2xl border border-red-100 flex items-start gap-4"
-                        >
-                            <Info className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
-                            <div>
-                                <h4 className="font-bold text-red-900">Something went wrong</h4>
-                                <p className="text-red-700 text-sm">{(error as any)?.data?.message || "Failed to connect to AI. Please try again in a moment."}</p>
-                            </div>
-                        </motion.div>
-                    )}
+                    {error && (() => {
+                        const err = error as any
+                        const msg =
+                            err?.error ||
+                            err?.data?.message ||
+                            err?.data?.title ||
+                            (err?.data?.errors
+                                ? Object.entries(err.data.errors)
+                                    .map(([k, v]) => `${k}: ${Array.isArray(v) ? (v as string[]).join(', ') : v}`)
+                                    .join(' | ')
+                                : null) ||
+                            'Something went wrong. Please try again.'
+                        return (
+                            <motion.div
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0 }}
+                                className="mt-8 p-6 bg-red-50 rounded-2xl border border-red-100 flex items-start gap-4"
+                            >
+                                <Info className="w-6 h-6 text-red-600 flex-shrink-0 mt-1" />
+                                <div className="flex-1 min-w-0">
+                                    <h4 className="font-bold text-red-900">Something went wrong</h4>
+                                    <p className="text-red-700 text-sm break-words">{msg}</p>
+                                    {process.env.NODE_ENV === 'development' && err?.data && (
+                                        <details className="mt-2">
+                                            <summary className="text-xs text-red-500 cursor-pointer">Technical details</summary>
+                                            <pre className="text-xs text-red-400 mt-1 overflow-auto max-h-40">{JSON.stringify(err.data, null, 2)}</pre>
+                                        </details>
+                                    )}
+                                </div>
+                            </motion.div>
+                        )
+                    })()}
                 </AnimatePresence>
             </div>
         </div>
