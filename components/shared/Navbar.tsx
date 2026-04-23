@@ -17,7 +17,16 @@ export function Navbar() {
     const isActive = (path: string) => pathname === path
 
     return (
-        <nav className="sticky top-0 z-50 w-full border-b border-border/60 bg-white/80 backdrop-blur-xl supports-[backdrop-filter]:bg-white/70 shadow-sm">
+        <nav 
+            className="sticky top-0 z-50 w-full transition-all duration-300"
+            style={{ 
+                backgroundColor: 'rgba(255, 255, 255, 0.1)', 
+                backdropFilter: 'blur(10px)', 
+                WebkitBackdropFilter: 'blur(10px)', 
+                borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
+                boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
+            }}
+        >
             <div className="container mx-auto px-4">
                 <div className="flex h-18 items-center justify-between py-2">
                     {/* Logo */}
@@ -31,8 +40,8 @@ export function Navbar() {
                         </div>
 
                         <div>
-                            <span className="font-display text-xl font-bold text-bronze">
-                                Kemet
+                            <span className="font-display text-xl font-bold text-bronze uppercase">
+                                KEMET
                             </span>
                             <p className="text-xs text-bronze/80 font-medium">Discover Ancient Wonders</p>
                         </div>
@@ -91,7 +100,7 @@ export function Navbar() {
                                 </Link>
                                 <Link href="/register">
                                     <Button size="sm" className="bg-primary hover:bg-primary/90 text-bronze font-bold shadow-lg shadow-amber-500/20 btn-active-taupe">
-                                        Get Started
+                                        Sign up
                                     </Button>
                                 </Link>
                             </div>
@@ -165,7 +174,7 @@ export function Navbar() {
                                     </Link>
                                     <Link href="/register" className="block" onClick={() => setIsOpen(false)}>
                                         <Button className="w-full bg-primary hover:bg-primary/90 text-bronze font-bold btn-active-taupe">
-                                            Get Started
+                                            Sign up
                                         </Button>
                                     </Link>
                                 </div>

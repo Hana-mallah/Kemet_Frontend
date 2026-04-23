@@ -96,14 +96,7 @@ export default function HomePage() {
             description: "Get instant answers to your questions about Egypt anytime, anywhere",
             color: "text-blue-600",
             delay: 0.1
-        },
-        {
-            icon: Languages,
-            title: "Smart Translator",
-            description: "Translate Arabic phrases and learn local customs instantly",
-            color: "text-orange-500",
-            delay: 0.2
-        },
+        }
     ]
 
     return (
@@ -138,7 +131,7 @@ export default function HomePage() {
                     >
                         {/* Main heading with better alignment */}
                         <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-bronze">
-                            Discover the <span className="text-transparent bg-clip-text gradient-egyptian">Magic of Egypt</span>
+                            Discover <span className="text-transparent bg-clip-text gradient-egyptian">Timeless Egypt</span>
                             <br />
                             with <span className="text-transparent bg-clip-text gradient-egyptian">Kemet</span>
                         </h1>
@@ -150,7 +143,7 @@ export default function HomePage() {
                             transition={{ delay: 0.4 }}
                             className="text-lg md:text-xl text-bronze/80 max-w-3xl mx-auto leading-relaxed font-light"
                         >
-                            Your intelligent companion for exploring ancient wonders, vibrant culture, and unforgettable experiences—designed for the modern traveler.
+                            Your intelligent companion for exploring ancient wonders, vibrant culture, and unforgettable experiences.
                         </motion.p>
 
                         {/* CTA buttons with better alignment */}
@@ -162,7 +155,7 @@ export default function HomePage() {
                         >
                             <Link href="/register">
                                 <Button size="lg" className="h-14 px-8 text-base gradient-egyptian hover:opacity-90 text-bronze font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl btn-active-taupe">
-                                    Sign Up <ArrowRight className="ml-2 h-4 w-4" />
+                                    Start your own journey <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </Link>
                             <Link href="/destinations">
@@ -202,7 +195,7 @@ export default function HomePage() {
                         </motion.div>
                     </div>
 
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                         {features.map((feature, index) => (
                             <motion.div
                                 key={index}
