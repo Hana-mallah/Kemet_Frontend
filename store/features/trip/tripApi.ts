@@ -10,9 +10,54 @@ import type {
     GenerateTripRequest
 } from '@/types'
 
-// Trip API endpoints
+// ─── Mapping helpers ──────────────────────────────────────────────────────────
+
+const mapTravelStyle = (style: any): number => {
+    if (typeof style === 'number') return Math.min(Math.max(style, 0), 2)
+    const s = String(style).toLowerCase()
+    if (s.includes('luxury')) return 2
+    if (s.includes('mid') || s.includes('comfort') || s.includes('moderate')) return 1
+    if (s.includes('budget')) return 0
+    return 1
+}
+
+const mapTravelCompanions = (companions: any): number => {
+    if (typeof companions === 'number') return Math.min(Math.max(companions, 0), 3)
+    const c = String(companions).toLowerCase()
+    if (c.includes('couple')) return 1
+    if (c.includes('family')) return 2
+    if (c.includes('friend') || c.includes('group')) return 3
+    return 0 // Solo default
+}
+
+const mapActivityType = (type: any): number => {
+    if (typeof type === 'number') return Math.min(Math.max(type, 0), 6)
+    const t = String(type).toLowerCase()
+    if (t.includes('museum')) return 2
+    if (t.includes('food') || t.includes('cuisine') || t.includes('dining') || t.includes('restaurant')) return 3
+    if (t.includes('shop')) return 4
+    if (t.includes('relax') || t.includes('beach') || t.includes('spa') || t.includes('leisure')) return 5
+    if (t.includes('night') || t.includes('entertainment')) return 6
+    if (t.includes('adven') || t.includes('sport') || t.includes('activ')) return 1
+    return 0 // Sightseeing default
+}
+
+// Format time as HH:mm:ss — required by .NET TimeSpan deserialization
+const formatTime = (time: any): string => {
+    if (!time) return '09:00:00'
+    const s = String(time).trim()
+    // Already HH:mm:ss
+    if (/^\d{1,2}:\d{2}:\d{2}$/.test(s)) return s
+    // HH:mm → HH:mm:ss
+    if (/^\d{1,2}:\d{2}$/.test(s)) return `${s}:00`
+    return '09:00:00'
+}
+
+// ─── Trip API endpoints ───────────────────────────────────────────────────────
+
 export const tripApi = api.injectEndpoints({
     endpoints: (builder) => ({
+
         // Get all trips
         getAllTrips: builder.query<Trip[], void>({
             query: () => '/Trip',
@@ -26,212 +71,250 @@ export const tripApi = api.injectEndpoints({
         // Get specific trip by ID
         getTrip: builder.query<Trip, string>({
             query: (id) => `/Trip/${id}`,
-            transformResponse: (response: any) => {
-                return response?.data || response
-            },
+            transformResponse: (response: any) => response?.data || response,
             providesTags: (result, error, id) => [{ type: 'Trip', id }],
         }),
 
-        // Generate trip using Groq AI
+        // ── Generate trip using Groq AI ──────────────────────────────────────
         generateTripWithAI: builder.mutation<Trip, GenerateTripRequest>({
             queryFn: async (request, _api, _extraOptions, baseQuery) => {
                 try {
-                    console.log('Generating trip with Groq AI...', request)
+                    console.log('[AI Planner] Starting trip generation...', request)
 
-                    // Fetch destinations from backend dynamically
+                    // ── 1. Fetch REAL destinations from backend ─────────────
                     const destResult = await baseQuery('/Destinations')
+                    if (destResult.error) {
+                        throw new Error('Failed to fetch destinations from backend')
+                    }
                     const destinationsData = (destResult.data as any)?.data || destResult.data
-                    const allowedDestinations = Array.isArray(destinationsData) ? destinationsData : []
+                    const allDestinations: any[] = Array.isArray(destinationsData) ? destinationsData : []
 
-                    const systemPrompt = `You are an AI Trip Planning Agent for Kemet platform.
-Your responsibility is to create a personalized travel plan in Egypt based strictly on a Trip Persona provided as input.
-The plan should contain days and day activity in details.
-Retrieve the destinations from provided destinations only.
+                    if (allDestinations.length === 0) {
+                        throw new Error('No destinations available in the system')
+                    }
 
-RULES & CONSTRAINTS:
-1. Focus ONLY on destinations and activities in Egypt that are in the provided list.
-2. Enum values MUST be returned as STRING literals (e.g., "Solo", "Budget", "Sightseeing").
-3. Field names MUST match the requested schema. Use "dayActivities" in your internal JSON structure.
-4. Duration MUST match DurationDays exactly. Do NOT exceed it.
-5. Prices must be estimated based on TravelStyle AND MUST be in Egyptian Pounds (EGP) only.
-6. CRITICAL: The number of days in the "days" array MUST equal DurationDays exactly.
-7. CRITICAL: Calculate endDate as: startDate + (durationDays - 1) days. For example, a 7-day trip starting Jan 1 ends Jan 7.
-8. Each day in the "days" array must have sequential dates starting from startDate.
+                    const realDestinationIds = new Set(allDestinations.map((d: any) => d.id))
+                    console.log(`[AI Planner] Loaded ${allDestinations.length} real destinations`)
 
-BUDGET RULES (CRITICAL):
-9. Total trip cost MUST NOT exceed the provided total budget.
-10. The budget MUST be distributed across trip days based on the destinations planned per day.
-11. Each day MUST include a visible allocated per-day budget in Egyptian Pounds (EGP).
-12. The sum of all daily budgets MUST equal the total trip price.
+                    // ── 2. Prepare parameters ───────────────────────────────
+                    const durationDays = Number(request.durationDays || 7)
+                    const startDateStr = request.startDate || new Date().toISOString().split('T')[0]
+                    // Force UTC midnight to avoid timezone issues
+                    const startDate = new Date(startDateStr.includes('T') ? startDateStr : `${startDateStr}T00:00:00.000Z`)
+                    const endDate = new Date(startDate)
+                    endDate.setUTCDate(startDate.getUTCDate() + (durationDays - 1))
 
-DESTINATION UNIQUENESS:
-13. A destinationId MUST NOT be repeated across the trip.
-14. Visiting the same city multiple times is allowed ONLY if different destinationIds are used.
-15. Do NOT reuse the same destination on multiple days under any circumstances.
+                    const travelStyleNum = Number(request.travelStyle ?? 1)
+                    const travelStyleLabel = travelStyleNum === 0 ? 'Budget' : travelStyleNum === 2 ? 'Luxury' : 'MidBudget'
+                    const companionsNum = Number(request.travelStyle ?? 0) // using groupSize from travelStyle mapping
+                    const companionsLabel = companionsNum === 1 ? 'Couple' : companionsNum === 2 ? 'Family' : companionsNum === 3 ? 'Friends' : 'Solo'
+
+                    // ── 3. Build numbered destination list for AI prompt ────
+                    const destListLines = allDestinations
+                        .slice(0, 20) // limit list size for prompt
+                        .map((d: any, i: number) =>
+                            `${i + 1}. destinationId="${d.id}" name="${d.name || 'Unknown'}" city="${(d.city || 'Cairo').trim()}"`
+                        )
+                        .join('\n')
+
+                    const systemPrompt = `You are a JSON-only Egypt trip planner. You MUST output ONLY a valid JSON object with no markdown, no explanation, no code fences.
+
+CRITICAL: Use ONLY the destinationId values from the ALLOWED DESTINATIONS LIST below. Copy them exactly — do not invent or modify any ID.
 
 ALLOWED DESTINATIONS:
-${JSON.stringify(allowedDestinations.map(d => ({ id: d.id, name: d.name, city: d.city, estimatedPrice: d.estimatedPrice })), null, 2)}
+${destListLines}
 
-Output ONLY a JSON object:
+OUTPUT JSON STRUCTURE (follow exactly):
 {
-  "title": "string",
-  "travelCompanions": "string",
-  "travelStyle": "string",
-  "experienceTypes": ["string"],
-  "interests": ["string"],
-  "startDate": "ISO string",
-  "endDate": "ISO string",
-  "durationDays": number,
-  "price": number,
-  "description": "string",
+  "title": "Creative trip name",
+  "description": "2-3 sentence trip summary",
+  "travelCompanions": "${companionsLabel}",
+  "travelStyle": "${travelStyleLabel}",
+  "experienceTypes": ${JSON.stringify(request.interests || ['Sightseeing'])},
+  "interests": ${JSON.stringify(request.interests || ['History'])},
+  "startDate": "${startDate.toISOString()}",
+  "endDate": "${endDate.toISOString()}",
+  "durationDays": ${durationDays},
+  "price": 5000,
   "days": [
     {
-      "dayNumber": number,
-      "date": "ISO string",
-      "title": "string",
-      "description": "string",
-      "city": "string",
+      "dayNumber": 1,
+      "date": "${startDate.toISOString()}",
+      "title": "Day title",
+      "description": "Day summary",
+      "city": "Cairo",
       "dayActivities": [
         {
-          "destinationId": "UUID",
-          "activityType": "string",
-          "startTime": "string",
-          "durationHours": number,
-          "description": "string"
+          "destinationId": "COPY EXACT ID FROM ALLOWED DESTINATIONS",
+          "activityType": "Sightseeing",
+          "startTime": "09:00",
+          "durationHours": 3,
+          "description": "Activity description"
         }
       ]
     }
   ]
-}`;
+}
 
-                    const userPrompt = `INPUT: Trip Persona
-TravelCompanions: ${request.travelStyle === 0 ? 'Solo' : request.travelStyle === 1 ? 'Couple' : 'Family'}
-TravelStyle: ${request.travelStyle === 0 ? 'Budget' : request.travelStyle === 1 ? 'MidBudget' : 'Luxury'}
-ExperienceTypes: ${JSON.stringify(request.interests)}
-Interests: ${JSON.stringify(request.interests)}
-StartDate: ${request.startDate}
-DurationDays: ${request.durationDays}
-Description: "Personalized trip to Egypt"
+RULES:
+- days array must have exactly ${durationDays} items
+- Each day: 1-2 activities maximum
+- Do NOT reuse the same destinationId across different days
+- price must be <= ${request.budget || 15000}
+- Output ONLY the JSON object`
 
-Generate the Trip Plan JSON now.`;
+                    const userPrompt = `Generate a ${durationDays}-day Egypt trip.
+Travel Style: ${travelStyleLabel}
+Companions: ${companionsLabel}
+Interests: ${(request.interests || ['History']).join(', ')}
+Budget: ${request.budget || 5000} EGP
 
-                    // Step 1: Call Groq AI API
-                    const groqResponse = await fetch(
-                        'https://api.groq.com/openai/v1/chat/completions',
-                        {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json',
-                                'Authorization': 'Bearer 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',
-                            },
-                            body: JSON.stringify({
-                                model: 'llama-3.3-70b-versatile',
-                                messages: [
-                                    { role: 'system', content: systemPrompt },
-                                    { role: 'user', content: userPrompt + "\n\nIMPORTANT: Return ONLY raw JSON. Do not include markdown formatting or explanations." }
-                                ],
-                                temperature: 0.7
-                            }),
+Output only the JSON.`
+
+                    // ── 4. Call server-side AI route ────────────────────────
+                    console.log('[AI Planner] Calling /api/generate-trip...')
+                    const apiResponse = await fetch('/api/generate-trip', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ systemPrompt, userPrompt }),
+                    })
+
+                    if (!apiResponse.ok) {
+                        const errData = await apiResponse.json().catch(() => ({}))
+                        throw new Error(errData.error || `AI server error: ${apiResponse.status}`)
+                    }
+
+                    const { content } = await apiResponse.json()
+                    if (!content || typeof content !== 'string') {
+                        throw new Error('Empty response from AI')
+                    }
+
+                    console.log('[AI Planner] AI response (first 400 chars):', content.substring(0, 400))
+
+                    // ── 5. Parse JSON ───────────────────────────────────────
+                    let rawTripData: any
+                    try {
+                        rawTripData = JSON.parse(content.trim())
+                    } catch {
+                        let cleaned = content.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim()
+                        const match = cleaned.match(/\{[\s\S]*\}/)
+                        if (!match) throw new Error('AI response is not valid JSON')
+                        rawTripData = JSON.parse(match[0])
+                    }
+
+                    // ── 6. Validate & fix destination IDs ───────────────────
+                    const usedDestIds = new Set<string>()
+                    let destIndex = 0
+
+                    const getNextRealDestId = (): string => {
+                        while (destIndex < allDestinations.length) {
+                            const id = allDestinations[destIndex].id
+                            destIndex++
+                            if (id && !usedDestIds.has(id)) {
+                                usedDestIds.add(id)
+                                return id
+                            }
                         }
-                    )
-
-                    if (!groqResponse.ok) {
-                        const errorData = await groqResponse.json().catch(() => ({}));
-                        throw new Error(errorData.error?.message || 'Failed to generate trip with Groq AI');
+                        // Ran out — reset and allow reuse
+                        destIndex = 0
+                        const id = allDestinations[0].id
+                        return id
                     }
 
-                    const groqData = await groqResponse.json();
-                    let contentText = groqData.choices[0].message.content;
+                    const days = (rawTripData.days || []).slice(0, durationDays).map((day: any, dayIdx: number) => {
+                        const dayDate = new Date(startDate)
+                        dayDate.setUTCDate(startDate.getUTCDate() + dayIdx)
 
-                    console.log('Raw Groq response (first 200 chars):', contentText.substring(0, 200));
+                        const rawActivities = day.dayActivities || day.activities || []
+                        const activities = rawActivities.slice(0, 3).map((act: any) => {
+                            let destId = String(act.destinationId || act.DestinationId || '').trim()
 
-                    // --- Robust JSON Extraction ---
-                    // Handles cases where Groq might wrap output in ```json ... ``` blocks
-                    if (contentText.includes('```')) {
-                        // Simple cleanup: remove ```json and ``` markers
-                        contentText = contentText.replace(/```json/g, '').replace(/```/g, '');
+                            if (!destId || !realDestinationIds.has(destId)) {
+                                console.warn(`[AI Planner] Bad destinationId "${destId}" → replacing`)
+                                destId = getNextRealDestId()
+                            } else if (usedDestIds.has(destId)) {
+                                console.warn(`[AI Planner] Duplicate destinationId "${destId}" → replacing`)
+                                destId = getNextRealDestId()
+                            } else {
+                                usedDestIds.add(destId)
+                            }
+
+                            return {
+                                destinationId: destId,
+                                activityType: mapActivityType(act.activityType || act.type || 0),
+                                startTime: formatTime(act.startTime),
+                                durationHours: Math.max(1, Math.min(8, Number(act.durationHours) || 2)),
+                                description: String(act.description || 'Explore the destination').substring(0, 500),
+                            }
+                        })
+
+                        if (activities.length === 0) {
+                            activities.push({
+                                destinationId: getNextRealDestId(),
+                                activityType: 0,
+                                startTime: '09:00:00',
+                                durationHours: 3,
+                                description: 'Explore the sights',
+                            })
+                        }
+
+                        return {
+                            dayNumber: dayIdx + 1,
+                            date: dayDate.toISOString(),
+                            title: String(day.title || `Day ${dayIdx + 1}`).substring(0, 200),
+                            description: String(day.description || 'A day of exploration').substring(0, 500),
+                            city: String((day.city || 'Cairo')).trim().substring(0, 100),
+                            activities,
+                        }
+                    })
+
+                    // Pad missing days
+                    while (days.length < durationDays) {
+                        const dayIdx = days.length
+                        const dayDate = new Date(startDate)
+                        dayDate.setUTCDate(startDate.getUTCDate() + dayIdx)
+                        days.push({
+                            dayNumber: dayIdx + 1,
+                            date: dayDate.toISOString(),
+                            title: `Day ${dayIdx + 1}`,
+                            description: 'Continue your Egyptian adventure',
+                            city: 'Cairo',
+                            activities: [{
+                                destinationId: getNextRealDestId(),
+                                activityType: 0,
+                                startTime: '09:00:00',
+                                durationHours: 3,
+                                description: 'Explore Cairo',
+                            }],
+                        })
                     }
 
-                    let rawTripData = JSON.parse(contentText.trim());
-
-                    // --- Date Validation & Correction ---
-                    // Ensure endDate is calculated correctly from startDate + durationDays
-                    const startDate = new Date(rawTripData.startDate || rawTripData.StartDate || request.startDate);
-                    const durationDays = Number(rawTripData.durationDays || rawTripData.DurationDays || request.durationDays || 7);
-
-                    // Calculate correct endDate: startDate + (durationDays - 1) days
-                    // Example: 7-day trip from Jan 1 = Jan 1 to Jan 7 (inclusive)
-                    const endDate = new Date(startDate);
-                    endDate.setDate(startDate.getDate() + (durationDays - 1));
-
-                    // Override AI's endDate with calculated value to ensure consistency
-                    rawTripData.endDate = endDate.toISOString();
-                    rawTripData.startDate = startDate.toISOString();
-                    rawTripData.durationDays = durationDays;
-
-                    // --- Mapping Helpers (Map Strings back to Backend IDs) ---
-                    const mapTravelStyle = (style: any): number => {
-                        const s = String(style).toLowerCase();
-                        if (s.includes('budget') && !s.includes('mid')) return 0;
-                        if (s.includes('mid') || s.includes('comfort') || s.includes('moderate')) return 1;
-                        if (s.includes('luxury')) return 2;
-                        return typeof style === 'number' ? style : 1;
-                    };
-
-                    const mapTravelCompanions = (companions: any): number => {
-                        const c = String(companions).toLowerCase();
-                        if (c.includes('solo')) return 0;
-                        if (c.includes('couple')) return 1;
-                        if (c.includes('family')) return 2;
-                        if (c.includes('friend')) return 3;
-                        return typeof companions === 'number' ? companions : 0;
-                    };
-
-                    const mapActivityType = (type: any): number => {
-                        if (typeof type === 'number') return type;
-                        const t = String(type).toLowerCase();
-                        if (t.includes('sight')) return 0;
-                        if (t.includes('food')) return 3;
-                        if (t.includes('museum')) return 2;
-                        if (t.includes('adven')) return 1;
-                        if (t.includes('relax')) return 5;
-                        if (t.includes('shop')) return 4;
-                        if (t.includes('night')) return 6;
-                        return 0;
-                    };
-
-                    // Step 2: Construct the trip object aligned EXACTLY with the .NET backend
+                    // ── 7. Build final trip object ───────────────────────────
                     const tripObject = {
-                        title: String(rawTripData.title || rawTripData.Title || "Personalized Egypt Adventure").substring(0, 200),
-                        description: String(rawTripData.description || rawTripData.Description || "A carefully curated journey through the wonders of Egypt"),
-                        travelCompanions: mapTravelCompanions(rawTripData.travelCompanions || rawTripData.TravelCompanions || request.travelStyle),
-                        travelStyle: mapTravelStyle(rawTripData.travelStyle || rawTripData.TravelStyle || request.travelStyle),
-                        experienceTypes: Array.isArray(rawTripData.experienceTypes) ? rawTripData.experienceTypes : (request.interests || []),
-                        interests: Array.isArray(rawTripData.interests) ? rawTripData.interests : (request.interests || []),
-                        startDate: rawTripData.startDate || rawTripData.StartDate || request.startDate || new Date().toISOString(),
-                        endDate: rawTripData.endDate || rawTripData.EndDate || new Date(new Date(request.startDate || Date.now()).getTime() + (request.durationDays || 7) * 24 * 60 * 60 * 1000).toISOString(),
-                        durationDays: Number(rawTripData.durationDays || rawTripData.DurationDays || request.durationDays || 7),
-                        price: Number(rawTripData.price || rawTripData.Price || request.budget || 5000),
-                        imageUrl: rawTripData.imageUrl || rawTripData.ImageUrl || "https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&q=80",
-                        days: (rawTripData.days || rawTripData.Days || []).map((day: any) => ({
-                            dayNumber: Number(day.dayNumber || day.DayNumber || 1),
-                            date: day.date || day.Date || new Date().toISOString(),
-                            title: day.title || day.Title || `Day ${day.dayNumber || day.DayNumber || ''}`,
-                            description: day.description || day.Description || "Exciting day of exploration",
-                            city: day.city || day.City || "Cairo",
-                            activities: (day.dayActivities || day.activities || day.Activities || []).map((activity: any) => ({
-                                destinationId: activity.destinationId || activity.DestinationId || (allowedDestinations[0]?.id || "8ad2198a-289e-4e09-a4e0-059d68b014af"),
-                                activityType: mapActivityType(activity.type || activity.activityType || activity.Type || 0),
-                                startTime: activity.startTime || activity.StartTime || "09:00",
-                                durationHours: Number(activity.durationHours || activity.Duration || 2),
-                                description: activity.description || activity.Description || "Explore and enjoy"
-                            }))
-                        }))
-                    };
+                        title: String(rawTripData.title || 'Egypt Adventure').substring(0, 200),
+                        description: String(rawTripData.description || 'A personalized journey through the wonders of Egypt').substring(0, 1000),
+                        travelCompanions: mapTravelCompanions(rawTripData.travelCompanions || companionsLabel),
+                        travelStyle: mapTravelStyle(rawTripData.travelStyle || travelStyleLabel),
+                        experienceTypes: Array.isArray(rawTripData.experienceTypes) && rawTripData.experienceTypes.length > 0
+                            ? rawTripData.experienceTypes.map((e: any) => String(e))
+                            : (request.interests || ['Sightseeing']),
+                        interests: Array.isArray(rawTripData.interests) && rawTripData.interests.length > 0
+                            ? rawTripData.interests.map((i: any) => String(i))
+                            : (request.interests || ['History']),
+                        startDate: startDate.toISOString(),
+                        endDate: endDate.toISOString(),
+                        durationDays,
+                        price: Math.max(100, Math.min(
+                            Number(rawTripData.price) || Number(request.budget) || 5000,
+                            Number(request.budget) || 100000
+                        )),
+                        imageUrl: 'https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&q=80',
+                        days,
+                    }
 
-                    console.log('Trip object to send to backend:', JSON.stringify(tripObject, null, 2));
+                    console.log('[AI Planner] Sending to backend:', JSON.stringify(tripObject, null, 2))
 
-                    // Step 3: Create the trip in our backend
+                    // ── 8. POST to backend ───────────────────────────────────
                     const createResult = await baseQuery({
                         url: '/Trip',
                         method: 'POST',
@@ -239,18 +322,44 @@ Generate the Trip Plan JSON now.`;
                     })
 
                     if (createResult.error) {
-                        console.error('Backend validation error:', createResult.error)
-                        return { error: createResult.error }
+                        // Extract the most meaningful error message
+                        const err = createResult.error as any
+                        const errBody = err?.data
+                        let errMsg = 'Backend validation error'
+
+                        if (typeof errBody === 'string') {
+                            errMsg = errBody
+                        } else if (errBody?.message) {
+                            errMsg = errBody.message
+                        } else if (errBody?.errors) {
+                            errMsg = Object.entries(errBody.errors)
+                                .map(([k, v]) => `${k}: ${Array.isArray(v) ? v.join(', ') : v}`)
+                                .join(' | ')
+                        } else if (errBody?.title) {
+                            errMsg = errBody.title
+                        }
+
+                        console.error('[AI Planner] Backend error:', JSON.stringify(err, null, 2))
+
+                        return {
+                            error: {
+                                status: err?.status || 'CUSTOM_ERROR',
+                                error: errMsg,
+                                data: errBody,
+                            },
+                        }
                     }
 
-                    const createdTrip = (createResult.data as any)?.data || createResult.data;
-                    return { data: createdTrip };
+                    const createdTrip = (createResult.data as any)?.data || createResult.data
+                    console.log('[AI Planner] ✅ Trip created:', createdTrip?.id)
+                    return { data: createdTrip }
+
                 } catch (error: any) {
-                    console.error('Groq AI integration error:', error);
+                    console.error('[AI Planner] Exception:', error)
                     return {
                         error: {
                             status: 'CUSTOM_ERROR',
-                            error: error.message || 'Failed to process Groq AI trip response',
+                            error: error.message || 'Unknown error occurred',
                         },
                     }
                 }
@@ -265,9 +374,7 @@ Generate the Trip Plan JSON now.`;
                 method: 'POST',
                 body: tripData,
             }),
-            transformResponse: (response: any) => {
-                return response?.data || response
-            },
+            transformResponse: (response: any) => response?.data || response,
             invalidatesTags: ['Trip'],
         }),
 
@@ -278,13 +385,8 @@ Generate the Trip Plan JSON now.`;
                 method: 'PUT',
                 body: data,
             }),
-            transformResponse: (response: any) => {
-                return response?.data || response
-            },
-            invalidatesTags: (result, error, { id }) => [
-                { type: 'Trip', id },
-                'Trip'
-            ],
+            transformResponse: (response: any) => response?.data || response,
+            invalidatesTags: (result, error, { id }) => [{ type: 'Trip', id }, 'Trip'],
         }),
 
         // Delete trip
@@ -303,13 +405,8 @@ Generate the Trip Plan JSON now.`;
                 method: 'POST',
                 body: data,
             }),
-            transformResponse: (response: any) => {
-                return response?.data || response
-            },
-            invalidatesTags: (result, error, { tripId }) => [
-                { type: 'Trip', id: tripId },
-                'Trip'
-            ],
+            transformResponse: (response: any) => response?.data || response,
+            invalidatesTags: (result, error, { tripId }) => [{ type: 'Trip', id: tripId }, 'Trip'],
         }),
 
         updateDay: builder.mutation<TripDay, { tripId: string; dayId: string; data: CreateDayRequest }>({
@@ -318,13 +415,8 @@ Generate the Trip Plan JSON now.`;
                 method: 'PUT',
                 body: data,
             }),
-            transformResponse: (response: any) => {
-                return response?.data || response
-            },
-            invalidatesTags: (result, error, { tripId }) => [
-                { type: 'Trip', id: tripId },
-                'Trip'
-            ],
+            transformResponse: (response: any) => response?.data || response,
+            invalidatesTags: (result, error, { tripId }) => [{ type: 'Trip', id: tripId }, 'Trip'],
         }),
 
         deleteDay: builder.mutation<void, { tripId: string; dayId: string }>({
@@ -332,10 +424,7 @@ Generate the Trip Plan JSON now.`;
                 url: `/Trip/${tripId}/days/${dayId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (result, error, { tripId }) => [
-                { type: 'Trip', id: tripId },
-                'Trip'
-            ],
+            invalidatesTags: (result, error, { tripId }) => [{ type: 'Trip', id: tripId }, 'Trip'],
         }),
 
         // Activity Operations
@@ -345,13 +434,8 @@ Generate the Trip Plan JSON now.`;
                 method: 'POST',
                 body: data,
             }),
-            transformResponse: (response: any) => {
-                return response?.data || response
-            },
-            invalidatesTags: (result, error, { tripId }) => [
-                { type: 'Trip', id: tripId },
-                'Trip'
-            ],
+            transformResponse: (response: any) => response?.data || response,
+            invalidatesTags: (result, error, { tripId }) => [{ type: 'Trip', id: tripId }, 'Trip'],
         }),
 
         updateActivity: builder.mutation<TripActivity, { tripId: string; dayId: string; activityId: string; data: CreateActivityRequest }>({
@@ -360,13 +444,8 @@ Generate the Trip Plan JSON now.`;
                 method: 'PUT',
                 body: data,
             }),
-            transformResponse: (response: any) => {
-                return response?.data || response
-            },
-            invalidatesTags: (result, error, { tripId }) => [
-                { type: 'Trip', id: tripId },
-                'Trip'
-            ],
+            transformResponse: (response: any) => response?.data || response,
+            invalidatesTags: (result, error, { tripId }) => [{ type: 'Trip', id: tripId }, 'Trip'],
         }),
 
         deleteActivity: builder.mutation<void, { tripId: string; dayId: string; activityId: string }>({
@@ -374,10 +453,7 @@ Generate the Trip Plan JSON now.`;
                 url: `/Trip/${tripId}/days/${dayId}/activities/${activityId}`,
                 method: 'DELETE',
             }),
-            invalidatesTags: (result, error, { tripId }) => [
-                { type: 'Trip', id: tripId },
-                'Trip'
-            ],
+            invalidatesTags: (result, error, { tripId }) => [{ type: 'Trip', id: tripId }, 'Trip'],
         }),
     }),
 })
