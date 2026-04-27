@@ -152,7 +152,7 @@ export default function TripGeneratorPage() {
         { title: 'Travel Pace', description: 'Select your preferred rhythm of exploration' },
         { title: 'Travel Companions', description: 'Who will be joining you on your journey?' },
         { title: 'Duration', description: 'How many days will you explore?' },
-        { title: 'Interests', description: 'Select the experiences you love' },
+        { title: 'Interests', description: 'Select at least 3 experiences you love' },
         { title: 'Trip Details', description: 'Finalize your travel plan' },
     ]
 
@@ -302,38 +302,77 @@ export default function TripGeneratorPage() {
                     </div>
                 )
 
-            case 3:
+            case 3: {
+                const selectedCount = preferences.interests.length
+                const meetsMinimum = selectedCount >= 3
                 return (
-                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-                        {interests.map((interest) => {
-                            const Icon = interest.icon
-                            const isSelected = preferences.interests.includes(interest.id)
-                            return (
-                                <motion.div
-                                    key={interest.id}
-                                    whileHover={{ scale: 1.05 }}
-                                    className={`cursor-pointer transition-all rounded-2xl p-4 border-2 ${isSelected
-                                        ? 'border-orange-500 bg-white shadow-lg shadow-orange-200/50'
-                                        : 'border-gray-100 bg-white hover:border-orange-200'
-                                        }`}
-                                    onClick={() => handleInterestToggle(interest.id)}
-                                >
-                                    <div className="text-center">
-                                        <div className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center ${isSelected ? 'bg-orange-600 text-white shadow-md' : 'bg-gray-50 text-gray-400'}`}>
-                                            <Icon className="w-6 h-6" />
-                                        </div>
-                                        <h3 className="font-display text-sm font-bold text-gray-900 leading-tight">{interest.label}</h3>
-                                        {isSelected && (
-                                            <div className="bg-orange-500 text-white rounded-full p-1 w-5 h-5 flex items-center justify-center mx-auto mt-2">
-                                                <Check className="w-3 h-3" />
+                    <div className="space-y-5">
+                        <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                            {interests.map((interest) => {
+                                const Icon = interest.icon
+                                const isSelected = preferences.interests.includes(interest.id)
+                                return (
+                                    <motion.div
+                                        key={interest.id}
+                                        whileHover={{ scale: 1.05 }}
+                                        className={`cursor-pointer transition-all rounded-2xl p-4 border-2 ${isSelected
+                                            ? 'border-orange-500 bg-white shadow-lg shadow-orange-200/50'
+                                            : 'border-gray-100 bg-white hover:border-orange-200'
+                                            }`}
+                                        onClick={() => handleInterestToggle(interest.id)}
+                                    >
+                                        <div className="text-center">
+                                            <div className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center ${isSelected ? 'bg-orange-600 text-white shadow-md' : 'bg-gray-50 text-gray-400'}`}>
+                                                <Icon className="w-6 h-6" />
                                             </div>
-                                        )}
-                                    </div>
-                                </motion.div>
-                            )
-                        })}
+                                            <h3 className="font-display text-sm font-bold text-gray-900 leading-tight">{interest.label}</h3>
+                                            {isSelected && (
+                                                <div className="bg-orange-500 text-white rounded-full p-1 w-5 h-5 flex items-center justify-center mx-auto mt-2">
+                                                    <Check className="w-3 h-3" />
+                                                </div>
+                                            )}
+                                        </div>
+                                    </motion.div>
+                                )
+                            })}
+                        </div>
+                        {/* Live counter + requirement notice */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className={`flex items-center gap-3 px-5 py-4 rounded-2xl border-2 transition-all ${
+                                meetsMinimum
+                                    ? 'border-emerald-200 bg-emerald-50'
+                                    : 'border-orange-200 bg-orange-50'
+                            }`}
+                        >
+                            <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-extrabold text-sm ${
+                                meetsMinimum ? 'bg-emerald-500 text-white' : 'bg-orange-400 text-white'
+                            }`}>
+                                {selectedCount}
+                            </div>
+                            <div className="flex-1">
+                                <p className={`text-sm font-bold ${
+                                    meetsMinimum ? 'text-emerald-700' : 'text-orange-700'
+                                }`}>
+                                    {meetsMinimum
+                                        ? `✓ ${selectedCount} interest${selectedCount > 1 ? 's' : ''} selected — you're good to go!`
+                                        : `${selectedCount} / 3 minimum selected — please choose at least ${3 - selectedCount} more interest${3 - selectedCount > 1 ? 's' : ''} to continue.`
+                                    }
+                                </p>
+                                <p className={`text-xs mt-0.5 ${
+                                    meetsMinimum ? 'text-emerald-500' : 'text-orange-500'
+                                }`}>
+                                    {meetsMinimum
+                                        ? 'More interests = a richer, more varied itinerary'
+                                        : 'At least 3 interests are required for a well-rounded trip plan'
+                                    }
+                                </p>
+                            </div>
+                        </motion.div>
                     </div>
                 )
+            }
 
             case 4:
                 return (
@@ -395,7 +434,7 @@ export default function TripGeneratorPage() {
     }
 
     const canProceed = () => {
-        if (currentStep === 3) return preferences.interests.length > 0
+        if (currentStep === 3) return preferences.interests.length >= 3
         if (currentStep === 4) return !!preferences.startDate && preferences.budget > 0
         return true
     }
