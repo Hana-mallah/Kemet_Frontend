@@ -11,7 +11,6 @@ import {
     Calendar,
     ArrowLeft,
     Compass,
-    DollarSign,
     Users,
     Navigation,
     Info
@@ -40,6 +39,11 @@ function TripDetailContent() {
     const getActivityTypeLabel = (type: number) => {
         const types = ['Sightseeing', 'Adventure', 'Museum', 'Food & Dining', 'Shopping', 'Relaxation']
         return types[type] || 'Activity'
+    }
+
+    const getCompanionsLabel = (companions: number) => {
+        const labels: Record<number, string> = { 0: 'Solo', 1: 'Couple', 2: 'Small Group', 3: 'Large Group' }
+        return labels[companions] ?? 'Travelers'
     }
 
     if (!id) return (
@@ -136,8 +140,8 @@ function TripDetailContent() {
                                 {trip.title}
                             </h1>
                             <div className="flex items-center text-white/90 font-medium">
-                                <DollarSign className="w-6 h-6 text-primary mr-1" />
-                                <span className="text-3xl font-bold text-white mr-2">{trip.price}</span>
+                                <span className="text-2xl font-extrabold text-primary mr-2">EGP</span>
+                                <span className="text-3xl font-bold text-white mr-2">{Number(trip.price).toLocaleString()}</span>
                                 <span className="text-white/60 text-base">Total Estimated Price</span>
                             </div>
                         </div>
@@ -150,7 +154,7 @@ function TripDetailContent() {
 
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
                             <StatCard icon={<Clock className="w-6 h-6" />} label="Duration" value={`${trip.durationDays} Days`} />
-                            <StatCard icon={<Users className="w-6 h-6" />} label="Travelers" value={trip.travelCompanions} />
+                            <StatCard icon={<Users className="w-6 h-6" />} label="Travelers" value={getCompanionsLabel(trip.travelCompanions)} />
                             <StatCard icon={<Calendar className="w-6 h-6" />} label="Start Date" value={new Date(trip.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} />
                             <StatCard icon={<Compass className="w-6 h-6" />} label="Interests" value={trip.interests?.[0] || 'Culture'} />
                         </div>

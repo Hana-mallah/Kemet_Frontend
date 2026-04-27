@@ -40,9 +40,9 @@ interface TripPreferences {
 }
 
 const travelStyles = [
-    { id: 0, label: 'Budget-Friendly', description: '$50-100/day', icon: DollarSign, budget: 3000, gradient: "from-blue-500 to-cyan-500" },
-    { id: 1, label: 'Comfortable', description: '$100-200/day', icon: Hotel, budget: 5000, gradient: "from-purple-500 to-pink-500" },
-    { id: 2, label: 'Luxury Experience', description: '$200+/day', icon: Star, budget: 10000, gradient: "from-orange-500 to-amber-500" },
+    { id: 0, label: 'Relaxed', description: '1–2 places/day', icon: Clock, budget: 3000, gradient: "from-blue-500 to-cyan-500" },
+    { id: 1, label: 'Balanced', description: '2–3 places/day', icon: Hotel, budget: 5000, gradient: "from-purple-500 to-pink-500" },
+    { id: 2, label: 'Packed', description: '3–5 places/day', icon: Star, budget: 10000, gradient: "from-orange-500 to-amber-500" },
 ]
 
 const groupSizes = [
@@ -85,6 +85,33 @@ const funFacts = [
     "The Sphinx has the body of a lion and the head of a pharaoh."
 ]
 
+// Mirrors the smart duration logic in tripApi.ts so the summary badge stays in sync
+function computeDays(prefs: TripPreferences): number {
+    const rawDuration = prefs.durationDays          // 3 | 7 | 14 (radio option IDs)
+    const paceNum = prefs.travelStyle               // 0=Relaxed, 1=Balanced, 2=Packed
+    const paceLabel = paceNum === 0 ? 'Relaxed' : paceNum === 2 ? 'Packed' : 'Balanced'
+    const interestCount = prefs.interests.length
+    const budget = prefs.budget
+    const isHighBudget = budget > 8000
+    const isLowBudget = budget < 3000
+
+    if (rawDuration <= 5) {
+        if (paceLabel === 'Relaxed' && isLowBudget) return 3
+        if (paceLabel === 'Packed' || isHighBudget) return 5
+        return interestCount > 2 ? 4 : 3
+    }
+    if (rawDuration <= 10) {
+        if (paceLabel === 'Relaxed') return 7
+        if (paceLabel === 'Packed' && interestCount > 3) return 10
+        return interestCount > 2 ? 9 : 8
+    }
+    // Extended Journey
+    let days = Math.min(21, 14 + Math.max(0, interestCount - 2))
+    if (isHighBudget && paceLabel === 'Packed') days = Math.min(21, days + 2)
+    if (paceLabel === 'Relaxed') days = Math.min(18, days)
+    return days
+}
+
 export default function TripGeneratorPage() {
     const router = useRouter()
     const [generateTrip, { isLoading, error }] = useGenerateTripWithAIMutation()
@@ -122,7 +149,7 @@ export default function TripGeneratorPage() {
     const progress = ((currentStep + 1) / totalSteps) * 100
 
     const steps = [
-        { title: 'Travel Style', description: 'Choose your preferred level of comfort' },
+        { title: 'How do you want your days to feel?', description: 'Choose the pace that suits your adventure' },
         { title: 'Group Size', description: 'Who is joining your adventure?' },
         { title: 'Duration', description: 'How many days will you explore?' },
         { title: 'Interests', description: 'Select the experiences you love' },
@@ -152,6 +179,7 @@ export default function TripGeneratorPage() {
                 destination: 'Egypt',
                 interests: preferences.interests,
                 travelStyle: preferences.travelStyle,
+                groupSize: preferences.groupSize,
                 durationDays: preferences.durationDays,
                 startDate: preferences.startDate,
                 budget: preferences.budget,
@@ -325,14 +353,14 @@ export default function TripGeneratorPage() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">Budget Estimate (USD)</label>
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">What is your total budget?</label>
                                 <div className="relative">
-                                    <DollarSign className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-emerald-600" />
+                                    <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-extrabold text-emerald-600 select-none">EGP</span>
                                     <input
                                         type="number"
                                         value={preferences.budget}
                                         onChange={(e) => setPreferences(prev => ({ ...prev, budget: parseFloat(e.target.value) }))}
-                                        className="w-full pl-12 pr-4 py-4 rounded-2xl border-2 border-gray-100 focus:border-blue-500 transition-all font-bold text-gray-900 outline-none"
+                                        className="w-full pl-14 pr-4 py-4 rounded-2xl border-2 border-gray-100 focus:border-blue-500 transition-all font-bold text-gray-900 outline-none"
                                         placeholder="e.g. 5000"
                                     />
                                 </div>
@@ -345,11 +373,11 @@ export default function TripGeneratorPage() {
                                 <h3 className="font-display text-2xl font-bold text-gray-900">Adventure Summary</h3>
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
-                                <SummaryBadge label="Style" value={travelStyles.find(s => s.id === preferences.travelStyle)?.label} />
-                                <SummaryBadge label="Explorers" value={`${preferences.groupSize} People`} />
-                                <SummaryBadge label="Duration" value={`${preferences.durationDays} Days`} />
+                                <SummaryBadge label="Pace" value={travelStyles.find(s => s.id === preferences.travelStyle)?.label} />
+                                <SummaryBadge label="Explorers" value={groupSizes.find(g => g.id === preferences.groupSize)?.label ?? `${preferences.groupSize} People`} />
+                                <SummaryBadge label="Duration" value={`${computeDays(preferences)} Days`} />
                                 <SummaryBadge label="Interests" value={`${preferences.interests.length} Categories`} />
-                                <SummaryBadge label="Budget" value={`$${preferences.budget.toLocaleString()}`} />
+                                <SummaryBadge label="Budget" value={`EGP ${preferences.budget.toLocaleString()}`} />
                                 <SummaryBadge label="Start" value={new Date(preferences.startDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} />
                             </div>
                         </div>

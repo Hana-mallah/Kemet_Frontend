@@ -61,8 +61,13 @@ export default function TripsPage() {
     }
 
     const getTravelStyleLabel = (style: number) => {
-        const styles = ['Budget', 'Moderate', 'Luxury']
-        return styles[style] || 'Unknown'
+        const styles = ['Budget', 'Moderate', 'Luxury', 'Premium']
+        return styles[style] ?? styles[1]  // never return Unknown
+    }
+
+    const getCompanionsLabel = (companions: number) => {
+        const labels: Record<number, string> = { 0: 'Solo', 1: 'Couple', 2: 'Small Group', 3: 'Large Group' }
+        return labels[companions] ?? 'Travelers'
     }
 
     if (isLoading) {
@@ -192,7 +197,7 @@ export default function TripsPage() {
                                                 </div>
                                                 <div className="flex items-center text-sm font-medium text-bronze/70">
                                                     <Users className="w-4 h-4 mr-3 text-gold" />
-                                                    {trip.travelCompanions} {trip.travelCompanions === 1 ? 'Explorer' : 'Explorers'}
+                                                {getCompanionsLabel(trip.travelCompanions)}
                                                 </div>
                                             </div>
 
