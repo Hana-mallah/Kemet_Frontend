@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 
-const GROQ_API_KEY = process.env.GROQ_API_KEY
-const GROQ_API_BASE = process.env.GROQ_API_BASE || 'https://api.groq.com/openai/v1'
-const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-20b'
+const GROQ_API_KEY = process.env.NEXT_PUBLIC_GROQ_API_KEY
+const GROQ_API_BASE = process.env.NEXT_PUBLIC_GROQ_API_BASE || 'https://api.groq.com/openai/v1'
+const GROQ_MODEL = process.env.NEXT_PUBLIC_GROQ_MODEL || 'openai/gpt-oss-20b'
 
 export async function POST(req: NextRequest) {
     try {

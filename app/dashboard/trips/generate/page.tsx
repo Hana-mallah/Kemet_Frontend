@@ -48,8 +48,8 @@ const travelStyles = [
 const groupSizes = [
     { id: 1, label: 'Solo Adventure', description: 'Just me', icon: Users },
     { id: 2, label: 'Couple', description: '2 people', icon: Heart },
-    { id: 4, label: 'Small Group', description: '3-4 people', icon: Users },
-    { id: 6, label: 'Large Group', description: '5+ people', icon: Users },
+    { id: 4, label: 'Small Group (3-4 people)', description: '3-4 people', icon: Users },
+    { id: 6, label: 'Large Group (5+ people)', description: '5+ people', icon: Users },
 ]
 
 const durations = [
@@ -149,8 +149,8 @@ export default function TripGeneratorPage() {
     const progress = ((currentStep + 1) / totalSteps) * 100
 
     const steps = [
-        { title: 'How do you want your days to feel?', description: 'Choose the pace that suits your adventure' },
-        { title: 'Group Size', description: 'Who is joining your adventure?' },
+        { title: 'Travel Pace', description: 'Select your preferred rhythm of exploration' },
+        { title: 'Travel Companions', description: 'Who will be joining you on your journey?' },
         { title: 'Duration', description: 'How many days will you explore?' },
         { title: 'Interests', description: 'Select the experiences you love' },
         { title: 'Trip Details', description: 'Finalize your travel plan' },
@@ -353,7 +353,7 @@ export default function TripGeneratorPage() {
                             </div>
 
                             <div>
-                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">What is your total budget?</label>
+                                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-3">What is your total trip budget?</label>
                                 <div className="relative">
                                     <span className="absolute left-4 top-1/2 -translate-y-1/2 text-xs font-extrabold text-emerald-600 select-none">EGP</span>
                                     <input
