@@ -46,10 +46,10 @@ const travelStyles = [
 ]
 
 const groupSizes = [
-    { id: 1, label: 'Solo Adventure', description: 'Just me', icon: Users },
+    { id: 1, label: 'Solo', description: 'Just me', icon: Users },
     { id: 2, label: 'Couple', description: '2 people', icon: Heart },
-    { id: 4, label: 'Small Group (3-4 people)', description: '3-4 people', icon: Users },
-    { id: 6, label: 'Large Group (5+ people)', description: '5+ people', icon: Users },
+    { id: 4, label: 'Small Group (3-4 people)', description: '3–4 travelers', icon: Users },
+    { id: 6, label: 'Large Group (5+ people)', description: '5 or more travelers', icon: Users },
 ]
 
 const durations = [
@@ -374,7 +374,12 @@ export default function TripGeneratorPage() {
                             </div>
                             <div className="grid grid-cols-2 lg:grid-cols-3 gap-6">
                                 <SummaryBadge label="Pace" value={travelStyles.find(s => s.id === preferences.travelStyle)?.label} />
-                                <SummaryBadge label="Explorers" value={groupSizes.find(g => g.id === preferences.groupSize)?.label ?? `${preferences.groupSize} People`} />
+                                <SummaryBadge label="Travelers" value={
+                                    preferences.groupSize === 1 ? 'Solo' :
+                                    preferences.groupSize === 2 ? 'Couple' :
+                                    preferences.groupSize === 4 ? 'Small Group' :
+                                    preferences.groupSize === 6 ? 'Large Group' : `${preferences.groupSize} People`
+                                } />
                                 <SummaryBadge label="Duration" value={`${computeDays(preferences)} Days`} />
                                 <SummaryBadge label="Interests" value={`${preferences.interests.length} Categories`} />
                                 <SummaryBadge label="Budget" value={`EGP ${preferences.budget.toLocaleString()}`} />
@@ -484,7 +489,7 @@ export default function TripGeneratorPage() {
                         Plan your dream journey.
                     </h1>
                     <p className="text-gray-600 text-lg sm:text-xl font-medium max-w-2xl">
-                        AI-crafted itineraries tailored to your unique travel style and interests.
+                        KEMET assistant-crafted itineraries tailored to your unique travel style and interests.
                     </p>
                 </div>
 
