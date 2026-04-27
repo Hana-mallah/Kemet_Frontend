@@ -35,9 +35,8 @@ export async function POST(req: NextRequest) {
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userPrompt }
                 ],
-                temperature: 0.3,
-                reasoning_effort: 'low',
-                reasoning_format: 'hidden',
+                temperature: 0.4,
+                max_tokens: 8000,
                 response_format: { type: 'json_object' },
             }),
         })
