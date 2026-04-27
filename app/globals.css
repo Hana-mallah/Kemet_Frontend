@@ -1,3 +1,17 @@
+@font-face {
+  font-family: 'Boska';
+  src: url('/font/fonts/Boska-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Boska';
+  src: url('/font/fonts/Boska-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+}
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -100,19 +114,22 @@
 
   body {
     @apply bg-background text-foreground;
+    font-family: 'Boska', serif;
     font-feature-settings: "rlig" 1, "calt" 1;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-weight: 700;
-    /* Strict Requirement: Make all text bold */
+    font-weight: 400;
     color: hsl(var(--brand-text));
-    /* #732c02 */
   }
 
   h1,
   h2,
-  h3,
+  h3 {
+    font-family: 'Boska', serif;
+    font-weight: 700;
+  }
+
   h4,
   h5,
   h6,
@@ -123,8 +140,7 @@
   li,
   button,
   input {
-    /* Inherit bold weight */
-    font-weight: 700;
+    font-family: 'Boska', serif;
   }
 }
 
