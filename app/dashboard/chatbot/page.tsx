@@ -52,7 +52,7 @@ export default function ChatbotPage() {
                             Kemet Guide AI
                         </h1>
                         <p className="text-gray-500 font-medium text-base sm:text-lg">
-                            Your professional AI assistant for exploring Egypt's wonders.
+                            Your professional KEMET assistant for exploring Egypt's wonders.
                         </p>
                     </div>
                 </div>
@@ -71,7 +71,7 @@ export default function ChatbotPage() {
                         {/* Voiceflow will inject the chat widget here */}
                         <div className="flex flex-col items-center justify-center h-full space-y-4">
                             <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Initializing Assistant...</p>
+                            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Initializing KEMET Assistant...</p>
                         </div>
                     </div>
                 </Card>

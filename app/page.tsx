@@ -92,7 +92,7 @@ export default function HomePage() {
         },
         {
             icon: MessageSquare,
-            title: "24/7 AI Assistant",
+            title: "24/7 KEMET Assistant",
             description: "Get instant answers to your questions about Egypt anytime, anywhere",
             color: "text-blue-600",
             delay: 0.1

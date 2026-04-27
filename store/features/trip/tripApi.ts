@@ -22,18 +22,18 @@ const mapTravelStyle = (style: any): number => {
 }
 
 const mapTravelCompanions = (companions: any): number => {
-    // Handle raw UI groupSize IDs: 1=Solo, 2=Couple, 4=SmallGroup/Family, 6=LargeGroup/Friends
+    // Handle raw UI groupSize IDs: 1=Solo, 2=Couple, 4=SmallGroup, 6=LargeGroup
     if (typeof companions === 'number') {
         if (companions === 1) return 0  // Solo
         if (companions === 2) return 1  // Couple
-        if (companions === 4) return 2  // Family
-        if (companions === 6) return 3  // Friends
+        if (companions === 4) return 2  // Small Group
+        if (companions === 6) return 3  // Large Group
         return Math.min(Math.max(companions, 0), 3) // fallback clamp for legacy values
     }
     const c = String(companions).toLowerCase()
     if (c.includes('couple')) return 1
-    if (c.includes('family')) return 2
-    if (c.includes('friend') || c.includes('group')) return 3
+    if (c.includes('small') || c.includes('family')) return 2   // 'Small Group' or legacy 'Family'
+    if (c.includes('large') || c.includes('friend') || c.includes('group')) return 3  // 'Large Group' or legacy 'Friends'
     return 0 // Solo default
 }
 
@@ -206,7 +206,14 @@ OUTPUT JSON STRUCTURE (follow exactly):
   ]
 }
 
-=== THE GOLDEN RULES — FOLLOW WITHOUT EXCEPTION ===
+IMPORTANT — TRAVELER LABEL RULES:
+The "travelCompanions" field MUST be exactly one of these four values (case-sensitive):
+- "Solo"         → the traveler is alone
+- "Couple"       → 2 travelers
+- "Small Group"  → 3–4 travelers
+- "Large Group"  → 5 or more travelers
+The value for this trip is "${companionsLabel}". Do NOT change it.
+
 
 RULE 0 — DURATION INTELLIGENCE (Final day count is already calculated for you):
 The system has already computed the exact number of days for this trip: ${durationDays} days.

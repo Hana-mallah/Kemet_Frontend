@@ -38,7 +38,7 @@ export default function DashboardPage() {
             iconBg: "bg-[#ffa300]"
         },
         {
-            title: "AI Assistant",
+            title: "KEMET Assistant",
             description: "Get instant help",
             icon: MessageSquare,
             href: "/dashboard/chatbot",

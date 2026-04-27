@@ -36,7 +36,7 @@ export default function DashboardLayout({
     const navigation = [
         { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
         { name: "Trips", href: "/dashboard/trips", icon: Plane },
-        { name: "AI Assistant", href: "/dashboard/chatbot", icon: MessageSquare },
+        { name: "KEMET Assistant", href: "/dashboard/chatbot", icon: MessageSquare },
         { name: "Favorites", href: "/dashboard/favorites", icon: Heart },
     ]
 
