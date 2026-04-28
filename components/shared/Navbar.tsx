@@ -17,12 +17,12 @@ export function Navbar() {
     const isActive = (path: string) => pathname === path
 
     return (
-        <nav 
+        <nav
             className="sticky top-0 z-50 w-full transition-all duration-300"
-            style={{ 
-                backgroundColor: 'rgba(255, 255, 255, 0.1)', 
-                backdropFilter: 'blur(10px)', 
-                WebkitBackdropFilter: 'blur(10px)', 
+            style={{
+                backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                backdropFilter: 'blur(10px)',
+                WebkitBackdropFilter: 'blur(10px)',
                 borderBottom: '1px solid rgba(255, 255, 255, 0.2)',
                 boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.05)'
             }}
