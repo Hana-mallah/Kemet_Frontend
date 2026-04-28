@@ -374,6 +374,28 @@ export default function HomePage() {
                     </motion.div>
                 </div>
             </section>
+            {/* Floating KEMET Assistant Widget */}
+            <Link href="/dashboard/chatbot">
+                <motion.div
+                    initial={{ opacity: 0, scale: 0.5, y: 20 }}
+                    animate={{ opacity: 1, scale: 1, y: 0 }}
+                    transition={{ delay: 1, type: "spring", stiffness: 200 }}
+                    className="fixed bottom-8 right-8 z-50 group cursor-pointer"
+                >
+                    <div className="absolute inset-0 bg-gold/30 rounded-full blur-xl group-hover:blur-2xl transition-all duration-300 animate-pulse" />
+                    <div className="relative flex items-center gap-3">
+                        {/* Hover Tooltip */}
+                        <div className="absolute right-full mr-4 bg-white/90 backdrop-blur-md px-4 py-2 rounded-xl shadow-xl border border-amber-200/50 text-sm font-bold text-bronze whitespace-nowrap opacity-0 translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 pointer-events-none">
+                            Chat with KEMET Assistant
+                            <div className="absolute top-1/2 -right-2 -translate-y-1/2 w-4 h-4 bg-white/90 backdrop-blur-md border-r border-t border-amber-200/50 rotate-45" />
+                        </div>
+                        {/* Button */}
+                        <div className="w-16 h-16 gradient-egyptian rounded-full shadow-2xl flex items-center justify-center border-2 border-white/20 group-hover:scale-110 transition-transform duration-300">
+                            <MessageSquare className="w-7 h-7 text-white drop-shadow-md" />
+                        </div>
+                    </div>
+                </motion.div>
+            </Link>
         </div>
     )
 }

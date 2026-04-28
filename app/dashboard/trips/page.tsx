@@ -65,9 +65,17 @@ export default function TripsPage() {
         return styles[style] ?? styles[1]  // never return Unknown
     }
 
-    const getCompanionsLabel = (companions: number) => {
+    const getCompanionsLabel = (companions: any) => {
+        if (typeof companions === 'string') {
+            const lower = companions.toLowerCase()
+            if (lower.includes('couple')) return 'Couple'
+            if (lower.includes('small') || lower.includes('family')) return 'Small Group'
+            if (lower.includes('large') || lower.includes('group') || lower.includes('friend')) return 'Large Group'
+            if (lower.includes('solo')) return 'Solo'
+            return companions
+        }
         const labels: Record<number, string> = { 0: 'Solo', 1: 'Couple', 2: 'Small Group', 3: 'Large Group' }
-        return labels[companions] ?? 'Travelers'
+        return labels[companions as number] ?? 'Solo'
     }
 
     if (isLoading) {
@@ -167,7 +175,7 @@ export default function TripsPage() {
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                                             <div className="absolute top-4 right-4 bg-primary/90 backdrop-blur-md px-4 py-1.5 rounded-full text-sm font-bold text-bronze shadow-lg">
-                                                ${trip.price}
+                                                {trip.price} EGP
                                             </div>
                                             <div className="absolute bottom-4 left-6 right-6">
                                                 <div className="flex gap-2">

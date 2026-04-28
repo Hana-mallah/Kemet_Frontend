@@ -13,7 +13,8 @@ import {
     Compass,
     Users,
     Navigation,
-    Info
+    Info,
+    MessageSquare
 } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Card, CardContent } from "@/components/ui/card"
@@ -41,9 +42,17 @@ function TripDetailContent() {
         return types[type] || 'Activity'
     }
 
-    const getCompanionsLabel = (companions: number) => {
+    const getCompanionsLabel = (companions: any) => {
+        if (typeof companions === 'string') {
+            const lower = companions.toLowerCase()
+            if (lower.includes('couple')) return 'Couple'
+            if (lower.includes('small') || lower.includes('family')) return 'Small Group'
+            if (lower.includes('large') || lower.includes('group') || lower.includes('friend')) return 'Large Group'
+            if (lower.includes('solo')) return 'Solo'
+            return companions
+        }
         const labels: Record<number, string> = { 0: 'Solo', 1: 'Couple', 2: 'Small Group', 3: 'Large Group' }
-        return labels[companions] ?? 'Travelers'
+        return labels[companions as number] ?? 'Solo'
     }
 
     if (!id) return (
@@ -253,6 +262,23 @@ function TripDetailContent() {
                             ))}
                         </div>
                     )}
+
+                    {/* Final CTA placed securely at the bottom of the itinerary */}
+                    <motion.div 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="mt-16 text-center flex flex-col items-center justify-center space-y-6 bg-white/40 backdrop-blur-md rounded-3xl p-10 border border-amber-200/50 shadow-xl"
+                    >
+                        <h3 className="font-display text-2xl font-bold text-bronze mb-2">Ready to take the next step?</h3>
+                        <p className="text-bronze/80 mb-4 max-w-lg">Looking for more ideas or travel advice? Let KEMET Assistant assist you with anything you need for your trip in Egypt.</p>
+                        <Link href="/dashboard/chatbot" className="inline-flex items-center justify-center">
+                            <button className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300">
+                                <MessageSquare className="w-6 h-6" />
+                                Chat with KEMET Assistant
+                            </button>
+                        </Link>
+                    </motion.div>
                 </div>
             </div>
         </div>

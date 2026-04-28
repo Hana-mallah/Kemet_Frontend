@@ -113,8 +113,8 @@ export const tripApi = api.injectEndpoints({
                     const groupSizeId = Number(request.groupSize ?? 1)
                     const companionsLabel =
                         groupSizeId === 2 ? 'Couple' :
-                        groupSizeId === 4 ? 'Small Group' :
-                        groupSizeId === 6 ? 'Large Group' : 'Solo'
+                            groupSizeId === 4 ? 'Small Group' :
+                                groupSizeId === 6 ? 'Large Group' : 'Solo'
 
                     const interestCount = (request.interests || []).length
                     const budget = Number(request.budget || 5000)
@@ -151,11 +151,11 @@ export const tripApi = api.injectEndpoints({
                     const endDate = new Date(startDate)
                     endDate.setUTCDate(startDate.getUTCDate() + (durationDays - 1))
 
-                    // ── 3. Build numbered destination list for AI prompt ────
+                    // ── 3. Build destination list for AI prompt (keep small to save tokens)
                     const destListLines = allDestinations
-                        .slice(0, 20) // limit list size for prompt
-                        .map((d: any, i: number) =>
-                            `${i + 1}. destinationId="${d.id}" name="${d.name || 'Unknown'}" city="${(d.city || 'Cairo').trim()}"`
+                        .slice(0, 8)
+                        .map((d: any) =>
+                            `${d.id}|${d.name || 'Unknown'}|${(d.city || 'Cairo').trim()}`
                         )
                         .join('\n')
 
@@ -166,172 +166,27 @@ export const tripApi = api.injectEndpoints({
                     )
                     const avgCostPerActivity = Math.round(budget / totalActivities)
 
-                    const systemPrompt = `You are KEMET AI — an expert human travel consultant for Egypt. You MUST output ONLY a valid JSON object. No markdown, no code fences, no explanation text before or after the JSON.
-All monetary values are in EGP (Egyptian Pounds) ONLY. Never use USD, EUR, or any other currency.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SECTION 1 — DESTINATION CONSTRAINT (NON-NEGOTIABLE)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Use ONLY destinationId values from this list. Copy them exactly — never invent or modify any ID.
-
-ALLOWED DESTINATIONS:
+                    const systemPrompt = `JSON ONLY. NO MARKDOWN.
+Rule: Exact Budget Match (${budget} EGP).
+Rule: Days=${durationDays} EXACTLY (No Rest Days).
+Rule: Acts/day=${paceLabel === 'Relaxed' ? '1-2' : paceLabel === 'Balanced' ? '2-3' : '4-5'} (vary).
+Rule: NO REPEATS. Never repeat a destination (e.g., Pyramids) more than once in the trip.
+Rule: SPECIFIC LANDMARKS ONLY. 'Explore the sights' or 'Explore the area' is FORBIDDEN. Every activity MUST have a specific, real-world landmark name.
+Rule: DYNAMIC DAY TITLE. The day 'title' must be a 1-sentence theme (e.g. 'A journey through Islamic Cairo'). Do NOT use generic 'A day of exploration'.
+Rule: Geographic Clustering (group acts by area/day).
+Rule: Tone=${companionsLabel}.
+Rule: Fixed Ending (End description with "Looking for more ideas or travel advice? Let KEMET Assistant assist you with anything you need for your trip in Egypt.").
+${paceLabel === 'Packed' && durationDays > 14 ? 'Rule: PACKED+LONG needs 3-4 distinct interest categories.\n' : ''}
+DEST IDs:
 ${destListLines}
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SECTION 2 — WORKLOAD-DURATION-INTEREST CHAIN (STRICT CONSTRAINTS)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+JSON FORMAT:
+{"title":"","description":"","travelCompanions":"${companionsLabel}","travelStyle":"${travelStyleLabel}","experienceTypes":${JSON.stringify(request.interests || ['Sightseeing'])},"interests":${JSON.stringify(request.interests || ['History'])},"startDate":"${startDate.toISOString()}","endDate":"${endDate.toISOString()}","durationDays":${durationDays},"price":${budget},"days":[{"dayNumber":1,"date":"${startDate.toISOString()}","title":"","description":"","city":"","dayActivities":[{"destinationId":"ID_HERE","activityType":"","startTime":"09:00","durationHours":2,"description":""}]}]}`
 
-CONSTRAINT A — Interest Minimum for Long Packed Trips:
-If pace is "Packed" AND durationDays > 14, the itinerary MUST include activities from at least 3–4 distinct interest categories.
-It is LOGICALLY FORBIDDEN to plan a 14-day Packed trip with only 1 interest type. Mixing history, cuisine, nature, adventure, etc. is mandatory.
+                    const userPrompt = `Plan ${durationDays}-day Egypt trip. Pace:${paceLabel} Companions:${companionsLabel} Budget:${budget}EGP Interests:${(request.interests || ['History']).join(',')} Start:${startDate.toISOString().split('T')[0]}. JSON only.`
 
-CONSTRAINT B — Dynamic Duration (Already Computed — Do NOT Change):
-The system has pre-calculated the exact trip length for this request: ${durationDays} days.
-This was derived from the user's range selection, pace ("${paceLabel}"), budget (${budget} EGP), and interest count (${interestCount}).
-The reference logic used:
-  • Range 3–5: 3 days → Relaxed + low budget | 4 days → Balanced | 5 days → Packed or high budget
-  • Range 7–10: 7 days → Relaxed | 8–9 days → Balanced | 10 days → Packed + high budget/many interests
-  • Range 14+: 14 + (interests − 2) days, capped at 21; +2 if Packed + high budget; max 18 if Relaxed
-YOUR ONLY JOB: generate an itinerary for exactly ${durationDays} days. Do NOT recalculate. Do NOT change this number.
-"durationDays" in your JSON MUST be ${durationDays}. The "days" array MUST contain exactly ${durationDays} objects.
-
-CONSTRAINT C — Activity Count per Day (Strict Pace Rules):
-Pace is "${paceLabel}".
-${paceLabel === 'Relaxed'
-    ? `• Each day MUST have 1–2 dayActivities. Choose freely between 1 and 2. Vary it across days for a natural rhythm.`
-    : paceLabel === 'Balanced'
-        ? `• Each day MUST have 2–3 dayActivities. Choose freely between 2 and 3. Vary it across days for a natural rhythm.`
-        : `• Each day MUST have 4–5 dayActivities. Choose freely between 4 and 5. Vary it (e.g., Day1→4, Day2→5, Day3→4). Never give every day the same count.`
-}
-• 0 activities on ANY day is STRICTLY FORBIDDEN.
-• Exceeding the maximum on ANY day is STRICTLY FORBIDDEN.
-SELF-VERIFICATION (mandatory): Before outputting, scan every day. If any day violates the activity count rule, fix it first.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SECTION 3 — GEOGRAPHIC INTELLIGENCE (CLUSTERING)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-You MUST group all activities within a single day inside ONE geographic cluster:
-  • Day 1 example: Giza Plateau only (Pyramids, Sphinx, Solar Boat Museum)
-  • Day 2 example: Islamic Cairo only (Khan el-Khalili, Al-Azhar Mosque, Citadel)
-  • Day 3 example: Luxor West Bank only (Valley of the Kings, Hatshepsut Temple, Colossi of Memnon)
-
-ANTI-PATTERNS (STRICTLY FORBIDDEN — these violate geographic logic):
-  ✗ Mixing Giza monuments with Downtown Cairo on the same day
-  ✗ Mixing Alexandria with Luxor on the same day
-  ✗ Mixing Sinai Red Sea with Cairo on the same day
-
-Minimize transit time. A traveler should spend time experiencing, not commuting.
-The "city" field for each day must match the geographic cluster for that day.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SECTION 4 — FINANCIAL MATHEMATICAL PRECISION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Currency: EGP ONLY — no exceptions.
-
-TOTAL BUDGET: ${budget} EGP for the ENTIRE trip.
-Budget distribution formula:
-  • Estimated activities in this trip: ~${Math.round(totalActivities)} total
-  • Target average cost per activity: ~${avgCostPerActivity} EGP
-  • Distribute realistically: landmark visits cost more, market walks cost less.
-  • Budget-tier guidance:
-    - Low budget (< 3,000 EGP): Prioritize free/cheap sites; avoid luxury venues.
-    - Mid budget (3,000–8,000 EGP): Mix of paid sites and affordable dining.
-    - High budget (> 8,000 EGP): Include premium experiences, guided tours, fine dining.
-
-ABSOLUTE RULE: The top-level "price" field MUST EQUAL EXACTLY ${budget} EGP.
-It is STRICTLY FORBIDDEN to output a "price" value that differs from ${budget} by even 1 EGP.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SECTION 5 — TRAVEL COMPANION AWARENESS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Companion type for this trip: "${companionsLabel}"
-
-Persona-specific guidance — tailor activity descriptions and venue selection accordingly:
-  • Solo: Suggest social hostels, solo-friendly tours, self-guided exploration, flexible pacing. Mention safety tips for solo travelers.
-  • Couple: Prioritize romantic settings (Nile cruises at sunset, quiet historical gardens, candlelit dinner spots). Use warm, intimate language.
-  • Small Group (3–4): Balance between individual interests and group dynamics. Suggest venues with flexible group bookings.
-  • Large Group (5+): Prioritize group-friendly venues with large capacity. Mention group tour discounts, logistics (bus transport, group entry fees). Avoid small, crowded spots unsuitable for groups.
-
-The "travelCompanions" field in the JSON MUST be exactly one of: "Solo" | "Couple" | "Small Group" | "Large Group"
-The value for this trip is "${companionsLabel}". Do NOT change it.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SECTION 6 — INTEREST VARIETY ENFORCEMENT
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-The user has selected ${interestCount} interest categories: ${(request.interests || ['History']).join(', ')}.
-You MUST incorporate activities from ALL of the user's selected interest categories across the trip.
-If the trip is longer than 5 days, NO single interest category may dominate more than 50% of all activities.
-Variety across days prevents boredom and fulfills the user's expressed preferences.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SECTION 7 — COMPULSORY OUTPUT STRUCTURE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-NO REST DAYS: Every single day MUST be fully planned with at least the minimum number of activities.
-A "rest day" with 0 activities is STRICTLY FORBIDDEN.
-
-Required JSON structure (follow exactly):
-{
-  "title": "Creative trip name that reflects the companion type and interests",
-  "description": "2–3 sentence trip summary tailored to ${companionsLabel}. End with: Looking for more ideas or travel advice? Let KEMET AI assist you with anything you need for your trip in Egypt.",
-  "travelCompanions": "${companionsLabel}",
-  "travelStyle": "${travelStyleLabel}",
-  "experienceTypes": ${JSON.stringify(request.interests || ['Sightseeing'])},
-  "interests": ${JSON.stringify(request.interests || ['History'])},
-  "startDate": "${startDate.toISOString()}",
-  "endDate": "${endDate.toISOString()}",
-  "durationDays": ${durationDays},
-  "price": ${budget},
-  "days": [
-    {
-      "dayNumber": 1,
-      "date": "${startDate.toISOString()}",
-      "title": "Descriptive day title (area + theme)",
-      "description": "Day summary personalized to ${companionsLabel}",
-      "city": "City/area name matching the geographic cluster",
-      "dayActivities": [
-        {
-          "destinationId": "COPY EXACT ID FROM ALLOWED DESTINATIONS",
-          "activityType": "Sightseeing",
-          "startTime": "09:00",
-          "durationHours": 3,
-          "description": "Activity description personalized to ${companionsLabel}, cost context in EGP"
-        }
-      ]
-    }
-  ]
-}
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-FINAL 6-POINT VERIFICATION CHECKLIST (mandatory before output)
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Before outputting the JSON, verify ALL of the following. Fix any failures before outputting:
-  1. ✅ "durationDays" == ${durationDays}
-  2. ✅ "days" array contains exactly ${durationDays} objects
-  3. ✅ Every day has the correct activity count per CONSTRAINT C (${paceLabel === 'Relaxed' ? '1–2' : paceLabel === 'Balanced' ? '2–3' : '4–5'} activities)
-  4. ✅ "price" == ${budget} EGP exactly
-  5. ✅ All destinationId values are from the ALLOWED DESTINATIONS list
-  6. ✅ Activities within each day are geographically clustered (no cross-city mixing)
-  ${paceLabel === 'Packed' && durationDays > 14 ? `7. ✅ At least 3–4 distinct interest categories are covered (CONSTRAINT A — Packed + long trip)` : ''}
-
-Output ONLY the JSON object. Nothing before it. Nothing after it.`
-
-
-                    const userPrompt = `Generate a ${durationDays}-day Egypt trip. (Duration was calculated from the user's selected range, pace, budget, and interests — do not change it.)
-Travel Pace: ${paceLabel}
-Companions: ${companionsLabel}
-Interests (${interestCount} selected): ${(request.interests || ['History']).join(', ')}
-Total Budget: ${budget} EGP (ALL costs must be in EGP)
-
-MANDATORY CHECKLIST before you output JSON:
-✅ "durationDays" = ${durationDays}
-✅ "days" array has exactly ${durationDays} objects
-✅ Every day has between ${paceLabel === 'Relaxed' ? '1–2' : paceLabel === 'Balanced' ? '2–3' : '4–5'} dayActivities (varied freely, NOT the same every day)
-✅ "price" = ${budget} EGP exactly
-✅ Places within each day are geographically clustered
-Output only the JSON.`
-
-                    // ── 4. Call server-side AI route ────────────────────────
-                    console.log('[AI Planner] Calling /api/generate-trip...')
+                    // ── 4. Call server-side API route ────────────────────────
+                    console.log('[KEMET Assistant] Calling /api/generate-trip...')
                     const apiResponse = await fetch('/api/generate-trip', {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
@@ -340,15 +195,15 @@ Output only the JSON.`
 
                     if (!apiResponse.ok) {
                         const errData = await apiResponse.json().catch(() => ({}))
-                        throw new Error(errData.error || `AI server error: ${apiResponse.status}`)
+                        throw new Error(errData.error || `KEMET Assistant server error: ${apiResponse.status}`)
                     }
 
                     const { content } = await apiResponse.json()
                     if (!content || typeof content !== 'string') {
-                        throw new Error('Empty response from AI')
+                        throw new Error('Empty response from KEMET Assistant')
                     }
 
-                    console.log('[AI Planner] AI response (first 400 chars):', content.substring(0, 400))
+                    console.log('[KEMET Assistant] Response (first 400 chars):', content.substring(0, 400))
 
                     // ── 5. Parse JSON ───────────────────────────────────────
                     let rawTripData: any
@@ -357,7 +212,7 @@ Output only the JSON.`
                     } catch {
                         let cleaned = content.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim()
                         const match = cleaned.match(/\{[\s\S]*\}/)
-                        if (!match) throw new Error('AI response is not valid JSON')
+                        if (!match) throw new Error('KEMET Assistant response is not valid JSON')
                         rawTripData = JSON.parse(match[0])
                     }
 

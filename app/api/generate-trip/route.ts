@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY
 const GROQ_API_BASE = process.env.GROQ_API_BASE || 'https://api.groq.com/openai/v1'
-const GROQ_MODEL = process.env.GROQ_MODEL || 'llama-3.3-70b-versatile'
+const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-20b'
 
 export async function POST(req: NextRequest) {
     try {
@@ -36,7 +36,7 @@ export async function POST(req: NextRequest) {
                     { role: 'user', content: userPrompt }
                 ],
                 temperature: 0.4,
-                max_tokens: 8000,
+                max_tokens: 4000,
                 response_format: { type: 'json_object' },
             }),
         })

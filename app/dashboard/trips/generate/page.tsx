@@ -48,8 +48,8 @@ const travelStyles = [
 const groupSizes = [
     { id: 1, label: 'Solo', description: 'Just me', icon: Users },
     { id: 2, label: 'Couple', description: '2 people', icon: Heart },
-    { id: 4, label: 'Small Group (3-4 people)', description: '3–4 travelers', icon: Users },
-    { id: 6, label: 'Large Group (5+ people)', description: '5 or more travelers', icon: Users },
+    { id: 4, label: 'Small Group', description: '3–4 travelers', icon: Users },
+    { id: 6, label: 'Large Group', description: '5 or more travelers', icon: Users },
 ]
 
 const durations = [
@@ -152,7 +152,7 @@ export default function TripGeneratorPage() {
         { title: 'Travel Pace', description: 'Select your preferred rhythm of exploration' },
         { title: 'Travel Companions', description: 'Who will be joining you on your journey?' },
         { title: 'Duration', description: 'How many days will you explore?' },
-        { title: 'Interests', description: 'Select at least 3 experiences you love' },
+        { title: 'Interests', description: 'Select at least 2 experiences you love' },
         { title: 'Trip Details', description: 'Finalize your travel plan' },
     ]
 
@@ -304,7 +304,7 @@ export default function TripGeneratorPage() {
 
             case 3: {
                 const selectedCount = preferences.interests.length
-                const meetsMinimum = selectedCount >= 3
+                const meetsMinimum = selectedCount >= 2
                 return (
                     <div className="space-y-5">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
@@ -357,7 +357,7 @@ export default function TripGeneratorPage() {
                                 }`}>
                                     {meetsMinimum
                                         ? `✓ ${selectedCount} interest${selectedCount > 1 ? 's' : ''} selected — you're good to go!`
-                                        : `${selectedCount} / 3 minimum selected — please choose at least ${3 - selectedCount} more interest${3 - selectedCount > 1 ? 's' : ''} to continue.`
+                                        : `${selectedCount} / 2 minimum selected — please choose at least ${2 - selectedCount} more interest${2 - selectedCount > 1 ? 's' : ''} to continue.`
                                     }
                                 </p>
                                 <p className={`text-xs mt-0.5 ${
@@ -365,7 +365,7 @@ export default function TripGeneratorPage() {
                                 }`}>
                                     {meetsMinimum
                                         ? 'More interests = a richer, more varied itinerary'
-                                        : 'At least 3 interests are required for a well-rounded trip plan'
+                                        : 'At least 2 interests are required for a well-rounded trip plan'
                                     }
                                 </p>
                             </div>
@@ -417,7 +417,7 @@ export default function TripGeneratorPage() {
                                     preferences.groupSize === 1 ? 'Solo' :
                                     preferences.groupSize === 2 ? 'Couple' :
                                     preferences.groupSize === 4 ? 'Small Group' :
-                                    preferences.groupSize === 6 ? 'Large Group' : `${preferences.groupSize} People`
+                                    'Large Group'
                                 } />
                                 <SummaryBadge label="Duration" value={`${computeDays(preferences)} Days`} />
                                 <SummaryBadge label="Interests" value={`${preferences.interests.length} Categories`} />
@@ -434,7 +434,7 @@ export default function TripGeneratorPage() {
     }
 
     const canProceed = () => {
-        if (currentStep === 3) return preferences.interests.length >= 3
+        if (currentStep === 3) return preferences.interests.length >= 2
         if (currentStep === 4) return !!preferences.startDate && preferences.budget > 0
         return true
     }
