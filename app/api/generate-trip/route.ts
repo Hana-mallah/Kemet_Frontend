@@ -4,8 +4,6 @@ const GROQ_API_KEY = process.env.GROQ_API_KEY
 const GROQ_API_BASE = process.env.GROQ_API_BASE || 'https://api.groq.com/openai/v1'
 const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-20b'
 
-export const maxDuration = 60 // Allow up to 60 seconds for AI generation
-
 export async function POST(req: NextRequest) {
     try {
         if (!GROQ_API_KEY) {
