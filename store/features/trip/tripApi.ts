@@ -53,7 +53,7 @@ const mapActivityType = (type: any): number => {
 const formatTime = (time: any): string => {
     if (!time) return '09:00:00'
     const s = String(time).trim()
-    
+
     // Parse 12-hour format "HH:MM AM/PM"
     const match = s.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
     if (match) {
@@ -190,8 +190,8 @@ RULES:
 2. Days: Exactly ${durationDays} days. No rest days.
 3. Acts/day: ${paceLabel === 'Relaxed' ? '1-2' : paceLabel === 'Balanced' ? '2-3' : '4-5'} activities per day.
 4. No Repeats: Never repeat a destination.
-5. Unique Content Mandate: For every destination, provide a unique, fact-based summary highlighting a specific detail about that exact place. NEVER use generic filler phrases like 'iconic landmark', 'architectural wonders', or 'unique history'. Example: 'Explore the Step Pyramid of Djoser, the world’s oldest major stone structure.' This description MUST consist of complete sentences, be exactly 2-3 sentences long, and strictly under 180 characters. Tone must be engaging and educational.
-6. Dynamic Day Title: 1-sentence theme (e.g., 'A journey through Islamic Cairo').
+5. Real Summary Content (3-Line Rule): Every destination MUST have a unique, educational, and engaging summary of exactly 3 lines. The content must provide real value: Why should the user go there? What is unique about it? The description/summary field must NEVER contain the name of the destination again. If the title is 'The Royal Carriages Museum', start directly with facts, not the title. Example for Bab Zuwayla: 'One of the last remaining gates of Cairo’s Old City, offering a stunning panoramic view of Islamic Cairo from its twin minarets. It stands as a witness to centuries of history and the executions that once took place at its threshold.'
+6. Dynamic Day Title & Description: Title MUST be a 1-sentence theme. Description MUST be: For Day 1: 'Welcome to Egypt! Start your first day in Egypt with...'. For Day 2: 'In your second day, we suggest you visit...'. For Day 3+: Generate a creative, context-aware bridge sentence.
 7. Geographic Clustering: Group acts by area/day.
 8. Tone: ${companionsLabel}.
 9. Time Scheduling: Use strictly 12-hour format (e.g., "09:00 AM", "02:00 PM"). Every itinerary day MUST start strictly at "09:00 AM". There MUST be exactly 1 hour of free time between the end of one activity and the start of the next for transit and rest.
@@ -286,31 +286,12 @@ REQUIRED JSON SCHEMA:
                             }
                         })
 
-                        // If the AI returned fewer activities than the minimum, pad up to a varied count within [minAct, maxAct]
-                        const targetForDay = minAct + (dayIdx % (maxAct - minAct + 1))
-                        while (activities.length < targetForDay) {
-                            let startHour = 9
-                            if (activities.length > 0) {
-                                const lastAct = activities[activities.length - 1]
-                                const lastHour = parseInt(lastAct.startTime.split(':')[0], 10) || 9
-                                startHour = lastHour + lastAct.durationHours + 1
-                            }
-                            const destId = getNextRealDestId()
-                            const destName = allDestinations.find((d: any) => d.id === destId)?.name || 'this location'
-                            activities.push({
-                                destinationId: destId,
-                                activityType: 0,
-                                startTime: `${String(startHour).padStart(2, '0')}:00:00`,
-                                durationHours: 2,
-                                description: destName,
-                            })
-                        }
 
                         return {
                             dayNumber: dayIdx + 1,
                             date: dayDate.toISOString(),
                             title: String(day.title || `Day ${dayIdx + 1}`).substring(0, 200),
-                            description: String(day.description || 'A day of exploration').substring(0, 500),
+                            description: String(day.description || (dayIdx === 0 ? 'Welcome to Egypt! Start your first day in Egypt with...' : dayIdx === 1 ? 'In your second day, we suggest you visit...' : 'Discover more wonders today as we explore...')).substring(0, 500),
                             city: String((day.city || 'Cairo')).trim().substring(0, 100),
                             activities,
                         }
@@ -321,28 +302,14 @@ REQUIRED JSON SCHEMA:
                         const dayIdx = days.length
                         const dayDate = new Date(startDate)
                         dayDate.setUTCDate(startDate.getUTCDate() + dayIdx)
-                        const targetCount = minAct + (dayIdx % (maxAct - minAct + 1))
-                        const paddedActivities = []
-                        let currentHour = 9
-                        for (let a = 0; a < targetCount; a++) {
-                            const destId = getNextRealDestId()
-                            const destName = allDestinations.find((d: any) => d.id === destId)?.name || 'this location'
-                            paddedActivities.push({
-                                destinationId: destId,
-                                activityType: 0,
-                                startTime: `${String(currentHour).padStart(2, '0')}:00:00`,
-                                durationHours: 2,
-                                description: destName,
-                            })
-                            currentHour += 3 // 2h duration + 1h buffer
-                        }
+
                         days.push({
                             dayNumber: dayIdx + 1,
                             date: dayDate.toISOString(),
                             title: `Day ${dayIdx + 1}`,
-                            description: 'Continue your Egyptian adventure',
+                            description: dayIdx === 0 ? 'Welcome to Egypt! Start your first day in Egypt with...' : dayIdx === 1 ? 'In your second day, we suggest you visit...' : 'Discover more wonders today as we explore...',
                             city: 'Cairo',
-                            activities: paddedActivities,
+                            activities: [],
                         })
                     }
 
