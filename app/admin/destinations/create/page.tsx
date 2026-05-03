@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { useRouter } from "next/navigation"
 import { motion } from "framer-motion"
-import { ArrowLeft, Loader2, Save, Clock, DollarSign, PlusCircle, Trash2 } from "lucide-react"
+import { ArrowLeft, Loader2, Save, Clock, DollarSign, PlusCircle, Trash2, Edit } from "lucide-react"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
 import * as z from "zod"
@@ -16,7 +16,8 @@ import { useToast } from "@/components/ui/use-toast"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import Link from "next/link"
 import { useCreateDestinationMutation } from "@/store/features/destinations/destinationsApi"
-import { useGetCategoriesQuery, useCreateCategoryMutation, useDeleteCategoryMutation } from "@/store/features/categories/categoriesApi"
+import { useGetCategoriesQuery, useCreateCategoryMutation, useDeleteCategoryMutation, useUpdateCategoryMutation, Category } from "@/store/features/categories/categoriesApi"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 
 const destinationSchema = z.object({
     name: z.string().min(2, "Name must be at least 2 characters"),
@@ -39,10 +40,15 @@ export default function CreateDestinationPage() {
 
     const { data: categories, isLoading: isLoadingCategories } = useGetCategoriesQuery()
     const [createCategory, { isLoading: isCreatingCategory }] = useCreateCategoryMutation()
+    const [updateCategory, { isLoading: isUpdatingCategory }] = useUpdateCategoryMutation()
     const [deleteCategory] = useDeleteCategoryMutation()
     
     const [newCategoryName, setNewCategoryName] = useState("")
     const [isCreatingCat, setIsCreatingCat] = useState(false)
+
+    const [isEditingCat, setIsEditingCat] = useState(false)
+    const [editCategory, setEditCategory] = useState<Category | null>(null)
+    const [editCategoryTitle, setEditCategoryTitle] = useState("")
 
     const handleCreateCategory = async (e: React.MouseEvent) => {
         e.preventDefault()
@@ -55,6 +61,22 @@ export default function CreateDestinationPage() {
             toast({ title: "Success", description: "Category created successfully" })
         } catch (error) {
             toast({ title: "Error", description: "Failed to create category", variant: "destructive" })
+        }
+    }
+
+    const handleUpdateCategory = async (e?: React.MouseEvent) => {
+        if (e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
+        if (!editCategory || !editCategoryTitle.trim()) return
+        try {
+            await updateCategory({ id: editCategory.id, title: editCategoryTitle.trim() }).unwrap()
+            setIsEditingCat(false)
+            setEditCategory(null)
+            toast({ title: "Success", description: "Category updated successfully" })
+        } catch (error) {
+            toast({ title: "Error", description: "Failed to update category", variant: "destructive" })
         }
     }
 
@@ -164,7 +186,22 @@ export default function CreateDestinationPage() {
                                                 ) : categories?.map((cat) => (
                                                     <div key={cat.id} className="relative flex items-center group">
                                                         <SelectItem value={cat.id} className="pr-10 flex-1">{cat.title}</SelectItem>
-                                                        <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center z-20">
+                                                        <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center z-20 gap-1">
+                                                            <Button
+                                                                type="button"
+                                                                variant="ghost"
+                                                                size="icon"
+                                                                className="h-6 w-6 text-blue-500 hover:text-blue-700 hover:bg-blue-100"
+                                                                onClick={(e) => {
+                                                                    e.preventDefault();
+                                                                    e.stopPropagation();
+                                                                    setEditCategory(cat);
+                                                                    setEditCategoryTitle(cat.title);
+                                                                    setIsEditingCat(true);
+                                                                }}
+                                                            >
+                                                                <Edit className="w-4 h-4" />
+                                                            </Button>
                                                             <Button
                                                                 type="button"
                                                                 variant="ghost" 
@@ -354,6 +391,44 @@ export default function CreateDestinationPage() {
                     </Form>
                 </CardContent>
             </Card>
+
+            {/* Edit Category Modal */}
+            <AlertDialog open={isEditingCat} onOpenChange={setIsEditingCat}>
+                <AlertDialogContent className="sm:max-w-[425px] bg-white">
+                    <AlertDialogHeader>
+                        <AlertDialogTitle className="text-bronze">Update Category</AlertDialogTitle>
+                        <AlertDialogDescription className="text-bronze/70">
+                            Make changes to the category title here.
+                        </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <div className="grid gap-4 py-4">
+                        <div className="flex flex-col gap-2">
+                            <label htmlFor="edit-title" className="text-sm font-medium text-bronze">
+                                Title
+                            </label>
+                            <Input
+                                id="edit-title"
+                                value={editCategoryTitle}
+                                onChange={(e) => setEditCategoryTitle(e.target.value)}
+                                className="col-span-3 border-amber-200/40 focus:border-gold focus:ring-gold text-bronze"
+                            />
+                        </div>
+                    </div>
+                    <AlertDialogFooter>
+                        <AlertDialogCancel onClick={() => setIsEditingCat(false)} className="border-amber-200/40 text-bronze">
+                            Cancel
+                        </AlertDialogCancel>
+                        <Button 
+                            onClick={(e) => handleUpdateCategory(e as any)} 
+                            disabled={isUpdatingCategory || !editCategoryTitle.trim()} 
+                            className="bg-primary hover:bg-primary/90 text-bronze font-bold"
+                        >
+                            {isUpdatingCategory ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
+                            Save
+                        </Button>
+                    </AlertDialogFooter>
+                </AlertDialogContent>
+            </AlertDialog>
         </motion.div>
     )
 }

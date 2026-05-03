@@ -57,6 +57,7 @@ export default function AdminLayout({
         { name: "Dashboard", href: "/admin", icon: LayoutDashboard },
         { name: "Users", href: "/admin/users", icon: Users },
         { name: "Destinations", href: "/admin/destinations", icon: Pyramid },
+        { name: "Categories", href: "/admin/categories", icon: Pyramid },
         { name: "Trips", href: "/admin/trips", icon: Plane },
         { name: "Analytics", href: "/admin/analytics", icon: Activity },
     ]
