@@ -152,7 +152,7 @@ export default function TripGeneratorPage() {
         { title: 'Travel Pace', description: 'Select your preferred rhythm of exploration' },
         { title: 'Travel Companions', description: 'Who will be joining you on your journey?' },
         { title: 'Duration', description: 'How many days will you explore?' },
-        { title: 'Interests', description: 'Select at least 2 experiences you love' },
+        { title: 'Interests', description: 'Select at least 3 experiences you love' },
         { title: 'Trip Details', description: 'Finalize your travel plan' },
     ]
 
@@ -165,6 +165,7 @@ export default function TripGeneratorPage() {
     }
 
     const handleInterestToggle = (interestId: string) => {
+        if (interestId === 'Beach & Relaxation') return
         setPreferences(prev => ({
             ...prev,
             interests: prev.interests.includes(interestId)
@@ -304,35 +305,43 @@ export default function TripGeneratorPage() {
 
             case 3: {
                 const selectedCount = preferences.interests.length
-                const meetsMinimum = selectedCount >= 2
+                const meetsMinimum = selectedCount >= 3
                 return (
                     <div className="space-y-5">
                         <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
                             {interests.map((interest) => {
                                 const Icon = interest.icon
                                 const isSelected = preferences.interests.includes(interest.id)
+                                const isDisabled = interest.id === 'Beach & Relaxation'
                                 return (
-                                    <motion.div
-                                        key={interest.id}
-                                        whileHover={{ scale: 1.05 }}
-                                        className={`cursor-pointer transition-all rounded-2xl p-4 border-2 ${isSelected
-                                            ? 'border-orange-500 bg-white shadow-lg shadow-orange-200/50'
-                                            : 'border-gray-100 bg-white hover:border-orange-200'
-                                            }`}
-                                        onClick={() => handleInterestToggle(interest.id)}
-                                    >
-                                        <div className="text-center">
-                                            <div className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center ${isSelected ? 'bg-orange-600 text-white shadow-md' : 'bg-gray-50 text-gray-400'}`}>
-                                                <Icon className="w-6 h-6" />
-                                            </div>
-                                            <h3 className="font-display text-sm font-bold text-gray-900 leading-tight">{interest.label}</h3>
-                                            {isSelected && (
-                                                <div className="bg-orange-500 text-white rounded-full p-1 w-5 h-5 flex items-center justify-center mx-auto mt-2">
-                                                    <Check className="w-3 h-3" />
+                                    <div key={interest.id} className="flex flex-col">
+                                        <motion.div
+                                            whileHover={isDisabled ? {} : { scale: 1.05 }}
+                                            title={isDisabled ? 'Available for coastal areas only (Not in current scope)' : ''}
+                                            className={`${isDisabled ? 'cursor-not-allowed grayscale opacity-50' : 'cursor-pointer'} transition-all rounded-2xl p-4 border-2 ${isSelected
+                                                ? 'border-orange-500 bg-white shadow-lg shadow-orange-200/50'
+                                                : 'border-gray-100 bg-white hover:border-orange-200'
+                                                } flex-1`}
+                                            onClick={() => handleInterestToggle(interest.id)}
+                                        >
+                                            <div className="text-center">
+                                                <div className={`w-12 h-12 mx-auto mb-3 rounded-xl flex items-center justify-center ${isSelected ? 'bg-orange-600 text-white shadow-md' : 'bg-gray-50 text-gray-400'}`}>
+                                                    <Icon className="w-6 h-6" />
                                                 </div>
-                                            )}
-                                        </div>
-                                    </motion.div>
+                                                <h3 className="font-display text-sm font-bold text-gray-900 leading-tight">{interest.label}</h3>
+                                                {isSelected && (
+                                                    <div className="bg-orange-500 text-white rounded-full p-1 w-5 h-5 flex items-center justify-center mx-auto mt-2">
+                                                        <Check className="w-3 h-3" />
+                                                    </div>
+                                                )}
+                                            </div>
+                                        </motion.div>
+                                        {isDisabled && (
+                                            <p className="mt-2 text-[10px] text-gray-400 font-medium text-center leading-tight">
+                                                Available for coastal areas only<br/>(Not in current scope)
+                                            </p>
+                                        )}
+                                    </div>
                                 )
                             })}
                         </div>
@@ -357,7 +366,7 @@ export default function TripGeneratorPage() {
                                 }`}>
                                     {meetsMinimum
                                         ? `✓ ${selectedCount} interest${selectedCount > 1 ? 's' : ''} selected — you're good to go!`
-                                        : `${selectedCount} / 2 minimum selected — please choose at least ${2 - selectedCount} more interest${2 - selectedCount > 1 ? 's' : ''} to continue.`
+                                        : `${selectedCount} / 3 minimum selected — please choose at least ${3 - selectedCount} more interest${3 - selectedCount > 1 ? 's' : ''} to continue.`
                                     }
                                 </p>
                                 <p className={`text-xs mt-0.5 ${
@@ -365,7 +374,7 @@ export default function TripGeneratorPage() {
                                 }`}>
                                     {meetsMinimum
                                         ? 'More interests = a richer, more varied itinerary'
-                                        : 'At least 2 interests are required for a well-rounded trip plan'
+                                        : 'At least 3 interests are required for a well-rounded trip plan'
                                     }
                                 </p>
                             </div>
@@ -434,7 +443,7 @@ export default function TripGeneratorPage() {
     }
 
     const canProceed = () => {
-        if (currentStep === 3) return preferences.interests.length >= 2
+        if (currentStep === 3) return preferences.interests.length >= 3
         if (currentStep === 4) return !!preferences.startDate && preferences.budget > 0
         return true
     }

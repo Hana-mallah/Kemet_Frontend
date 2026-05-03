@@ -53,6 +53,21 @@ const mapActivityType = (type: any): number => {
 const formatTime = (time: any): string => {
     if (!time) return '09:00:00'
     const s = String(time).trim()
+    
+    // Parse 12-hour format "HH:MM AM/PM"
+    const match = s.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
+    if (match) {
+        let hours = parseInt(match[1], 10)
+        const mins = match[2]
+        const period = match[3].toUpperCase()
+        if (hours === 12) {
+            hours = period === 'AM' ? 0 : 12
+        } else if (period === 'PM') {
+            hours += 12
+        }
+        return `${String(hours).padStart(2, '0')}:${mins}:00`
+    }
+
     // Already HH:mm:ss
     if (/^\d{1,2}:\d{2}:\d{2}$/.test(s)) return s
     // HH:mm → HH:mm:ss
@@ -166,22 +181,27 @@ export const tripApi = api.injectEndpoints({
                     )
                     const avgCostPerActivity = Math.round(budget / totalActivities)
 
-                    const systemPrompt = `JSON ONLY. NO MARKDOWN.
-Rule: Exact Budget Match (${budget} EGP).
-Rule: Days=${durationDays} EXACTLY (No Rest Days).
-Rule: Acts/day=${paceLabel === 'Relaxed' ? '1-2' : paceLabel === 'Balanced' ? '2-3' : '4-5'} (vary).
-Rule: NO REPEATS. Never repeat a destination (e.g., Pyramids) more than once in the trip.
-Rule: SPECIFIC LANDMARKS ONLY. 'Explore the sights' or 'Explore the area' is FORBIDDEN. Every activity MUST have a specific, real-world landmark name.
-Rule: DYNAMIC DAY TITLE. The day 'title' must be a 1-sentence theme (e.g. 'A journey through Islamic Cairo'). Do NOT use generic 'A day of exploration'.
-Rule: Geographic Clustering (group acts by area/day).
-Rule: Tone=${companionsLabel}.
-Rule: Fixed Ending (End description with "Looking for more ideas or travel advice? Let KEMET Assistant assist you with anything you need for your trip in Egypt.").
-${paceLabel === 'Packed' && durationDays > 14 ? 'Rule: PACKED+LONG needs 3-4 distinct interest categories.\n' : ''}
-DEST IDs:
+                    const systemPrompt = `You are a strict JSON-only API. You MUST return ONLY a valid JSON object. Do not include any conversational text, greetings, or markdown code blocks (like \`\`\`json). Just output the raw JSON object.
+
+Focus on generating the exact JSON fields first, then fill them with the real destinations requested.
+
+RULES:
+1. Strict Budget: Sum of all activity/ticket costs MUST be strictly <= ${budget} EGP. Use EGP.
+2. Days: Exactly ${durationDays} days. No rest days.
+3. Acts/day: ${paceLabel === 'Relaxed' ? '1-2' : paceLabel === 'Balanced' ? '2-3' : '4-5'} activities per day.
+4. No Repeats: Never repeat a destination.
+5. Unique Content Mandate: For every destination, provide a unique, fact-based summary highlighting a specific detail about that exact place. NEVER use generic filler phrases like 'iconic landmark', 'architectural wonders', or 'unique history'. Example: 'Explore the Step Pyramid of Djoser, the world’s oldest major stone structure.' This description MUST consist of complete sentences, be exactly 2-3 sentences long, and strictly under 180 characters. Tone must be engaging and educational.
+6. Dynamic Day Title: 1-sentence theme (e.g., 'A journey through Islamic Cairo').
+7. Geographic Clustering: Group acts by area/day.
+8. Tone: ${companionsLabel}.
+9. Time Scheduling: Use strictly 12-hour format (e.g., "09:00 AM", "02:00 PM"). Every itinerary day MUST start strictly at "09:00 AM". There MUST be exactly 1 hour of free time between the end of one activity and the start of the next for transit and rest.
+10. Fixed Ending: End the trip description with "Looking for more ideas or travel advice? Let KEMET Assistant assist you with anything you need for your trip in Egypt."
+${paceLabel === 'Packed' && durationDays > 14 ? '11. PACKED+LONG needs 3-4 distinct interest categories.\n' : ''}
+AVAILABLE DESTINATION IDs (use these exact IDs for destinationId):
 ${destListLines}
 
-JSON FORMAT:
-{"title":"","description":"","travelCompanions":"${companionsLabel}","travelStyle":"${travelStyleLabel}","experienceTypes":${JSON.stringify(request.interests || ['Sightseeing'])},"interests":${JSON.stringify(request.interests || ['History'])},"startDate":"${startDate.toISOString()}","endDate":"${endDate.toISOString()}","durationDays":${durationDays},"price":${budget},"days":[{"dayNumber":1,"date":"${startDate.toISOString()}","title":"","description":"","city":"","dayActivities":[{"destinationId":"ID_HERE","activityType":"","startTime":"09:00","durationHours":2,"description":""}]}]}`
+REQUIRED JSON SCHEMA:
+{"title":"","description":"","travelCompanions":"${companionsLabel}","travelStyle":"${travelStyleLabel}","experienceTypes":${JSON.stringify(request.interests || ['Sightseeing'])},"interests":${JSON.stringify(request.interests || ['History'])},"startDate":"${startDate.toISOString()}","endDate":"${endDate.toISOString()}","durationDays":${durationDays},"price":${budget},"days":[{"dayNumber":1,"date":"${startDate.toISOString()}","title":"","description":"","city":"","dayActivities":[{"destinationId":"ID_HERE","activityType":"","startTime":"09:00 AM","durationHours":2,"description":""}]}]}`
 
                     const userPrompt = `Plan ${durationDays}-day Egypt trip. Pace:${paceLabel} Companions:${companionsLabel} Budget:${budget}EGP Interests:${(request.interests || ['History']).join(',')} Start:${startDate.toISOString().split('T')[0]}. JSON only.`
 
@@ -269,13 +289,20 @@ JSON FORMAT:
                         // If the AI returned fewer activities than the minimum, pad up to a varied count within [minAct, maxAct]
                         const targetForDay = minAct + (dayIdx % (maxAct - minAct + 1))
                         while (activities.length < targetForDay) {
-                            const startHour = 9 + activities.length * 3
+                            let startHour = 9
+                            if (activities.length > 0) {
+                                const lastAct = activities[activities.length - 1]
+                                const lastHour = parseInt(lastAct.startTime.split(':')[0], 10) || 9
+                                startHour = lastHour + lastAct.durationHours + 1
+                            }
+                            const destId = getNextRealDestId()
+                            const destName = allDestinations.find((d: any) => d.id === destId)?.name || 'this location'
                             activities.push({
-                                destinationId: getNextRealDestId(),
+                                destinationId: destId,
                                 activityType: 0,
                                 startTime: `${String(startHour).padStart(2, '0')}:00:00`,
                                 durationHours: 2,
-                                description: 'Explore the sights',
+                                description: destName,
                             })
                         }
 
@@ -296,14 +323,18 @@ JSON FORMAT:
                         dayDate.setUTCDate(startDate.getUTCDate() + dayIdx)
                         const targetCount = minAct + (dayIdx % (maxAct - minAct + 1))
                         const paddedActivities = []
+                        let currentHour = 9
                         for (let a = 0; a < targetCount; a++) {
+                            const destId = getNextRealDestId()
+                            const destName = allDestinations.find((d: any) => d.id === destId)?.name || 'this location'
                             paddedActivities.push({
-                                destinationId: getNextRealDestId(),
+                                destinationId: destId,
                                 activityType: 0,
-                                startTime: `${String(9 + a * 3).padStart(2, '0')}:00:00`,
+                                startTime: `${String(currentHour).padStart(2, '0')}:00:00`,
                                 durationHours: 2,
-                                description: 'Explore Cairo',
+                                description: destName,
                             })
+                            currentHour += 3 // 2h duration + 1h buffer
                         }
                         days.push({
                             dayNumber: dayIdx + 1,

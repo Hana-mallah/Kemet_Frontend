@@ -2,6 +2,7 @@
 
 import { useState, Suspense } from 'react'
 import { useGetTripQuery } from '@/store/features/trip/tripApi'
+import { useGetDestinationsQuery } from '@/store/features/destinations/destinationsApi'
 import { useRouter, useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import {
@@ -26,6 +27,7 @@ function TripDetailContent() {
 
     // Data Fetching
     const { data: trip, isLoading, error } = useGetTripQuery(id || '', { skip: !id })
+    const { data: destinations } = useGetDestinationsQuery()
 
     // Helper to format dates nicely
     const formatDate = (dateString: string) => {
@@ -38,8 +40,8 @@ function TripDetailContent() {
     }
 
     const getActivityTypeLabel = (type: number) => {
-        const types = ['Sightseeing', 'Adventure', 'Museum', 'Food & Dining', 'Shopping', 'Relaxation']
-        return types[type] || 'Activity'
+        const types = ['Sightseeing', 'Adventure', 'History', 'Cuisine', 'Shopping', 'Relaxation', 'Entertainment']
+        return types[type] || 'Experience'
     }
 
     const getCompanionsLabel = (companions: any) => {
@@ -53,6 +55,18 @@ function TripDetailContent() {
         }
         const labels: Record<number, string> = { 0: 'Solo', 1: 'Couple', 2: 'Small Group', 3: 'Large Group' }
         return labels[companions as number] ?? 'Solo'
+    }
+
+    const formatTime12h = (timeString: string) => {
+        if (!timeString) return '';
+        const parts = timeString.split(':');
+        if (parts.length < 2) return timeString;
+        let hours = parseInt(parts[0], 10);
+        const mins = parts[1];
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        return `${String(hours).padStart(2, '0')}:${mins} ${ampm}`;
     }
 
     if (!id) return (
@@ -196,8 +210,8 @@ function TripDetailContent() {
                                     className="relative pl-8 sm:pl-12 border-l-2 border-dashed border-gold/30"
                                 >
                                     {/* Timeline Marker */}
-                                    <div className="absolute top-0 left-0 -translate-x-1/2 w-8 h-8 rounded-full gradient-egyptian flex items-center justify-center text-bronze font-bold text-sm shadow-lg shadow-amber-500/20 ring-4 ring-background">
-                                        {day.dayNumber}
+                                    <div className="absolute top-0 left-0 -translate-x-1/2 w-14 h-8 rounded-full gradient-egyptian flex items-center justify-center text-bronze font-bold text-sm shadow-lg shadow-amber-500/20 ring-4 ring-background">
+                                        Day {day.dayNumber}
                                     </div>
 
                                     <div className="bg-white/60 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-amber-200/40 group hover:shadow-2xl transition-all duration-300">
@@ -206,7 +220,7 @@ function TripDetailContent() {
                                                 <div className="text-gold font-bold uppercase tracking-widest text-[10px] mb-1">
                                                     {formatDate(day.date)}
                                                 </div>
-                                                <h3 className="font-display text-2xl font-extrabold text-bronze">
+                                                <h3 className="font-sans text-base font-medium text-gray-500">
                                                     {day.title}
                                                 </h3>
                                             </div>
@@ -228,33 +242,38 @@ function TripDetailContent() {
                                             </div>
 
                                             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                {day.activities?.map((activity) => (
+                                                {day.activities?.map((activity) => {
+                                                    const placeName = destinations?.find(d => d.id === activity.destinationId)?.name || 'Specific landmark'
+                                                    return (
                                                     <div
                                                         key={activity.id}
-                                                        className="bg-white/80 p-5 rounded-2xl border border-amber-100/50 shadow-sm hover:border-gold/50 hover:shadow-md transition-all group/activity hover:bg-white"
+                                                        className="bg-white/80 p-6 rounded-2xl border border-amber-100/50 shadow-sm hover:border-gold/50 hover:shadow-md transition-all group/activity hover:bg-white"
                                                     >
                                                         <div className="flex items-start gap-4">
-                                                            <div className="w-10 h-10 rounded-xl bg-amber-50 text-gold flex items-center justify-center flex-shrink-0 group-hover/activity:bg-primary group-hover/activity:text-bronze transition-all">
+                                                            <div className="w-10 h-10 rounded-xl bg-amber-50 text-gold flex items-center justify-center flex-shrink-0 group-hover/activity:bg-primary group-hover/activity:text-bronze transition-all mt-1">
                                                                 <Clock className="w-5 h-5" />
                                                             </div>
                                                             <div className="flex-1">
-                                                                <div className="flex items-center justify-between mb-1">
+                                                                <h4 className="font-sans font-extrabold text-2xl text-gray-900 mb-1 group-hover/activity:text-blue-600 transition-colors">
+                                                                    {placeName}
+                                                                </h4>
+                                                                <div className="flex items-center justify-between mb-2">
                                                                     <div className="flex items-center gap-2">
-                                                                        <span className="text-bronze font-bold text-sm">{activity.startTime}</span>
-                                                                        <span className="w-1 h-1 bg-gold/50 rounded-full" />
+                                                                        <span className="font-sans text-gray-900 font-bold text-base tracking-tight">{formatTime12h(activity.startTime)}</span>
+                                                                        <span className="w-1.5 h-1.5 bg-gold/50 rounded-full" />
                                                                         <span className="text-gold text-[10px] font-bold uppercase tracking-tighter">
                                                                             {getActivityTypeLabel(activity.activityType)}
                                                                         </span>
                                                                     </div>
-                                                                    <div className="text-bronze/40 text-xs">{activity.durationHours}h</div>
+                                                                    <div className="text-gray-400 text-xs font-medium">{activity.durationHours}h</div>
                                                                 </div>
-                                                                <p className="text-bronze/70 text-sm leading-snug">
+                                                                <p className="font-sans text-sm text-gray-600 leading-snug mt-1">
                                                                     {activity.description}
                                                                 </p>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                ))}
+                                                )})}
                                             </div>
                                         </div>
                                     </div>
