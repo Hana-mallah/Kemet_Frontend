@@ -245,35 +245,36 @@ function TripDetailContent() {
                                                 {day.activities?.map((activity) => {
                                                     const placeName = destinations?.find(d => d.id === activity.destinationId)?.name || 'Specific landmark'
                                                     return (
-                                                    <div
-                                                        key={activity.id}
-                                                        className="bg-white/80 p-6 rounded-2xl border border-amber-100/50 shadow-sm hover:border-gold/50 hover:shadow-md transition-all group/activity hover:bg-white"
-                                                    >
-                                                        <div className="flex items-start gap-4">
-                                                            <div className="w-10 h-10 rounded-xl bg-amber-50 text-gold flex items-center justify-center flex-shrink-0 group-hover/activity:bg-primary group-hover/activity:text-bronze transition-all mt-1">
-                                                                <Clock className="w-5 h-5" />
-                                                            </div>
-                                                            <div className="flex-1">
-                                                                <h4 className="font-sans font-extrabold text-2xl text-gray-900 mb-1 group-hover/activity:text-blue-600 transition-colors">
-                                                                    {placeName}
-                                                                </h4>
-                                                                <div className="flex items-center justify-between mb-2">
-                                                                    <div className="flex items-center gap-2">
-                                                                        <span className="font-sans text-gray-900 font-bold text-base tracking-tight">{formatTime12h(activity.startTime)}</span>
-                                                                        <span className="w-1.5 h-1.5 bg-gold/50 rounded-full" />
-                                                                        <span className="text-gold text-[10px] font-bold uppercase tracking-tighter">
-                                                                            {getActivityTypeLabel(activity.activityType)}
-                                                                        </span>
-                                                                    </div>
-                                                                    <div className="text-gray-400 text-xs font-medium">{activity.durationHours}h</div>
+                                                        <div
+                                                            key={activity.id}
+                                                            className="bg-white/80 p-6 rounded-2xl border border-amber-100/50 shadow-sm hover:border-gold/50 hover:shadow-md transition-all group/activity hover:bg-white"
+                                                        >
+                                                            <div className="flex items-start gap-4">
+                                                                <div className="w-10 h-10 rounded-xl bg-amber-50 text-gold flex items-center justify-center flex-shrink-0 group-hover/activity:bg-primary group-hover/activity:text-bronze transition-all mt-1">
+                                                                    <Clock className="w-5 h-5" />
                                                                 </div>
-                                                                <p className="font-sans text-sm text-gray-600 leading-snug mt-1">
-                                                                    {activity.description}
-                                                                </p>
+                                                                <div className="flex-1">
+                                                                    <h4 className="font-sans font-extrabold text-2xl text-gray-900 mb-1 group-hover/activity:text-blue-600 transition-colors">
+                                                                        {placeName}
+                                                                    </h4>
+                                                                    <div className="flex items-center justify-between mb-2">
+                                                                        <div className="flex items-center gap-2">
+                                                                            <span className="font-sans text-gray-900 font-bold text-base tracking-tight">{formatTime12h(activity.startTime)}</span>
+                                                                            <span className="w-1.5 h-1.5 bg-gold/50 rounded-full" />
+                                                                            <span className="text-gold text-[10px] font-bold uppercase tracking-tighter">
+                                                                                {getActivityTypeLabel(activity.activityType)}
+                                                                            </span>
+                                                                        </div>
+                                                                        <div className="text-gray-400 text-xs font-medium">{activity.durationHours}h</div>
+                                                                    </div>
+                                                                    <p className="font-sans text-sm text-gray-600 leading-snug mt-1">
+                                                                        {activity.description}
+                                                                    </p>
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                )})}
+                                                    )
+                                                })}
                                             </div>
                                         </div>
                                     </div>
@@ -283,7 +284,7 @@ function TripDetailContent() {
                     )}
 
                     {/* Final CTA placed securely at the bottom of the itinerary */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
