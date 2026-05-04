@@ -94,12 +94,12 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                     <Button
                         variant="secondary"
                         size="icon"
-                        className={`rounded-full shadow-lg backdrop-blur-md transition-all ${isFavorite ? "bg-red-50 text-red-500 hover:bg-red-100" : "bg-black/30 text-white hover:bg-black/50 border border-white/20"
+                        className={`rounded-full shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] backdrop-blur-md transition-all ${isFavorite ? "bg-white text-[#1C2B6A]" : "bg-white/40 text-[#1C2B6A] hover:bg-white/60 border border-white/20"
                             }`}
                         onClick={toggleFavorite}
                         disabled={isAdding || isRemoving}
                     >
-                        <Heart className={`w-6 h-6 ${isFavorite ? "fill-current" : ""}`} />
+                        <Heart className={`w-6 h-6 ${isFavorite ? "fill-[#1C2B6A] text-[#1C2B6A]" : "text-[#1C2B6A]"}`} />
                     </Button>
                 </div>
 
@@ -251,7 +251,7 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                         Add {destination.name} to your personalized Egypt itinerary and let our AI help you plan the perfect trip.
                                     </p>
                                     <Link href="/dashboard/trips/generate">
-                                        <Button className="w-full bg-primary hover:bg-primary/90 text-bronze font-bold h-11 shadow-lg shadow-amber-500/20 btn-active-taupe">
+                                        <Button className="w-full bg-[#1C2B6A] hover:bg-[#1C2B6A]/90 text-white font-bold h-11 shadow-lg shadow-black/10">
                                             Create Travel Plan
                                         </Button>
                                     </Link>

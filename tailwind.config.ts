@@ -79,6 +79,16 @@ const config = {
                     900: "#7c2d12",
                     950: "#431407"
                 },
+                kemet: {
+                    bg: "#EBE5DB",
+                    bgSecondary: "#D0C3A7",
+                    primary: "#1C2B6A",
+                    highlight: "#eace83",
+                    label: "#d5bb88",
+                    titleStart: "#d5ba84",
+                    titleEnd: "#b9975a",
+                    body: "#2A2A2A"
+                },
                 bronze: "hsl(var(--brand-bronze))",
                 gold: "hsl(var(--metallic-gold))",
                 taupe: "hsl(var(--soft-taupe))",

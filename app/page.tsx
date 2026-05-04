@@ -59,11 +59,11 @@ function FavoriteButton({ id }: { id: string }) {
         <Button
             variant="secondary"
             size="icon"
-            className={`rounded-full h-10 w-10 shadow-lg backdrop-blur-md transition-all ${isFavorite ? "bg-red-50 text-red-500" : "bg-white/20 text-white hover:bg-white/40"
+            className={`rounded-full h-10 w-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] backdrop-blur-md transition-all ${isFavorite ? "bg-white/90 text-[#1C2B6A]" : "bg-white/40 text-[#1C2B6A] hover:bg-white/60"
                 }`}
             onClick={handleToggleFavorite}
         >
-            <Heart className={`w-5 h-5 ${isFavorite ? "fill-current" : ""}`} />
+            <Heart className={`w-5 h-5 ${isFavorite ? "fill-[#1C2B6A] text-[#1C2B6A]" : "text-[#1C2B6A]"}`} />
         </Button>
     )
 }
@@ -110,8 +110,8 @@ export default function HomePage() {
                 {/* Hero image - Egypt Pyramids */}
                 <div className="absolute inset-0">
                     <OptimizedImage
-                        src="https://images.unsplash.com/photo-1552832230-c0197dd311b5?w=1920&h=1080&fit=crop"
-                        alt="Egypt Pyramids"
+                        src="https://i.pinimg.com/736x/9d/bc/40/9dbc40349ddd9ffa1912116f27cc635f.jpg"
+                        alt="Hero Background"
                         fill
                         className="object-cover opacity-20 sepia-[.2]"
                         priority
@@ -154,12 +154,12 @@ export default function HomePage() {
                             className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
                         >
                             <Link href="/register">
-                                <Button size="lg" className="h-14 px-8 text-base gradient-egyptian hover:opacity-90 text-bronze font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl btn-active-taupe">
+                                <Button size="lg" className="h-14 px-8 text-base bg-[#1C2B6A] hover:bg-[#1C2B6A]/90 text-white font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl">
                                     Start your own journey <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </Link>
                             <Link href="/destinations">
-                                <Button size="lg" variant="outline" className="h-14 px-8 text-base border-2 border-amber-200/50 text-bronze hover:border-gold hover:bg-amber-50/50 transition-all duration-300 rounded-xl">
+                                <Button size="lg" variant="outline" className="h-14 px-8 text-base border-2 border-[#eace83] text-[#2A2A2A] hover:border-[#1C2B6A] hover:bg-white/30 transition-all duration-300 rounded-xl">
                                     Explore Destinations
                                 </Button>
                             </Link>
@@ -253,7 +253,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                         >
                             <Link href="/destinations">
-                                <Button size="lg" variant="outline" className="group h-14 px-8 border-2 border-amber-200/50 text-bronze hover:border-gold hover:bg-amber-50/50 transition-all duration-300 rounded-xl">
+                                <Button size="lg" variant="outline" className="group h-14 px-8 border-2 border-[#eace83] text-[#2A2A2A] hover:border-[#1C2B6A] hover:bg-white/30 transition-all duration-300 rounded-xl">
                                     View All Destinations <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
@@ -365,7 +365,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                         >
                             <Link href="/register">
-                                <Button size="lg" className="h-14 px-10 text-base gradient-egyptian text-bronze hover:opacity-90 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-xl font-bold btn-active-taupe">
+                                <Button size="lg" className="h-14 px-10 text-base bg-[#1C2B6A] text-white hover:bg-[#1C2B6A]/90 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-xl font-bold">
                                     Create Your Free Account
                                 </Button>
                             </Link>

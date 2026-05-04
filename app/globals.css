@@ -18,92 +18,92 @@
 
 @layer base {
   :root {
-    /* Background - #fefefe */
-    --background: 0 0% 99.6%;
-    /* Text - #732c02 */
-    --foreground: 22 97% 23%;
+    /* Background - #EBE5DB */
+    --background: 42 28% 89%;
+    /* Body Text - #2A2A2A */
+    --foreground: 0 0% 16%;
 
-    --card: 0 0% 99.6%;
-    --card-foreground: 22 97% 23%;
+    --card: 42 28% 89%;
+    --card-foreground: 0 0% 16%;
 
-    --popover: 0 0% 99.6%;
-    --popover-foreground: 22 97% 23%;
+    --popover: 42 28% 89%;
+    --popover-foreground: 0 0% 16%;
 
-    /* Logo Color - #ffb200 */
-    --primary: 42 100% 50%;
-    --primary-foreground: 22 97% 23%;
+    /* Primary Deep Blue - #1C2B6A */
+    --primary: 228 58% 26%;
+    --primary-foreground: 0 0% 98%;
 
-    /* Secondary */
-    --secondary: 40 27% 90%;
-    --secondary-foreground: 22 97% 23%;
+    /* Secondary - #D0C3A7 */
+    --secondary: 41 33% 73%;
+    --secondary-foreground: 0 0% 16%;
 
-    --muted: 40 20% 90%;
-    --muted-foreground: 22 80% 30%;
+    --muted: 41 33% 73%;
+    --muted-foreground: 40 52% 68%; /* #d5bb88 */
 
-    --accent: 40 20% 90%;
-    --accent-foreground: 22 97% 23%;
+    /* Highlight - #eace83 */
+    --accent: 43 67% 71%;
+    --accent-foreground: 0 0% 16%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 22 30% 80%;
-    --input: 22 30% 80%;
-    --ring: 42 100% 50%;
+    --border: 41 33% 73%;
+    --input: 41 33% 73%;
+    --ring: 228 58% 26%;
 
     --radius: 0.75rem;
 
     /* Custom Variables per Strict User Requirements */
-    /* #732c02 */
-    --brand-text: 22 97% 23%;
-    /* #ffb200 */
-    --brand-logo: 42 100% 50%;
-    /* #ffa300 */
-    --brand-icon: 38 100% 50%;
+    /* #2A2A2A */
+    --brand-text: 0 0% 16%;
+    /* #eace83 */
+    --brand-logo: 43 67% 71%;
+    /* #1C2B6A */
+    --brand-icon: 228 58% 26%;
 
     /* Legacy variables remapped to strict requirements */
-    --brand-bronze: 22 97% 23%;
-    /* Remapped to #732c02 */
-    --metallic-gold: 38 100% 50%;
-    /* Remapped to #ffa300 (Icons) */
-    --soft-taupe: 40 27% 85%;
+    --brand-bronze: 0 0% 16%;
+    /* Remapped to #1C2B6A (Icons) */
+    --metallic-gold: 43 67% 71%;
+    --soft-taupe: 41 33% 73%;
   }
 
   .dark {
-    /* Enforcing Light Mode global override as requested by 'Set background color of all pages to #fefefe' */
-    --background: 0 0% 99.6%;
-    --foreground: 22 97% 23%;
+    /* Enforcing Light Mode global override as requested */
+    --background: 42 28% 89%;
+    --foreground: 0 0% 16%;
 
-    --card: 0 0% 99.6%;
-    --card-foreground: 22 97% 23%;
+    --card: 42 28% 89%;
+    --card-foreground: 0 0% 16%;
 
-    --popover: 0 0% 99.6%;
-    --popover-foreground: 22 97% 23%;
+    --popover: 42 28% 89%;
+    --popover-foreground: 0 0% 16%;
 
-    --primary: 42 100% 50%;
-    --primary-foreground: 22 97% 23%;
+    --primary: 228 58% 26%;
+    --primary-foreground: 0 0% 98%;
 
-    --secondary: 40 27% 90%;
-    --secondary-foreground: 22 97% 23%;
+    --secondary: 41 33% 73%;
+    --secondary-foreground: 0 0% 16%;
 
-    --muted: 40 20% 90%;
-    --muted-foreground: 22 80% 30%;
+    --muted: 41 33% 73%;
+    --muted-foreground: 40 52% 68%;
 
-    --accent: 40 20% 90%;
-    --accent-foreground: 22 97% 23%;
+    --accent: 43 67% 71%;
+    --accent-foreground: 0 0% 16%;
 
     --destructive: 0 84% 60%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 22 30% 80%;
-    --input: 22 30% 80%;
-    --ring: 42 100% 50%;
+    --border: 41 33% 73%;
+    --input: 41 33% 73%;
+    --ring: 228 58% 26%;
 
-    --brand-text: 22 97% 23%;
-    --brand-logo: 42 100% 50%;
-    --brand-icon: 38 100% 50%;
-    --brand-bronze: 22 97% 23%;
-    --metallic-gold: 38 100% 50%;
-    --soft-taupe: 40 27% 85%;
+    --brand-text: 0 0% 16%;
+    --brand-logo: 43 67% 71%;
+    --brand-icon: 228 58% 26%;
+    --brand-bronze: 0 0% 16%;
+    --metallic-gold: 43 67% 71%;
+    --soft-taupe: 41 33% 73%;
   }
 }
 
@@ -167,34 +167,28 @@
   }
 
   .glass-card {
-    @apply bg-white/80 backdrop-blur-lg border border-border/50 shadow-xl;
+    @apply bg-white/20 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
   }
 
   .glass-panel {
-    @apply bg-white/60 backdrop-blur-xl border border-border/30 shadow-md;
+    @apply bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
   }
 
   .dark .glass-card {
-    @apply bg-white/80 backdrop-blur-lg border border-border/50 shadow-xl;
+    @apply bg-white/20 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
   }
 
   /* Gradients updated to use strict palette */
-  /** 
-   * Note: Original gradients used multiple colors. 
-   * Strict rules might imply removing gradients if they deviate too much, 
-   * but aesthetics requirement suggests keeping them aligned with new palette.
-   * Using Logo (#ffb200) to Icon (#ffa300) creates a subtle golden gradient.
-   */
   .gradient-egyptian {
-    @apply bg-gradient-to-r from-[hsl(var(--brand-logo))] to-[hsl(var(--brand-icon))];
+    @apply bg-gradient-to-r from-[#d5ba84] to-[#b9975a];
   }
 
   .gradient-gold {
-    @apply bg-gradient-to-br from-[hsl(var(--brand-logo))] to-[hsl(var(--brand-icon))];
+    @apply bg-gradient-to-br from-[#d5ba84] to-[#b9975a];
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-[hsl(var(--brand-logo))] to-[hsl(var(--brand-icon))];
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-[#d5ba84] to-[#b9975a];
   }
 
   /* Utility mapping for compatibility with previous code */
