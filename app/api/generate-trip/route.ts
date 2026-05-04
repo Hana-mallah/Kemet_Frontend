@@ -7,6 +7,7 @@ const GROQ_MODEL = process.env.GROQ_MODEL || 'openai/gpt-oss-20b'
 export async function POST(req: NextRequest) {
     try {
         if (!GROQ_API_KEY) {
+            console.error('[generate-trip] GROQ_API_KEY is not set')
             return NextResponse.json(
                 { error: 'Groq API key not configured on server' },
                 { status: 500 }
@@ -23,6 +24,8 @@ export async function POST(req: NextRequest) {
             )
         }
 
+        console.log('[generate-trip] Calling Groq API with model:', GROQ_MODEL)
+
         const groqResponse = await fetch(`${GROQ_API_BASE}/chat/completions`, {
             method: 'POST',
             headers: {
@@ -35,15 +38,15 @@ export async function POST(req: NextRequest) {
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userPrompt }
                 ],
-                temperature: 0.4,
-                max_tokens: 4000,
+                temperature: 0.3,
+                max_tokens: 4096,
                 response_format: { type: 'json_object' },
             }),
         })
 
         if (!groqResponse.ok) {
             const errorData = await groqResponse.json().catch(() => ({}))
-            console.error('Groq API error:', errorData)
+            console.error('[generate-trip] Groq API error:', errorData)
             return NextResponse.json(
                 { error: errorData?.error?.message || `Groq API returned ${groqResponse.status}` },
                 { status: groqResponse.status }
@@ -60,9 +63,11 @@ export async function POST(req: NextRequest) {
             )
         }
 
+        console.log('[generate-trip] ✅ Response received, length:', content.length)
         return NextResponse.json({ content })
+
     } catch (error: any) {
-        console.error('Generate trip API error:', error)
+        console.error('[generate-trip] Internal error:', error)
         return NextResponse.json(
             { error: error.message || 'Internal server error' },
             { status: 500 }

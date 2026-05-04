@@ -1,4 +1,4 @@
-import { api } from '../baseApi'
+﻿import { api } from '../baseApi'
 import type {
     Trip,
     CreateTripRequest,
@@ -53,7 +53,7 @@ const mapActivityType = (type: any): number => {
 const formatTime = (time: any): string => {
     if (!time) return '09:00:00'
     const s = String(time).trim()
-    
+
     // Parse 12-hour format "HH:MM AM/PM"
     const match = s.match(/^(\d{1,2}):(\d{2})\s*(AM|PM)$/i)
     if (match) {
@@ -168,44 +168,59 @@ export const tripApi = api.injectEndpoints({
 
                     // ── 3. Build destination list for AI prompt (keep small to save tokens)
                     const destListLines = allDestinations
-                        .slice(0, 8)
+                        .slice(0, 6)
                         .map((d: any) =>
                             `${d.id}|${d.name || 'Unknown'}|${(d.city || 'Cairo').trim()}`
                         )
                         .join('\n')
 
-                    // Compute per-activity budget share for the prompt
-                    const totalActivities = durationDays * (
-                        paceLabel === 'Relaxed' ? 1.5 :
-                            paceLabel === 'Balanced' ? 2.5 : 4
-                    )
-                    const avgCostPerActivity = Math.round(budget / totalActivities)
+                    // ── Acts/day & budget pivot ─────────────────────────────────────
+                    const actsPerDay = paceLabel === 'Relaxed' ? 2 : paceLabel === 'Balanced' ? 3 : 5
 
-                    const systemPrompt = `You are a strict JSON-only API. You MUST return ONLY a valid JSON object. Do not include any conversational text, greetings, or markdown code blocks (like \`\`\`json). Just output the raw JSON object.
+                    // Low budget → pivot to free landmarks so generation never fails
+                    const budgetNote = isLowBudget
+                        ? `LOW BUDGET ${budget} EGP: ONLY free landmarks. Set p=0 for ALL.`
+                        : `Total budget ${budget} EGP, spread evenly.`
 
-Focus on generating the exact JSON fields first, then fill them with the real destinations requested.
+                    // ── Precision systemPrompt (ultra-short s = fewer tokens = no hallucination) ─
+                    const systemPrompt = [
+                        'Output ONLY a raw JSON object. No prose, no markdown, no code fences.',
+                        `Shape: {"title":"","desc":"","d":[{"d":1,"h":"","city":"","a":[{"n":"","s":"","t":"09:00 AM","dur":2,"p":0,"destId":"ID"}]}]}`,
+                        'Keys: d=dayNum h=header a=activities n=name s=summary t=time dur=hrs p=priceEGP destId=id',
+                        '',
+                        '=== ACCURACY MANDATE (read carefully) ===',
+                        'n and s are a LOCKED PAIR. Generate them together, one activity at a time.',
+                        'BEFORE writing s, ask yourself: "What is n?" Then describe ONLY that specific site.',
+                        'FORBIDDEN: describing a different site in s than what n names.',
+                        '',
+                        'Examples of CORRECT locked pairs:',
+                        '  n:"Dahshur" → s:"Ancient royal necropolis holding the Bent and Red Pyramids built by Pharaoh Sneferu around 2600 BC."',
+                        '  n:"National Museum of Egyptian Civilization" → s:"Modern museum showcasing Egypt\'s civilization from prehistoric times to the present, featuring royal mummies."',
+                        '  n:"Bab Zuwayla" → s:"One of three surviving Fatimid gates of medieval Cairo, built in 1092 AD by the Fatimid caliph al-Mustansir."',
+                        '',
+                        '=== s FIELD RULES ===',
+                        '  LENGTH: 1-2 sentences maximum. 15-20 words total. Be concise and factual.',
+                        '  ACCURACY: Every word in s must be factually true about n. No guessing.',
+                        '  NO NAME: Never repeat the name from n inside s.',
+                        '  NO FILLER: Banned phrases: "iconic", "famous", "unique history", "popular destination", "architectural wonder".',
+                        '  FOCUS: One key fact — the founding date OR builder OR function OR unique artifact of that exact site.',
+                        '',
+                        'Other rules:',
+                        `1. ${budgetNote}`,
+                        `2. Exactly ${durationDays} days. Every day MUST have ${actsPerDay} activities. NO empty days.`,
+                        '3. t: 12-hr format. Start 09:00 AM. 1-hr buffer between each activity.',
+                        '4. h: Day 1→"Welcome to Egypt! Start your first day in Egypt with X." Day 2→"On your second day, discover Y." Day 3+→"On day N, explore Z."',
+                        '5. No duplicate destId. Cluster nearby sites per day.',
+                        '6. End desc with: "Let KEMET Assistant assist you with anything you need for your trip in Egypt."',
+                        '',
+                        'DEST IDs (id|name|city):',
+                        destListLines,
+                    ].join('\n')
 
-RULES:
-1. Strict Budget: Sum of all activity/ticket costs MUST be strictly <= ${budget} EGP. Use EGP.
-2. Days: Exactly ${durationDays} days. No rest days.
-3. Acts/day: ${paceLabel === 'Relaxed' ? '1-2' : paceLabel === 'Balanced' ? '2-3' : '4-5'} activities per day.
-4. No Repeats: Never repeat a destination.
-5. Unique Content Mandate: For every destination, provide a unique, fact-based summary highlighting a specific detail about that exact place. NEVER use generic filler phrases like 'iconic landmark', 'architectural wonders', or 'unique history'. Example: 'Explore the Step Pyramid of Djoser, the world’s oldest major stone structure.' This description MUST consist of complete sentences, be exactly 2-3 sentences long, and strictly under 180 characters. Tone must be engaging and educational.
-6. Dynamic Day Title: 1-sentence theme (e.g., 'A journey through Islamic Cairo').
-7. Geographic Clustering: Group acts by area/day.
-8. Tone: ${companionsLabel}.
-9. Time Scheduling: Use strictly 12-hour format (e.g., "09:00 AM", "02:00 PM"). Every itinerary day MUST start strictly at "09:00 AM". There MUST be exactly 1 hour of free time between the end of one activity and the start of the next for transit and rest.
-10. Fixed Ending: End the trip description with "Looking for more ideas or travel advice? Let KEMET Assistant assist you with anything you need for your trip in Egypt."
-${paceLabel === 'Packed' && durationDays > 14 ? '11. PACKED+LONG needs 3-4 distinct interest categories.\n' : ''}
-AVAILABLE DESTINATION IDs (use these exact IDs for destinationId):
-${destListLines}
+                    // ── Minimal userPrompt ─────────────────────────────────────────────
+                    const userPrompt = `${durationDays}d Egypt trip. Pace:${paceLabel} Group:${companionsLabel} Budget:${budget}EGP Interests:${(request.interests || ['History']).join(',')} Start:${startDate.toISOString().split('T')[0]}`
 
-REQUIRED JSON SCHEMA:
-{"title":"","description":"","travelCompanions":"${companionsLabel}","travelStyle":"${travelStyleLabel}","experienceTypes":${JSON.stringify(request.interests || ['Sightseeing'])},"interests":${JSON.stringify(request.interests || ['History'])},"startDate":"${startDate.toISOString()}","endDate":"${endDate.toISOString()}","durationDays":${durationDays},"price":${budget},"days":[{"dayNumber":1,"date":"${startDate.toISOString()}","title":"","description":"","city":"","dayActivities":[{"destinationId":"ID_HERE","activityType":"","startTime":"09:00 AM","durationHours":2,"description":""}]}]}`
-
-                    const userPrompt = `Plan ${durationDays}-day Egypt trip. Pace:${paceLabel} Companions:${companionsLabel} Budget:${budget}EGP Interests:${(request.interests || ['History']).join(',')} Start:${startDate.toISOString().split('T')[0]}. JSON only.`
-
-                    // ── 4. Call server-side API route ────────────────────────
+                    // ── 4. Call server-side API route     ────────────────────────
                     console.log('[KEMET Assistant] Calling /api/generate-trip...')
                     const apiResponse = await fetch('/api/generate-trip', {
                         method: 'POST',
@@ -259,13 +274,14 @@ REQUIRED JSON SCHEMA:
                     const minAct = paceLabel === 'Relaxed' ? 1 : paceLabel === 'Balanced' ? 2 : 4  // minimum per day
                     const maxAct = paceLabel === 'Relaxed' ? 2 : paceLabel === 'Balanced' ? 3 : 5  // maximum per day
 
-                    const days = (rawTripData.days || []).slice(0, durationDays).map((day: any, dayIdx: number) => {
+                    const rawDays = rawTripData.days || rawTripData.d || []
+                    const days = rawDays.slice(0, durationDays).map((day: any, dayIdx: number) => {
                         const dayDate = new Date(startDate)
                         dayDate.setUTCDate(startDate.getUTCDate() + dayIdx)
 
-                        const rawActivities = day.dayActivities || day.activities || []
+                        const rawActivities = day.dayActivities || day.activities || day.a || []
                         const activities = rawActivities.slice(0, maxAct).map((act: any) => {
-                            let destId = String(act.destinationId || act.DestinationId || '').trim()
+                            let destId = String(act.destinationId || act.DestinationId || act.destId || '').trim()
 
                             if (!destId || !realDestinationIds.has(destId)) {
                                 console.warn(`[AI Planner] Bad destinationId "${destId}" → replacing`)
@@ -280,9 +296,9 @@ REQUIRED JSON SCHEMA:
                             return {
                                 destinationId: destId,
                                 activityType: mapActivityType(act.activityType || act.type || 0),
-                                startTime: formatTime(act.startTime),
-                                durationHours: Math.max(1, Math.min(8, Number(act.durationHours) || 2)),
-                                description: String(act.description || 'Explore the destination').substring(0, 500),
+                                startTime: formatTime(act.startTime || act.t),
+                                durationHours: Math.max(1, Math.min(8, Number(act.durationHours || act.dur) || 2)),
+                                description: String(act.description || act.s || act.n || 'Explore the destination').substring(0, 500),
                             }
                         })
 
@@ -309,8 +325,8 @@ REQUIRED JSON SCHEMA:
                         return {
                             dayNumber: dayIdx + 1,
                             date: dayDate.toISOString(),
-                            title: String(day.title || `Day ${dayIdx + 1}`).substring(0, 200),
-                            description: String(day.description || 'A day of exploration').substring(0, 500),
+                            title: String(day.title || day.h || `Day ${dayIdx + 1}`).substring(0, 200),
+                            description: String(day.description || day.desc || 'A day of exploration').substring(0, 500),
                             city: String((day.city || 'Cairo')).trim().substring(0, 100),
                             activities,
                         }
