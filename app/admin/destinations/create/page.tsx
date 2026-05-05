@@ -42,7 +42,7 @@ export default function CreateDestinationPage() {
     const [createCategory, { isLoading: isCreatingCategory }] = useCreateCategoryMutation()
     const [updateCategory, { isLoading: isUpdatingCategory }] = useUpdateCategoryMutation()
     const [deleteCategory] = useDeleteCategoryMutation()
-    
+
     const [newCategoryName, setNewCategoryName] = useState("")
     const [isCreatingCat, setIsCreatingCat] = useState(false)
 
@@ -174,7 +174,7 @@ export default function CreateDestinationPage() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Category</FormLabel>
-                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select a category" />
@@ -184,62 +184,64 @@ export default function CreateDestinationPage() {
                                                 {isLoadingCategories ? (
                                                     <div className="flex items-center justify-center p-4"><Loader2 className="w-4 h-4 animate-spin" /></div>
                                                 ) : categories?.map((cat) => (
-                                                    <div key={cat.id} className="relative flex items-center group">
-                                                        <SelectItem value={cat.id} className="pr-10 flex-1">{cat.title}</SelectItem>
-                                                        <div className="absolute right-2 opacity-0 group-hover:opacity-100 transition-opacity flex items-center z-20 gap-1">
-                                                            <Button
-                                                                type="button"
-                                                                variant="ghost"
-                                                                size="icon"
-                                                                className="h-6 w-6 text-blue-500 hover:text-blue-700 hover:bg-blue-100"
-                                                                onClick={(e) => {
-                                                                    e.preventDefault();
-                                                                    e.stopPropagation();
-                                                                    setEditCategory(cat);
-                                                                    setEditCategoryTitle(cat.title);
-                                                                    setIsEditingCat(true);
-                                                                }}
-                                                            >
-                                                                <Edit className="w-4 h-4" />
-                                                            </Button>
-                                                            <Button
-                                                                type="button"
-                                                                variant="ghost" 
-                                                                size="icon" 
-                                                                className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-100" 
-                                                                onClick={(e) => handleDeleteCategory(e, cat.id)}
-                                                            >
-                                                                <Trash2 className="w-4 h-4" />
-                                                            </Button>
+                                                    <SelectItem key={cat.id} value={cat.id} className="group/item">
+                                                        <div className="flex items-center justify-between w-full">
+                                                            <span>{cat.title}</span>
+                                                            <div className="flex items-center gap-1 ml-4 opacity-0 group-hover/item:opacity-100 transition-opacity" onClick={(e) => e.stopPropagation()}>
+                                                                <Button
+                                                                    type="button"
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="h-6 w-6 text-blue-500 hover:text-blue-700 hover:bg-blue-100"
+                                                                    onClick={(e) => {
+                                                                        e.preventDefault();
+                                                                        e.stopPropagation();
+                                                                        setEditCategory(cat);
+                                                                        setEditCategoryTitle(cat.title);
+                                                                        setIsEditingCat(true);
+                                                                    }}
+                                                                >
+                                                                    <Edit className="w-4 h-4" />
+                                                                </Button>
+                                                                <Button
+                                                                    type="button"
+                                                                    variant="ghost"
+                                                                    size="icon"
+                                                                    className="h-6 w-6 text-red-500 hover:text-red-700 hover:bg-red-100"
+                                                                    onClick={(e) => handleDeleteCategory(e, cat.id)}
+                                                                >
+                                                                    <Trash2 className="w-4 h-4" />
+                                                                </Button>
+                                                            </div>
                                                         </div>
-                                                    </div>
+                                                    </SelectItem>
                                                 ))}
                                                 <div className="p-2 border-t mt-1">
                                                     {isCreatingCat ? (
                                                         <div className="flex items-center gap-2" onClick={(e) => { e.preventDefault(); e.stopPropagation(); }}>
-                                                            <Input 
-                                                                value={newCategoryName} 
-                                                                onChange={(e) => setNewCategoryName(e.target.value)} 
-                                                                placeholder="New category..." 
+                                                            <Input
+                                                                value={newCategoryName}
+                                                                onChange={(e) => setNewCategoryName(e.target.value)}
+                                                                placeholder="New category..."
                                                                 className="h-8 text-sm"
                                                                 autoFocus
                                                                 onKeyDown={(e) => {
-                                                                    if(e.key === 'Enter') {
+                                                                    if (e.key === 'Enter') {
                                                                         e.preventDefault();
                                                                         handleCreateCategory(e as any);
                                                                     }
                                                                 }}
                                                             />
                                                             <Button type="button" size="sm" className="h-8" onClick={handleCreateCategory} disabled={isCreatingCategory}>
-                                                                {isCreatingCategory ? <Loader2 className="w-3 h-3 animate-spin"/> : "Save"}
+                                                                {isCreatingCategory ? <Loader2 className="w-3 h-3 animate-spin" /> : "Save"}
                                                             </Button>
                                                             <Button type="button" size="sm" variant="ghost" className="h-8" onClick={(e) => { e.stopPropagation(); setIsCreatingCat(false); }}>Cancel</Button>
                                                         </div>
                                                     ) : (
-                                                        <Button 
-                                                            type="button" 
-                                                            variant="ghost" 
-                                                            className="w-full justify-start text-blue-600 hover:text-blue-700 h-8 text-sm" 
+                                                        <Button
+                                                            type="button"
+                                                            variant="ghost"
+                                                            className="w-full justify-start text-blue-600 hover:text-blue-700 h-8 text-sm"
                                                             onClick={(e) => { e.preventDefault(); e.stopPropagation(); setIsCreatingCat(true); }}
                                                         >
                                                             <PlusCircle className="mr-2 h-4 w-4" /> Add new category
@@ -418,9 +420,9 @@ export default function CreateDestinationPage() {
                         <AlertDialogCancel onClick={() => setIsEditingCat(false)} className="border-amber-200/40 text-bronze">
                             Cancel
                         </AlertDialogCancel>
-                        <Button 
-                            onClick={(e) => handleUpdateCategory(e as any)} 
-                            disabled={isUpdatingCategory || !editCategoryTitle.trim()} 
+                        <Button
+                            onClick={(e) => handleUpdateCategory(e as any)}
+                            disabled={isUpdatingCategory || !editCategoryTitle.trim()}
                             className="bg-primary hover:bg-primary/90 text-bronze font-bold"
                         >
                             {isUpdatingCategory ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}

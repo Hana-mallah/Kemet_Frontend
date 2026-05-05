@@ -37,6 +37,7 @@ export interface Destination {
     estimatedPrice?: number
     fromWorkingHours?: string
     endWorkingHours?: string
+    categoryId?: string
 }
 
 export interface Activity {

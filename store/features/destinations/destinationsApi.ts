@@ -29,7 +29,8 @@ export const destinationsApi = api.injectEndpoints({
                 const data = response?.data || response
                 return (Array.isArray(data) ? data : []).map((item: any) => ({
                     ...item,
-                    id: item.id || item.Id || item.destinationId || ''
+                    id: item.id || item.Id || item.destinationId || '',
+                    categoryId: item.categoryId || item.CategoryId || item.category?.id || item.Category?.id || ''
                 }))
             },
             providesTags: ['Destination'],
@@ -42,7 +43,8 @@ export const destinationsApi = api.injectEndpoints({
                 const data = response?.data || response
                 return {
                     ...data,
-                    id: data.id || data.Id || data.destinationId || ''
+                    id: data.id || data.Id || data.destinationId || '',
+                    categoryId: data.categoryId || data.CategoryId || data.category?.id || data.Category?.id || ''
                 }
             },
             providesTags: (result, error, id) => [{ type: 'Destination', id }],
