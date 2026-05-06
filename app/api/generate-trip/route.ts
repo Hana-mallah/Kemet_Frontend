@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import OpenAI from 'openai'
 
 const GROQ_API_KEY = process.env.GROQ_API_KEY || 'change-secret-key-2026'
-const GROQ_API_BASE = process.env.GROQ_API_BASE || 'http://localhost:7777/v1'
+const GROQ_API_BASE = process.env.GROQ_API_BASE || 'https://chat-gpt-fast-api.vercel.app/v1'
 const GROQ_MODEL = process.env.GROQ_MODEL || 'gpt-4o-mini'
 
 const client = new OpenAI({
