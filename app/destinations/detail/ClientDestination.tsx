@@ -69,6 +69,26 @@ export default function ClientDestination({ destinationId }: { destinationId: st
         )
     }
 
+    const getEmbedUrl = (url: string) => {
+        if (!url) return ""
+
+        // Matterport
+        if (url.includes("matterport.com")) {
+            if (url.includes("/show/?m=")) return url
+            const modelId = url.split("/").pop()?.split("?")[0]
+            return `https://my.matterport.com/show/?m=${modelId}`
+        }
+
+        // Kuula
+        if (url.includes("kuula.co")) {
+            if (url.includes("/share/")) return url
+            const postId = url.split("/").pop()?.split("?")[0]
+            return `https://kuula.co/share/collection/${postId}`
+        }
+
+        return url
+    }
+
     return (
         <div className="min-h-screen bg-background">
             {/* Hero Section */}
@@ -179,7 +199,7 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                     <CardContent className="p-0">
                                         <div className="aspect-video bg-black relative">
                                             <iframe
-                                                src={destination?.vrUrlImage}
+                                                src={getEmbedUrl(destination?.vrUrlImage)}
                                                 className="w-full h-full"
                                                 allowFullScreen
                                                 title={`VR Tour of ${destination.name}`}
