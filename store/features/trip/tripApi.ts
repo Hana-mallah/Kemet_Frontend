@@ -1,4 +1,4 @@
-﻿import { api } from '../baseApi'
+import { api } from '../baseApi'
 import type {
     Trip,
     CreateTripRequest,
@@ -97,7 +97,7 @@ export const tripApi = api.injectEndpoints({
             providesTags: (result, error, id) => [{ type: 'Trip', id }],
         }),
 
-        // ── Generate trip using Groq AI ──────────────────────────────────────
+        // ── Generate trip using OpenAI ──────────────────────────────────────
         generateTripWithAI: builder.mutation<Trip, GenerateTripRequest>({
             queryFn: async (request, _api, _extraOptions, baseQuery) => {
                 try {
