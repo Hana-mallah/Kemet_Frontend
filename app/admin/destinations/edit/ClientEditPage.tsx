@@ -209,7 +209,11 @@ export default function ClientEditPage({ destinationId }: { destinationId: strin
                                                 <Loader2 className="h-4 w-4 animate-spin" />
                                             </div>
                                         ) : (
-                                            <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                            <Select 
+                                                key={field.value || 'empty'} 
+                                                onValueChange={field.onChange} 
+                                                value={field.value || undefined}
+                                            >
                                                 <FormControl>
                                                     <SelectTrigger>
                                                         <SelectValue placeholder="Select a category" />

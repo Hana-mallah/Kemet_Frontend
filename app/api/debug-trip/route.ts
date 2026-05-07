@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
             return NextResponse.json({ error: 'Provide token from localStorage' }, { status: 400 })
         }
 
-        const backendUrl = 'https://kemeteg.runasp.net/api/Trip'
+        const backendUrl = 'http://localhost:5131/api/Trip'
 
         const resp = await fetch(backendUrl, {
             method: 'POST',

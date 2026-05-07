@@ -174,7 +174,11 @@ export default function CreateDestinationPage() {
                                 render={({ field }) => (
                                     <FormItem>
                                         <FormLabel>Category</FormLabel>
-                                        <Select onValueChange={field.onChange} value={field.value} defaultValue={field.value}>
+                                        <Select 
+                                            key={field.value || 'empty'} 
+                                            onValueChange={field.onChange} 
+                                            value={field.value || undefined}
+                                        >
                                             <FormControl>
                                                 <SelectTrigger>
                                                     <SelectValue placeholder="Select a category" />
