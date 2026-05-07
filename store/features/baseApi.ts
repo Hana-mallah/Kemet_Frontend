@@ -53,7 +53,7 @@ const shouldRefreshToken = (): boolean => {
 }
 
 const baseQuery = fetchBaseQuery({
-    baseUrl: 'http://localhost:5131/api',
+    baseUrl: 'https://kemeteg.runasp.net/api',
     prepareHeaders: (headers, { getState }) => {
         // Get token from Redux store or localStorage (SSR-safe)
         const token = (getState() as any)?.auth?.token || safeGetItem('token')
