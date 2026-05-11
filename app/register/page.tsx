@@ -73,7 +73,7 @@ export default function RegisterPage() {
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: 0.3 }}
-                    className="glass-card rounded-3xl p-8"
+                    className="ag-glass ag-float rounded-3xl p-8"
                 >
                     <form onSubmit={handleSubmit} className="space-y-5">
                         {/* Name Fields */}
@@ -170,7 +170,7 @@ export default function RegisterPage() {
                         <Button
                             type="submit"
                             disabled={isLoading}
-                            className="w-full h-14 gradient-egyptian hover:opacity-90 text-brand-text font-bold rounded-xl shadow-lg shadow-amber-500/20 hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 group btn-active-taupe"
+                            className="w-full h-14 btn-kio text-[#d5bb88] font-bold rounded-xl group"
                         >
                             {isLoading ? (
                                 <span className="flex items-center gap-2">

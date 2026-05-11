@@ -78,7 +78,7 @@ export default function AdminDestinationsPage() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-96">
-                <Loader2 className="w-8 h-8 animate-spin text-[#F3BF26]" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#1C2B6A]" />
             </div>
         )
     }
@@ -100,7 +100,7 @@ export default function AdminDestinationsPage() {
                     <p className="text-bronze/80 mt-1">Manage all travel destinations</p>
                 </div>
                 <Link href="/admin/destinations/create">
-                    <Button className="bg-primary hover:bg-primary/90 text-bronze shadow-sm font-bold btn-active-taupe">
+                    <Button className="btn-kio shadow-sm font-bold">
                         <Plus className="w-4 h-4 mr-2" />
                         Add Destination
                     </Button>
@@ -145,7 +145,7 @@ export default function AdminDestinationsPage() {
                                 <p className="text-2xl font-bold text-bronze mt-1">{stats.withImages}</p>
                             </div>
                             <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
-                                <ImageIcon className="h-6 w-6 text-[#F3BF26]" />
+                                <ImageIcon className="h-6 w-6 text-[#1C2B6A]" />
                             </div>
                         </div>
                     </CardContent>
@@ -159,7 +159,7 @@ export default function AdminDestinationsPage() {
                                 <p className="text-2xl font-bold text-bronze mt-1">{stats.withVR}</p>
                             </div>
                             <div className="h-12 w-12 bg-amber-50 rounded-lg flex items-center justify-center border border-amber-100">
-                                <Video className="h-6 w-6 text-[#F3BF26]" />
+                                <Video className="h-6 w-6 text-[#1C2B6A]" />
                             </div>
                         </div>
                     </CardContent>
@@ -240,14 +240,14 @@ export default function AdminDestinationsPage() {
                                         <TableCell>
                                             <div className="flex gap-1.5">
                                                 {destination.imageUrl && (
-                                                    <Badge variant="secondary" className="text-xs bg-amber-100 text-bronze hover:bg-amber-200 border-none">
-                                                        <ImageIcon className="w-3 h-3 mr-1 text-[#F3BF26]" />
+                                                    <Badge variant="secondary" className="text-xs bg-[#1C2B6A] text-[#d5bb88] hover:bg-[#1C2B6A]/90 border-none">
+                                                        <ImageIcon className="w-3 h-3 mr-1 text-[#d5bb88]" />
                                                         Image
                                                     </Badge>
                                                 )}
                                                 {destination.vrUrlImage && (
-                                                    <Badge variant="secondary" className="text-xs bg-amber-100 text-bronze hover:bg-amber-200 border-none">
-                                                        <Video className="w-3 h-3 mr-1 text-[#F3BF26]" />
+                                                    <Badge variant="secondary" className="text-xs bg-[#1C2B6A] text-[#d5bb88] hover:bg-[#1C2B6A]/90 border-none">
+                                                        <Video className="w-3 h-3 mr-1 text-[#d5bb88]" />
                                                         VR
                                                     </Badge>
                                                 )}

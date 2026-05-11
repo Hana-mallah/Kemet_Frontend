@@ -75,7 +75,7 @@ export default function AdminCategoriesPage() {
     if (isLoading) {
         return (
             <div className="flex justify-center items-center h-96">
-                <Loader2 className="w-8 h-8 animate-spin text-[#F3BF26]" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#1C2B6A]" />
             </div>
         )
     }
@@ -91,7 +91,7 @@ export default function AdminCategoriesPage() {
                     <h1 className="text-3xl font-display font-bold text-bronze">Categories</h1>
                     <p className="text-bronze/80 mt-1">Manage destination categories</p>
                 </div>
-                <Button onClick={() => setIsCreateOpen(true)} className="bg-primary hover:bg-primary/90 text-bronze shadow-sm font-bold">
+                <Button onClick={() => setIsCreateOpen(true)} className="btn-kio shadow-sm font-bold">
                     <Plus className="w-4 h-4 mr-2" />
                     Add Category
                 </Button>
@@ -200,7 +200,7 @@ export default function AdminCategoriesPage() {
                         <Button 
                             onClick={handleUpdate} 
                             disabled={isUpdating || !editTitle.trim()} 
-                            className="bg-primary hover:bg-primary/90 text-bronze font-bold"
+                            className="btn-kio font-bold"
                         >
                             {isUpdating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
                             Save
@@ -239,7 +239,7 @@ export default function AdminCategoriesPage() {
                         <Button 
                             onClick={handleCreate} 
                             disabled={isCreating || !newTitle.trim()} 
-                            className="bg-primary hover:bg-primary/90 text-bronze font-bold"
+                            className="btn-kio font-bold"
                         >
                             {isCreating ? <Loader2 className="w-4 h-4 mr-2 animate-spin" /> : <Save className="w-4 h-4 mr-2" />}
                             Create

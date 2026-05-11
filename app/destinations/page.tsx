@@ -148,7 +148,7 @@ export default function DestinationsPage() {
                                 transition={{ duration: 0.4, delay: index * 0.05 }}
                             >
                                 <Link href={`/destinations/detail?id=${destination.id}`} className="block h-full group">
-                                    <Card className="h-full overflow-hidden border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 relative">
+                                    <Card className="h-full overflow-hidden border-gray-200 hover:border-gray-300 shadow-sm hover:shadow-md transition-all duration-300 relative ag-glass ag-float">
                                         <div className="relative aspect-[4/3] overflow-hidden bg-gray-100">
                                             {destination.imageUrl ? (
                                                 <Image
@@ -170,7 +170,7 @@ export default function DestinationsPage() {
 
                                             {/* Top badges/buttons */}
                                             <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
-                                                <div className="bg-white/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-medium text-gray-700 flex items-center gap-1 shadow-sm">
+                                                <div className="bg-[#1C2B6A]/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-medium text-[#d5bb88] flex items-center gap-1 shadow-sm">
                                                     <MapPin className="h-3 w-3" />
                                                     {destination.city}
                                                 </div>
@@ -189,12 +189,12 @@ export default function DestinationsPage() {
                                             {/* Badges */}
                                             <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2">
                                                 {destination.estimatedPrice !== undefined && (
-                                                    <div className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-bronze shadow-sm">
+                                                    <div className="bg-[#1C2B6A]/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#d5bb88] shadow-sm">
                                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
                                                     </div>
                                                 )}
                                                 {destination.vrUrlImage && (
-                                                    <div className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-bronze shadow-sm">
+                                                    <div className="bg-[#1C2B6A]/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#d5bb88] shadow-sm">
                                                         VR
                                                     </div>
                                                 )}
@@ -202,7 +202,7 @@ export default function DestinationsPage() {
                                         </div>
 
                                         <CardContent className="p-5">
-                                            <h3 className="font-display text-xl font-bold text-bronze mb-2 line-clamp-1 group-hover:text-gold transition-colors">
+                                            <h3 className="font-display text-xl font-bold text-bronze mb-2 line-clamp-1 group-hover:text-[#1C2B6A] transition-colors">
                                                 {destination.name}
                                             </h3>
 

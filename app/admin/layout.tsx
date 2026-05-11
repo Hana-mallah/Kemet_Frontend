@@ -98,7 +98,7 @@ export default function AdminLayout({
                 <div className={`px-4 mb-6 ${!isSidebarOpen && "text-center"}`}>
                     <div className={`flex items-center gap-3 p-3 rounded-xl bg-white/40 border border-amber-200/30 ${!isSidebarOpen && "justify-center"}`}>
                         <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                            <AvatarFallback className="bg-gradient-to-br from-amber-600 to-amber-500 text-white font-medium">
+                            <AvatarFallback className="bg-[#1C2B6A] text-[#d5bb88] font-medium">
                                 {user?.name?.charAt(0) || "A"}
                             </AvatarFallback>
                         </Avatar>
@@ -121,7 +121,7 @@ export default function AdminLayout({
                                 <div
                                     className={`relative group flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300
           ${active
-                                            ? "bg-primary text-bronze shadow-md shadow-amber-500/10 font-bold"
+                                            ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md shadow-amber-500/10 font-bold"
                                             : "text-bronze hover:bg-amber-100/50 hover:text-bronze"
                                         }`}
                                 >
@@ -134,8 +134,8 @@ export default function AdminLayout({
                                     <Icon
                                         className={`h-5 w-5 transition-all duration-300
             ${active
-                                                ? "text-bronze"
-                                                : "text-[#F3BF26] group-hover:text-bronze"
+                                                ? "text-[#d5bb88]"
+                                                : "text-[#1C2B6A] group-hover:text-[#1C2B6A]"
                                             }
             ${!isSidebarOpen && "mx-auto"}
           `}
@@ -146,8 +146,8 @@ export default function AdminLayout({
                                         <span
                                             className={`text-sm font-medium transition-colors duration-300
               ${active
-                                                    ? "text-bronze"
-                                                    : "text-bronze group-hover:text-bronze"
+                                                    ? "text-[#d5bb88]"
+                                                    : "text-[#2A2A2A] group-hover:text-[#1C2B6A]"
                                                 }`}
                                         >
                                             {item.name}
@@ -192,11 +192,11 @@ export default function AdminLayout({
                                 key={item.name}
                                 href={item.href}
                                 className={`flex flex-col items-center py-2 px-1 rounded-lg transition-colors ${active
-                                    ? "text-bronze bg-amber-100/50 font-bold"
-                                    : "text-bronze/70"
+                                    ? "text-[#d5bb88] bg-[#1C2B6A] font-bold"
+                                    : "text-[#2A2A2A]"
                                     }`}
                             >
-                                <Icon className={`h-5 w-5 ${active ? "text-bronze" : "text-gold"}`} />
+                                <Icon className={`h-5 w-5 ${active ? "text-[#d5bb88]" : "text-[#1C2B6A]"}`} />
                             </Link>
                         )
                     })}

@@ -15,6 +15,7 @@ import { useAppSelector } from "@/store/hooks"
 import { selectIsAuthenticated } from "@/store/features/auth/authSlice"
 import { useToast } from "@/components/ui/use-toast"
 import { Heart } from "lucide-react"
+import GoldSpecularHeading from "@/components/ui/GoldSpecularHeading"
 
 function FavoriteButton({ id }: { id: string }) {
     const { toast } = useToast()
@@ -59,7 +60,7 @@ function FavoriteButton({ id }: { id: string }) {
         <Button
             variant="secondary"
             size="icon"
-            className={`rounded-full h-10 w-10 shadow-[0_8px_32px_0_rgba(0,0,0,0.1)] backdrop-blur-md transition-all ${isFavorite ? "bg-white/90 text-[#1C2B6A]" : "bg-white/40 text-[#1C2B6A] hover:bg-white/60"
+            className={`ag-glass ag-interactive rounded-full h-10 w-10 ${isFavorite ? "bg-white/90 text-[#1C2B6A]" : "text-[#1C2B6A]"
                 }`}
             onClick={handleToggleFavorite}
         >
@@ -129,12 +130,8 @@ export default function HomePage() {
                         transition={{ duration: 1, ease: "easeOut" }}
                         className="space-y-6"
                     >
-                        {/* Main heading with better alignment */}
-                        <h1 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-tight tracking-tight text-bronze">
-                            Discover <span className="text-transparent bg-clip-text gradient-egyptian">Timeless Egypt</span>
-                            <br />
-                            with <span className="text-transparent bg-clip-text gradient-egyptian">Kemet</span>
-                        </h1>
+                        {/* Main heading — mouse-reactive specular gold */}
+                        <GoldSpecularHeading />
 
                         {/* Subtitle with better alignment */}
                         <motion.p
@@ -154,12 +151,12 @@ export default function HomePage() {
                             className="flex flex-col sm:flex-row gap-4 justify-center items-center pt-6"
                         >
                             <Link href="/register">
-                                <Button size="lg" className="h-14 px-8 text-base bg-[#1C2B6A] hover:bg-[#1C2B6A]/90 text-white font-bold shadow-xl hover:shadow-2xl transition-all duration-300 hover:scale-105 rounded-xl">
+                                <Button size="lg" className="btn-kio h-14 px-8 text-base font-bold rounded-xl">
                                     Start your own journey <ArrowRight className="ml-2 h-4 w-4" />
                                 </Button>
                             </Link>
                             <Link href="/destinations">
-                                <Button size="lg" variant="outline" className="h-14 px-8 text-base border-2 border-[#eace83] text-[#2A2A2A] hover:border-[#1C2B6A] hover:bg-white/30 transition-all duration-300 rounded-xl">
+                                <Button size="lg" variant="outline" className="polished-glass h-14 px-8 text-base rounded-xl font-bold border-none">
                                     Explore Destinations
                                 </Button>
                             </Link>
@@ -205,7 +202,7 @@ export default function HomePage() {
                                 viewport={{ once: true }}
                                 className="group"
                             >
-                                <Card className="h-full border-amber-200/30 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 bg-white/60 backdrop-blur-sm rounded-2xl overflow-hidden group-hover:bg-white/80">
+                                <Card className="h-full ag-glass ag-float ag-interactive rounded-2xl overflow-hidden group-hover:bg-white/80">
                                     <div className="p-6">
                                         <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 bg-amber-50 text-gold border border-amber-100`}>
                                             <feature.icon className="h-6 w-6" />
@@ -253,7 +250,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                         >
                             <Link href="/destinations">
-                                <Button size="lg" variant="outline" className="group h-14 px-8 border-2 border-[#eace83] text-[#2A2A2A] hover:border-[#1C2B6A] hover:bg-white/30 transition-all duration-300 rounded-xl">
+                                <Button size="lg" variant="outline" className="polished-glass group h-14 px-8 border-none rounded-xl font-bold text-base">
                                     View All Destinations <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                                 </Button>
                             </Link>
@@ -279,7 +276,7 @@ export default function HomePage() {
                                     viewport={{ once: true }}
                                 >
                                     <Link href={`/destinations/detail?id=${destination.id}`}>
-                                        <div className="group relative h-[500px] rounded-2xl overflow-hidden cursor-pointer shadow-xl hover:shadow-2xl transition-all duration-500 border border-amber-200/20">
+                                        <div className="group relative h-[500px] rounded-2xl overflow-hidden cursor-pointer ag-float ag-interactive ag-glass">
                                             <div className="absolute inset-0 transition-transform duration-700 group-hover:scale-110">
                                                 {destination.imageUrl ? (
                                                     <Image
@@ -365,7 +362,7 @@ export default function HomePage() {
                             viewport={{ once: true }}
                         >
                             <Link href="/register">
-                                <Button size="lg" className="h-14 px-10 text-base bg-[#1C2B6A] text-white hover:bg-[#1C2B6A]/90 hover:scale-105 transition-all duration-300 shadow-xl hover:shadow-2xl rounded-xl font-bold">
+                                <Button size="lg" className="btn-kio h-14 px-10 text-base font-bold rounded-xl">
                                     Create Your Free Account
                                 </Button>
                             </Link>
@@ -390,7 +387,7 @@ export default function HomePage() {
                             <div className="absolute top-1/2 -right-2 -translate-y-1/2 w-4 h-4 bg-white/90 backdrop-blur-md border-r border-t border-amber-200/50 rotate-45" />
                         </div>
                         {/* Button */}
-                        <div className="w-16 h-16 gradient-egyptian rounded-full shadow-2xl flex items-center justify-center border-2 border-white/20 group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-16 h-16 btn-kio rounded-full flex items-center justify-center border-2 border-white/20">
                             <MessageSquare className="w-7 h-7 text-white drop-shadow-md" />
                         </div>
                     </div>

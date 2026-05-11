@@ -89,8 +89,8 @@ export default function DashboardPage() {
                         </p>
                     </div>
                     <Link href="/dashboard/trips/generate" className="w-full md:w-auto">
-                        <Button className="w-full md:w-auto gradient-egyptian hover:opacity-90 text-bronze font-bold shadow-lg shadow-amber-500/20 hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 h-14 px-8 rounded-xl group text-base btn-active-taupe">
-                            <Compass className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform text-[#F3BF26]" />
+                        <Button className="w-full md:w-auto btn-kio text-[#d5bb88] font-bold shadow-lg shadow-amber-500/20 hover:shadow-xl hover:shadow-amber-500/30 transition-all duration-300 h-14 px-8 rounded-xl group text-base">
+                            <Compass className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform text-[#eace83]" />
                             Plan New Trip
                         </Button>
                     </Link>

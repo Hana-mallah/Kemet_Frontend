@@ -167,20 +167,274 @@
   }
 
   .glass-card {
-    @apply bg-white/20 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
+    background: rgba(235, 229, 219, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(213, 187, 136, 0.3);
+    box-shadow: 
+      0 12px 32px -8px rgba(28, 43, 106, 0.08), 
+      0 4px 16px -4px rgba(213, 187, 136, 0.15);
   }
 
   .glass-panel {
-    @apply bg-white/20 backdrop-blur-2xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
+    background: rgba(208, 195, 167, 0.25);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(213, 187, 136, 0.3);
+    box-shadow: 
+      0 24px 48px -12px rgba(28, 43, 106, 0.12), 
+      0 8px 24px -6px rgba(213, 187, 136, 0.2);
   }
 
   .dark .glass-card {
-    @apply bg-white/20 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_0_rgba(0,0,0,0.05)];
+    background: rgba(235, 229, 219, 0.4);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(213, 187, 136, 0.3);
+    box-shadow: 
+      0 12px 32px -8px rgba(28, 43, 106, 0.08), 
+      0 4px 16px -4px rgba(213, 187, 136, 0.15);
+  }
+
+  /* =========================================
+     KEMET ANTI-GRAVITY UI FRAMEWORK
+     ========================================= */
+  
+  /* 1. Depth Layers */
+  .ag-glass {
+    background: rgba(235, 229, 219, 0.4); /* #EBE5DB */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(213, 187, 136, 0.2); /* Refractive borders */
+  }
+
+  .ag-glass-strong {
+    background: rgba(208, 195, 167, 0.3); /* #D0C3A7 */
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(213, 187, 136, 0.2);
+  }
+
+  /* 2. Floating Elevation */
+  .ag-float {
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.08), 
+      0 4px 6px rgba(0,0,0,0.04);
+  }
+
+  .ag-float-high {
+    box-shadow: 
+      0 15px 40px rgba(0,0,0,0.12), 
+      0 8px 12px rgba(0,0,0,0.06);
+  }
+
+  /* 3. Interactive Physics */
+  .ag-interactive {
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .ag-interactive:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 20px 40px rgba(0,0,0,0.12),
+      0 10px 15px rgba(0,0,0,0.06);
+  }
+
+  .ag-interactive:active {
+    transform: translateY(2px);
+    box-shadow: 
+      0 4px 12px rgba(0,0,0,0.08),
+      0 2px 4px rgba(0,0,0,0.04);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* 4. The 'KIO' Motion */
+  .kio-motion {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .kio-motion::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background: 
+      radial-gradient(circle at 0% 0%, rgba(28, 43, 106, 0.4) 0%, transparent 60%),
+      radial-gradient(circle at 100% 100%, rgba(234, 206, 131, 0.5) 0%, transparent 60%);
+    background-size: 200% 200%;
+    animation: kio-mesh-anim 4s ease-in-out infinite alternate;
+    opacity: 0;
+    transition: opacity 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .kio-motion:hover::before,
+  .kio-motion.active::before {
+    opacity: 1;
+  }
+
+  .btn-kio {
+    background: linear-gradient(135deg, #1C2B6A, #eace83, #1C2B6A);
+    background-size: 200% 200%;
+    color: #d5bb88;
+    border: 1px solid rgba(213, 187, 136, 0.2);
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .btn-kio:hover {
+    animation: kio-gradient-shift 3s ease infinite;
+    transform: translateY(-5px);
+    box-shadow: 
+      0 20px 40px rgba(0,0,0,0.12),
+      0 10px 15px rgba(0,0,0,0.06);
+  }
+  
+  .btn-kio:active {
+    transform: translateY(2px);
+    box-shadow: 
+      0 4px 12px rgba(0,0,0,0.08);
+    transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  /* Polished Glass for Explore Destinations */
+  .polished-glass {
+    position: relative;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border: 1px solid rgba(213, 187, 136, 0.2);
+    color: #2A2A2A;
+    transition: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+  
+  .polished-glass::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0) 100%);
+    transform: skewX(-20deg);
+    transition: all 0.7s ease;
+  }
+  
+  .polished-glass:hover {
+    transform: translateY(-5px);
+    box-shadow: 
+      0 10px 30px rgba(0,0,0,0.08), 
+      0 4px 6px rgba(0,0,0,0.04);
+  }
+
+  .polished-glass:hover::after {
+    left: 200%;
+  }
+
+  /* Core Color Rules */
+  .bg-kemet-blue {
+    background-color: #1C2B6A !important;
+  }
+  
+  .text-kemet-gold {
+    color: #d5bb88 !important;
+  }
+  
+  .text-kemet-highlight {
+    color: #eace83 !important;
+  }
+
+  @keyframes kio-mesh-anim {
+    0% { background-position: 0% 0%; }
+    100% { background-position: 100% 100%; }
+  }
+
+  .shimmer-sweep {
+    background: linear-gradient(
+      120deg,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0) 40%,
+      rgba(255, 255, 255, 0.6) 50%,
+      rgba(255, 255, 255, 0) 60%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer-effect 3s infinite linear;
+    mix-blend-mode: overlay;
+  }
+
+  @keyframes shimmer-effect {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  @keyframes kio-gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
   }
 
   /* Gradients updated to use strict palette */
   .gradient-egyptian {
     @apply bg-gradient-to-r from-[#d5ba84] to-[#b9975a];
+  }
+
+  /**
+   * .gold-specular
+   * ─────────────────────────────────────────────────────────────────────────
+   * Mouse-reactive specular highlight on metallic gold text.
+   *
+   * Technique: two background layers, both clipped to the text.
+   *
+   *  Layer 1 (bottom, always visible):
+   *    Rich metallic gradient — #e8c97a → #c4964a → #e8c97a → #b9975a.
+   *    background-size: 200% so a subtle shimmer already exists in the base.
+   *
+   *  Layer 2 (top, reactive "gloss"):
+   *    A sharp white needle gradient using a very large background-size
+   *    (400% width). JS sets background-position-x to move the needle
+   *    across the element. CSS transition: background-position 0.4s ease-out
+   *    makes the light "drift" elegantly after the cursor.
+   *    At rest the needle is parked far right (off-canvas).
+   *
+   * JS updates the element's style.backgroundPosition on mousemove.
+   */
+  .gold-specular {
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    display: inline;
+
+    background-image:
+      /* GLOSS — narrow white shimmer needle */
+      linear-gradient(
+        to right,
+        rgba(255, 255, 255, 0)    0%,
+        rgba(255, 255, 255, 0)   40%,
+        rgba(255, 255, 255, 0.55) 46%,
+        rgba(255, 255, 255, 0.9)  50%,
+        rgba(255, 255, 255, 0.55) 54%,
+        rgba(255, 255, 255, 0)   60%,
+        rgba(255, 255, 255, 0)  100%
+      ),
+      /* BASE — standing metallic gold gradient */
+      linear-gradient(to right, #e8c97a, #c4964a, #efd589, #b9975a);
+
+    /* Gloss occupies 400 % width so the 50 % centre starts off-screen right.
+       Base is 100 % (fills the element exactly). */
+    background-size: 400% 100%, 200% 100%;
+
+    /* Park the gloss off the right edge by default; JS will override. */
+    background-position: 300% 0, 0 0;
+
+    /* Smooth drift — only background-position transitions */
+    transition: background-position 0.4s ease-out;
+    will-change: background-position;
+
+    -webkit-font-smoothing: antialiased;
+    font-style: inherit;
+    font-weight: inherit;
+    line-height: inherit;
   }
 
   .gradient-gold {
@@ -232,6 +486,47 @@
 
   .btn-active-taupe:active {
     @apply bg-[hsl(var(--soft-taupe))];
+  }
+
+  .polished-glass {
+    background: rgba(28, 43, 106, 0.8);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(213, 187, 136, 0.4);
+    color: #d5bb88;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(28, 43, 106, 0.3);
+    transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  .polished-glass::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 50%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.3) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-25deg);
+    animation: glass-shimmer 3s infinite linear;
+  }
+
+  .polished-glass:hover {
+    background: rgba(28, 43, 106, 0.95);
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(28, 43, 106, 0.4);
+    border-color: rgba(213, 187, 136, 0.8);
+  }
+
+  @keyframes glass-shimmer {
+    0% { left: -100%; }
+    20% { left: 200%; }
+    100% { left: 200%; }
   }
 }
 

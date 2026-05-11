@@ -20,7 +20,7 @@ export default function AdminDashboardPage() {
             change: "+12%", // Fallback or dynamic if backend provides
             trend: "up",
             icon: Users,
-            color: "text-[#F3BF26]",
+            color: "text-[#1C2B6A]",
             bg: "bg-blue-50"
         },
         {
@@ -29,7 +29,7 @@ export default function AdminDashboardPage() {
             change: "+8%",
             trend: "up",
             icon: ActivityIcon,
-            color: "text-[#F3BF26]",
+            color: "text-[#1C2B6A]",
             bg: "bg-green-50"
         },
         {
@@ -38,7 +38,7 @@ export default function AdminDashboardPage() {
             change: "+2 New",
             trend: "up",
             icon: MapPin,
-            color: "text-[#F3BF26]",
+            color: "text-[#1C2B6A]",
             bg: "bg-gray-50"
         },
         {
@@ -47,7 +47,7 @@ export default function AdminDashboardPage() {
             change: "Stable",
             trend: "neutral",
             icon: Eye,
-            color: "text-[#F3BF26]",
+            color: "text-[#1C2B6A]",
             bg: "bg-purple-50"
         }
     ]
@@ -58,7 +58,7 @@ export default function AdminDashboardPage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 border-t-gold-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 border-t-[#1C2B6A]"></div>
             </div>
         )
     }
@@ -129,8 +129,8 @@ export default function AdminDashboardPage() {
                                     <AreaChart data={chartData}>
                                         <defs>
                                             <linearGradient id="colorUsers" x1="0" y1="0" x2="0" y2="1">
-                                                <stop offset="5%" stopColor="#D4AF37" stopOpacity={0.3} />
-                                                <stop offset="95%" stopColor="#D4AF37" stopOpacity={0} />
+                                                <stop offset="5%" stopColor="#1C2B6A" stopOpacity={0.3} />
+                                                <stop offset="95%" stopColor="#1C2B6A" stopOpacity={0} />
                                             </linearGradient>
                                         </defs>
                                         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#E5E7EB" />
@@ -139,7 +139,7 @@ export default function AdminDashboardPage() {
                                         <Tooltip
                                             contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }}
                                         />
-                                        <Area type="monotone" dataKey="users" stroke="#D4AF37" strokeWidth={3} fillOpacity={1} fill="url(#colorUsers)" />
+                                        <Area type="monotone" dataKey="users" stroke="#1C2B6A" strokeWidth={3} fillOpacity={1} fill="url(#colorUsers)" />
                                     </AreaChart>
                                 </ResponsiveContainer>
                             </div>
@@ -166,7 +166,7 @@ export default function AdminDashboardPage() {
                                             transition={{ duration: 1, delay: i * 0.1 }}
                                             className={`h-full rounded-full ${i === 0 ? "bg-gray-800" :
                                                 i === 1 ? "bg-gray-700" :
-                                                    i === 2 ? "bg-gray-600" : "bg-gold-500"
+                                                    i === 2 ? "bg-gray-600" : "bg-[#1C2B6A]"
                                                 }`}
                                         />
                                     </div>
@@ -175,7 +175,7 @@ export default function AdminDashboardPage() {
 
                             <div className="pt-4 border-t border-gray-100 mt-4">
                                 <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-xl text-sm text-blue-700">
-                                    <Users className="w-4 h-4 flex-shrink-0 text-[#F3BF26]" />
+                                    <Users className="w-4 h-4 flex-shrink-0 text-[#1C2B6A]" />
                                     <span>User engagement up by 15% this week</span>
                                 </div>
                             </div>
@@ -214,12 +214,12 @@ export default function AdminDashboardPage() {
                         <CardContent>
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="p-4 bg-gray-50/50 rounded-2xl flex flex-col items-center justify-center text-center border border-gray-100">
-                                    <ActivityIcon className="w-8 h-8 text-[#F3BF26] mb-2" />
+                                    <ActivityIcon className="w-8 h-8 text-[#1C2B6A] mb-2" />
                                     <p className="text-bronze/70 text-sm mb-1">Status</p>
                                     <p className="font-bold text-lg capitalize text-bronze">{systemHealth.status}</p>
                                 </div>
                                 <div className="p-4 bg-gray-50/50 rounded-2xl flex flex-col items-center justify-center text-center border border-gray-100">
-                                    <Clock className="w-8 h-8 text-[#F3BF26] mb-2" />
+                                    <Clock className="w-8 h-8 text-[#1C2B6A] mb-2" />
                                     <p className="text-bronze/70 text-sm mb-1">Uptime</p>
                                     <p className="font-bold text-lg text-bronze">{systemHealth.uptime}%</p>
                                 </div>

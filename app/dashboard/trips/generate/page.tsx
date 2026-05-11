@@ -611,7 +611,7 @@ export default function TripGeneratorPage() {
                         <Button
                             onClick={handleSubmit}
                             disabled={!canProceed() || isLoading}
-                            className="w-full sm:w-auto h-16 px-12 rounded-2xl bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-extrabold text-lg shadow-2xl shadow-blue-500/30 group"
+                            className="w-full sm:w-auto h-16 px-12 rounded-2xl btn-kio text-[#d5bb88] font-extrabold text-lg shadow-2xl group"
                         >
                             <Sparkles className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
                             Generate My Adventure
@@ -671,9 +671,9 @@ export default function TripGeneratorPage() {
 
 function SummaryBadge({ label, value }: { label: string, value: string | number | undefined }) {
     return (
-        <div className="bg-white/70 p-5 rounded-2xl border border-white flex flex-col items-center text-center shadow-sm">
-            <span className="text-[10px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</span>
-            <span className="text-gray-900 font-extrabold">{value || 'Not set'}</span>
+        <div className="bg-[#1C2B6A] p-5 rounded-2xl border border-[rgba(213,187,136,0.2)] flex flex-col items-center text-center shadow-sm ag-glass">
+            <span className="text-[10px] font-bold text-[#d5bb88]/70 uppercase tracking-widest mb-1">{label}</span>
+            <span className="text-[#d5bb88] font-extrabold">{value || 'Not set'}</span>
         </div>
     )
 }

@@ -15,7 +15,7 @@ export default function AboutPage() {
     const { isAuthenticated } = useAuth()
 
     return (
-        <div className="min-h-screen">
+        <div className="min-h-screen bg-[#1C2B6A] text-[#d5bb88]">
             {/* Hero Section */}
             <section className="py-24 md:py-32">
                 <div className="container mx-auto px-4 text-center max-w-5xl">
@@ -28,10 +28,10 @@ export default function AboutPage() {
                             <Sparkles className="h-3.5 w-3.5 mr-1" />
                             Our Story
                         </Badge>
-                        <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 tracking-tight text-egyptian-nile">
+                        <h1 className="font-display text-4xl md:text-6xl font-bold mb-6 tracking-tight text-[#d5bb88]">
                             Legacy of the Nile
                         </h1>
-                        <p className="text-lg md:text-xl text-gray-600 max-w-3xl mx-auto leading-relaxed mb-8">
+                        <p className="text-lg md:text-xl text-[#eace83] max-w-3xl mx-auto leading-relaxed mb-8">
                             Discover the land of pharaohs, pyramids, and timeless wonders where history breathes.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
@@ -119,7 +119,7 @@ export default function AboutPage() {
                                 transition={{ duration: 0.5, delay: i * 0.1 }}
                                 viewport={{ once: true }}
                             >
-                                <Card className="h-full glass-card border-white/40 hover:shadow-xl transition-all duration-300 group">
+                                <Card className="h-full ag-glass ag-float border-white/40 hover:shadow-xl transition-all duration-300 group bg-[#1C2B6A] text-[#d5bb88]">
                                     <CardContent className="p-8 text-center">
                                         <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mx-auto mb-6 ${item.bg} group-hover:scale-110 transition-transform duration-300`}>
                                             <item.icon className={`h-8 w-8 ${item.color}`} />

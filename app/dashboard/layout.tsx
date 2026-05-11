@@ -115,7 +115,7 @@ export default function DashboardLayout({
                 <div className={`px-4 mb-6 ${!isSidebarOpen && "text-center"}`}>
                     <div className={`flex items-center gap-3 p-3 rounded-xl bg-white/40 border border-amber-200/30 ${!isSidebarOpen && "justify-center"}`}>
                         <Avatar className="h-10 w-10 border-2 border-white shadow-sm">
-                            <AvatarFallback className="bg-gradient-to-br from-amber-600 to-amber-500 text-white font-medium">
+                            <AvatarFallback className="bg-[#1C2B6A] text-[#d5bb88] font-medium">
                                 {user?.name?.charAt(0) || "U"}
                             </AvatarFallback>
                         </Avatar>
@@ -143,10 +143,10 @@ export default function DashboardLayout({
                                 className="block"
                             >
                                 <div className={`group flex items-center px-3 py-3 rounded-xl transition-all duration-200 relative ${active
-                                    ? "bg-primary text-bronze shadow-md shadow-amber-500/10 font-bold"
+                                    ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md shadow-amber-500/10 font-bold"
                                     : "text-bronze hover:bg-amber-100/50 hover:text-bronze"
                                     }`}>
-                                    <Icon className={`h-5 w-5 flex-shrink-0 ${!isSidebarOpen && "mx-auto"} ${active ? "text-bronze" : "icon-gold group-hover:text-bronze"}`} />
+                                    <Icon className={`h-5 w-5 flex-shrink-0 ${!isSidebarOpen && "mx-auto"} ${active ? "text-[#d5bb88]" : "icon-gold group-hover:text-bronze"}`} />
                                     {isSidebarOpen && (
                                         <motion.span
                                             initial={shouldReduceMotion ? false as any : { opacity: 0 }}
@@ -201,12 +201,12 @@ export default function DashboardLayout({
                                 key={item.name}
                                 href={item.href}
                                 className={`flex flex-col items-center py-2 px-1 rounded-xl transition-all duration-300 ${active
-                                    ? "text-bronze bg-amber-100/50 font-bold"
+                                    ? "text-[#d5bb88] bg-[#1C2B6A] font-bold"
                                     : "text-bronze/70 hover:bg-amber-50"
                                     }`}
                             >
-                                <Icon className={`h-5 w-5 ${active ? "stroke-[2.5px] text-bronze" : "stroke-[1.5px] icon-gold"}`} />
-                                <span className={`text-[9px] mt-1 font-bold truncate w-full text-center ${active ? "text-bronze" : "text-bronze/70"}`}>
+                                <Icon className={`h-5 w-5 ${active ? "stroke-[2.5px] text-[#d5bb88]" : "stroke-[1.5px] icon-gold"}`} />
+                                <span className={`text-[9px] mt-1 font-bold truncate w-full text-center ${active ? "text-[#d5bb88]" : "text-bronze/70"}`}>
                                     {item.name.split(" ")[0]}
                                 </span>
                             </Link>

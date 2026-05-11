@@ -51,19 +51,19 @@ export function Navbar() {
                     <div className="hidden lg:flex items-center space-x-1">
                         <Link
                             href="/"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#eace83] text-[#1C2B6A] shadow-md" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                         >
                             Home
                         </Link>
                         <Link
                             href="/destinations"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#eace83] text-[#1C2B6A] shadow-md" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                         >
                             Destinations
                         </Link>
                         <Link
                             href="/about"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#eace83] text-[#1C2B6A] shadow-md" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                         >
                             About Kemet
                         </Link>
@@ -72,14 +72,14 @@ export function Navbar() {
                             <>
                                 <Link
                                     href={isAdmin ? "/admin" : "/dashboard"}
-                                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#eace83] text-[#1C2B6A] shadow-md" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                                 >
                                     {isAdmin ? "Admin" : "Dashboard"}
                                 </Link>
                                 <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-amber-200">
                                     <div className="flex items-center space-x-2">
-                                        <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
-                                            <User className="h-4 w-4 text-bronze chat-bubble-icon" />
+                                        <div className="w-8 h-8 bg-[#1C2B6A] ag-glass rounded-full flex items-center justify-center">
+                                            <User className="h-4 w-4 text-[#d5bb88] chat-bubble-icon" />
                                         </div>
                                         <div className="hidden sm:block">
                                             <p className="text-sm font-bold text-bronze">{user?.name?.split(" ")[0]}</p>
@@ -93,13 +93,11 @@ export function Navbar() {
                             </>
                         ) : (
                             <div className="flex items-center space-x-3 ml-4">
-                                <Link href="/login">
-                                    <Button variant="ghost" size="sm" className="hover:bg-white/30 text-[#2A2A2A] font-bold">
-                                        Login
-                                    </Button>
+                                <Link href="/login" className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]">
+                                    Login
                                 </Link>
                                 <Link href="/register">
-                                    <Button size="sm" className="bg-[#1C2B6A] hover:bg-[#1C2B6A]/90 text-white font-bold shadow-lg shadow-black/10">
+                                    <Button size="sm" className="btn-kio font-bold shadow-lg shadow-black/10">
                                         Sign up
                                     </Button>
                                 </Link>
@@ -122,21 +120,21 @@ export function Navbar() {
                         <div className="glass-card rounded-2xl p-4 space-y-2">
                             <Link
                                 href="/"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#eace83] text-[#1C2B6A]" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Home
                             </Link>
                             <Link
                                 href="/destinations"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#eace83] text-[#1C2B6A]" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Destinations
                             </Link>
                             <Link
                                 href="/about"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#eace83] text-[#1C2B6A]" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 About Egypt
@@ -146,15 +144,15 @@ export function Navbar() {
                                     <div className="border-t border-amber-200 pt-2 mt-2">
                                         <Link
                                             href={isAdmin ? "/admin" : "/dashboard"}
-                                            className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#eace83] text-[#1C2B6A]" : "text-[#2A2A2A] hover:bg-white/30 hover:text-[#1C2B6A]"}`}
+                                            className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {isAdmin ? "Admin" : "Dashboard"}
                                         </Link>
                                         <div className="flex items-center justify-between px-4 py-3">
                                             <div className="flex items-center space-x-2">
-                                                <div className="w-8 h-8 bg-primary/20 rounded-full flex items-center justify-center">
-                                                    <User className="h-4 w-4 text-bronze" />
+                                                <div className="w-8 h-8 bg-[#1C2B6A] ag-glass rounded-full flex items-center justify-center">
+                                                    <User className="h-4 w-4 text-[#d5bb88]" />
                                                 </div>
                                                 <div>
                                                     <p className="text-sm font-bold text-bronze">{user?.name?.split(" ")[0]}</p>
@@ -169,11 +167,11 @@ export function Navbar() {
                                 </>
                             ) : (
                                 <div className="space-y-2 border-t border-amber-200 pt-2 mt-2">
-                                    <Link href="/login" className="block" onClick={() => setIsOpen(false)}>
-                                        <Button variant="outline" className="w-full hover:bg-amber-100/50 text-bronze font-bold border-amber-200 btn-active-taupe">Login</Button>
+                                    <Link href="/login" className="block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88] border border-transparent hover:border-amber-200/30 text-center" onClick={() => setIsOpen(false)}>
+                                        Login
                                     </Link>
                                     <Link href="/register" className="block" onClick={() => setIsOpen(false)}>
-                                        <Button className="w-full bg-[#1C2B6A] hover:bg-[#1C2B6A]/90 text-white font-bold">
+                                        <Button className="w-full btn-kio font-bold">
                                             Sign up
                                         </Button>
                                     </Link>

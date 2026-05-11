@@ -10,7 +10,7 @@ import { useGetAdminDashboardQuery } from "@/store/features/admin/adminApi"
 
 export default function AdminAnalyticsPage() {
     const { data: stats, isLoading } = useGetAdminDashboardQuery()
-    const COLORS = ["#D4AF37", "#E07A5F", "#2A6F97", "#F4E4C1"]
+    const COLORS = ["#1C2B6A", "#d5bb88", "#2A6F97", "#F4E4C1"]
 
     const chartData = stats?.userGrowth?.length ? stats.userGrowth : userGrowthData
     const viewsData = stats?.destinationViews?.length ? stats.destinationViews : destinationViewsData
@@ -19,7 +19,7 @@ export default function AdminAnalyticsPage() {
     if (isLoading) {
         return (
             <div className="flex items-center justify-center min-h-[400px]">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 border-t-gold-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-gray-900 border-t-[#1C2B6A]"></div>
             </div>
         )
     }
@@ -44,7 +44,7 @@ export default function AdminAnalyticsPage() {
                     <Card className="border-none shadow-md bg-white/80 backdrop-blur-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center text-gray-900">
-                                <TrendingUp className="h-5 w-5 mr-2 text-gold-600" />
+                                <TrendingUp className="h-5 w-5 mr-2 text-[#1C2B6A]" />
                                 User Growth Trend
                             </CardTitle>
                         </CardHeader>
@@ -56,7 +56,7 @@ export default function AdminAnalyticsPage() {
                                     <YAxis axisLine={false} tickLine={false} tick={{ fill: '#6B7280' }} />
                                     <Tooltip contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)' }} />
                                     <Legend iconType="circle" />
-                                    <Line type="monotone" dataKey="users" stroke="#D4AF37" strokeWidth={3} dot={{ r: 4, fill: '#D4AF37' }} activeDot={{ r: 6 }} name="Total Users" />
+                                    <Line type="monotone" dataKey="users" stroke="#1C2B6A" strokeWidth={3} dot={{ r: 4, fill: '#1C2B6A' }} activeDot={{ r: 6 }} name="Total Users" />
                                 </LineChart>
                             </ResponsiveContainer>
                         </CardContent>
@@ -120,7 +120,7 @@ export default function AdminAnalyticsPage() {
                     <Card className="border-none shadow-md bg-white/80 backdrop-blur-sm">
                         <CardHeader>
                             <CardTitle className="flex items-center text-gray-900">
-                                <Users className="h-5 w-5 mr-2 text-gold-600" />
+                                <Users className="h-5 w-5 mr-2 text-[#1C2B6A]" />
                                 Daily Activity
                             </CardTitle>
                         </CardHeader>
@@ -146,8 +146,8 @@ export default function AdminAnalyticsPage() {
                     </CardHeader>
                     <CardContent className="pt-8">
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-                            <div className="text-center p-6 rounded-2xl bg-gray-50/50 border border-gray-100 hover:border-gold-200 transition-colors group">
-                                <p className="text-4xl font-bold text-gold-600 mb-1 group-hover:scale-110 transition-transform">{(stats?.totalUsers || 15420).toLocaleString()}</p>
+                            <div className="text-center p-6 rounded-2xl bg-gray-50/50 border border-gray-100 hover:border-[#1C2B6A] transition-colors group">
+                                <p className="text-4xl font-bold text-[#1C2B6A] mb-1 group-hover:scale-110 transition-transform">{(stats?.totalUsers || 15420).toLocaleString()}</p>
                                 <p className="text-gray-500 font-medium">Total Users</p>
                             </div>
                             <div className="text-center p-6 rounded-2xl bg-gray-50/50 border border-gray-100 hover:border-terracotta-200 transition-colors group">
