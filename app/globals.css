@@ -398,6 +398,35 @@
     font-weight: 800;
   }
 
+  /* Interactive Navigation - Active State Synchronization */
+  .nav-active-kio {
+    background: linear-gradient(115deg, #1C2B6A, #170C79, #d5bb88);
+    background-size: 200% 200%;
+    color: #d5bb88 !important;
+    animation: kio-gradient-shift 4s ease infinite;
+    box-shadow: 0 4px 12px rgba(28, 43, 106, 0.2);
+    border-radius: 0.75rem;
+    transition: all 0.3s ease;
+  }
+
+  .nav-active-kio::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 60%;
+    height: 100%;
+    background: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 0.2) 50%,
+      rgba(255, 255, 255, 0) 100%
+    );
+    transform: skewX(-30deg);
+    animation: glass-shimmer 5s infinite linear;
+    pointer-events: none;
+  }
+
   /* Core Color Rules */
   .bg-kemet-blue {
     background-color: #1C2B6A !important;

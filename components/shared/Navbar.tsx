@@ -60,19 +60,19 @@ export function Navbar() {
                     <div className="hidden lg:flex items-center space-x-1">
                         <Link
                             href="/"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
+                            className={`px-4 py-2 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                         >
                             Home
                         </Link>
                         <Link
                             href="/destinations"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
+                            className={`px-4 py-2 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/destinations") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                         >
                             Destinations
                         </Link>
                         <Link
                             href="/about"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
+                            className={`px-4 py-2 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/about") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                         >
                             About Kemet
                         </Link>
@@ -81,7 +81,7 @@ export function Navbar() {
                             <>
                                 <Link
                                     href={isAdmin ? "/admin" : "/dashboard"}
-                                    className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                                    className={`px-4 py-2 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/dashboard") || isActive("/admin") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                                 >
                                     {isAdmin ? "Admin" : "Dashboard"}
                                 </Link>
@@ -135,21 +135,21 @@ export function Navbar() {
                         <div className="glass-card rounded-2xl p-4 space-y-2">
                             <Link
                                 href="/"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
+                                className={`block px-4 py-3 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Home
                             </Link>
                             <Link
                                 href="/destinations"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
+                                className={`block px-4 py-3 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/destinations") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Destinations
                             </Link>
                             <Link
                                 href="/about"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
+                                className={`block px-4 py-3 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/about") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 About Kemet
@@ -159,7 +159,7 @@ export function Navbar() {
                                     <div className="border-t border-amber-200 pt-2 mt-2">
                                         <Link
                                             href={isAdmin ? "/admin" : "/dashboard"}
-                                            className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
+                                            className={`block px-4 py-3 text-sm font-bold transition-all duration-300 relative overflow-hidden ${isActive("/dashboard") || isActive("/admin") ? "nav-active-kio" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10 rounded-xl"}`}
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {isAdmin ? "Admin" : "Dashboard"}
