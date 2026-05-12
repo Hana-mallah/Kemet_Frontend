@@ -34,24 +34,18 @@ export default function DashboardPage() {
             description: "Create your itinerary",
             icon: Map,
             href: "/dashboard/trips/generate",
-            gradient: "from-blue-500 to-cyan-500",
-            iconBg: "bg-[#ffa300]"
         },
         {
             title: "KEMET Assistant",
             description: "Get instant help",
             icon: MessageSquare,
             href: "/dashboard/chatbot",
-            gradient: "from-purple-500 to-pink-500",
-            iconBg: "bg-[#ffa300]"
         },
         {
             title: "My Favorites",
             description: "Saved destinations",
             icon: Heart,
             href: "/dashboard/favorites",
-            gradient: "from-red-500 to-orange-500",
-            iconBg: "bg-[#ffa300]"
         }
     ]
 
@@ -71,7 +65,7 @@ export default function DashboardPage() {
     }
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30">
+        <div className="min-h-screen bg-background">
             <motion.div
                 variants={container}
                 initial="hidden"
@@ -81,10 +75,10 @@ export default function DashboardPage() {
                 {/* Header */}
                 <motion.div variants={item} className="flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                     <div>
-                        <h1 className="font-display text-3xl sm:text-4xl font-bold bg-gradient-to-r from-gray-900 via-gray-800 to-gray-900 bg-clip-text text-transparent mb-2 leading-tight">
+                        <h1 className="font-display text-3xl sm:text-4xl font-bold text-[#1C2B6A] mb-2 leading-tight">
                             {mounted ? `${greeting}, ${user?.name?.split(" ")[0]} 👋` : 'Welcome'}
                         </h1>
-                        <p className="text-bronze/80 text-base sm:text-lg">
+                        <p className="text-[#1C2B6A]/70 text-base sm:text-lg font-semibold">
                             Ready to explore Egypt&apos;s wonders?
                         </p>
                     </div>
@@ -99,8 +93,8 @@ export default function DashboardPage() {
                 {/* Quick Actions */}
                 <motion.div variants={item}>
                     <div className="flex items-center gap-3 mb-6">
-                        <div className="w-1 h-8 bg-gradient-to-b from-blue-600 to-purple-600 rounded-full" />
-                        <h2 className="font-display text-2xl font-bold text-bronze">Quick Actions</h2>
+                        <div className="w-1 h-8 bg-[#d5bb88] rounded-full" />
+                        <h2 className="font-display text-2xl font-bold text-[#1C2B6A]">Quick Actions</h2>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -112,14 +106,17 @@ export default function DashboardPage() {
                                     transition={{ type: "spring", stiffness: 300 }}
                                     className="h-full"
                                 >
-                                    <Card className="h-full border-none shadow-lg hover:shadow-2xl transition-all duration-300 bg-white/80 backdrop-blur-sm overflow-hidden group">
+                                    <Card className="h-full glass-card border-[#d5bb88]/20 shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden group">
                                         <CardContent className="p-6">
-                                            <div className={`w-14 h-14 rounded-2xl ${action.iconBg} flex items-center justify-center mb-5 shadow-lg group-hover:scale-110 transition-transform duration-300`}>
-                                                <action.icon className="w-7 h-7 text-bronze" />
+                                            <div className="relative w-14 h-14 mb-5 flex-shrink-0">
+                                                <div className="w-14 h-14 rounded-2xl bg-[#1C2B6A] flex items-center justify-center shadow-lg group-hover:scale-110 transition-transform duration-300">
+                                                    <action.icon className="w-7 h-7 text-[#d5bb88]" />
+                                                </div>
+                                                <div className="absolute -inset-0.5 rounded-2xl border border-[#d5bb88]/30 pointer-events-none" />
                                             </div>
-                                            <h3 className="font-bold text-xl mb-2 text-bronze">{action.title}</h3>
-                                            <p className="text-bronze/80 mb-4">{action.description}</p>
-                                            <div className="flex items-center text-blue-600 font-semibold group-hover:gap-2 transition-all">
+                                            <h3 className="font-bold text-xl mb-2 text-[#1C2B6A]">{action.title}</h3>
+                                            <p className="text-[#1C2B6A]/70 font-semibold mb-4">{action.description}</p>
+                                            <div className="flex items-center text-[#d5bb88] font-bold group-hover:gap-2 transition-all">
                                                 Get Started
                                                 <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                                             </div>
@@ -135,17 +132,17 @@ export default function DashboardPage() {
                 <motion.div variants={item}>
                     <div className="flex items-center justify-between gap-3 mb-6">
                         <div className="flex items-center gap-3">
-                            <div className="w-1 h-8 bg-gradient-to-b from-red-500 to-orange-500 rounded-full" />
-                            <h2 className="font-display text-2xl font-bold text-bronze">Saved Destinations</h2>
+                            <div className="w-1 h-8 bg-[#d5bb88] rounded-full" />
+                            <h2 className="font-display text-2xl font-bold text-[#1C2B6A]">Saved Destinations</h2>
                         </div>
-                        <Link href="/dashboard/favorites" className="text-blue-600 hover:text-blue-700 text-sm font-semibold flex items-center gap-1">
+                        <Link href="/dashboard/favorites" className="text-[#1C2B6A] hover:text-[#170C79] text-sm font-bold flex items-center gap-1">
                             View All <ArrowRight className="w-4 h-4" />
                         </Link>
                     </div>
 
                     {isFavoritesLoading ? (
                         <div className="flex justify-center items-center py-12">
-                            <Loader2 className="w-8 h-8 animate-spin text-[#ffa300]" />
+                            <Loader2 className="w-8 h-8 animate-spin text-[#1C2B6A]" />
                         </div>
                     ) : favorites.length > 0 ? (
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -164,7 +161,7 @@ export default function DashboardPage() {
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
                                         <div className="absolute bottom-0 left-0 right-0 p-4">
                                             <div className="flex items-center gap-1 text-white/80 text-xs mb-1">
-                                                <MapPin className="w-3 h-3 text-[#ffa300]" />
+                                                <MapPin className="w-3 h-3 text-[#d5bb88]" />
                                                 {destination.city}
                                             </div>
                                             <h3 className="text-white font-bold text-lg leading-tight line-clamp-2">
@@ -176,14 +173,16 @@ export default function DashboardPage() {
                             ))}
                         </div>
                     ) : (
-                        <Card className="border-none shadow-md bg-white p-8 text-center transition-all hover:shadow-lg">
-                            <div className="w-12 h-12 bg-red-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                                <Heart className="w-6 h-6 text-[#ffa300]" />
+                        <Card className="glass-card border-[#d5bb88]/20 shadow-md p-8 text-center transition-all hover:shadow-lg">
+                            <div className="relative w-12 h-12 mx-auto mb-4">
+                                <div className="w-12 h-12 bg-[#1C2B6A] rounded-full flex items-center justify-center">
+                                    <Heart className="w-6 h-6 text-[#d5bb88]" />
+                                </div>
                             </div>
-                            <h3 className="font-bold text-bronze mb-2">No favorites yet</h3>
-                            <p className="text-bronze/70 text-sm mb-4">Start exploring Egypt and save your favorite spots!</p>
+                            <h3 className="font-bold text-[#1C2B6A] mb-2">No favorites yet</h3>
+                            <p className="text-[#1C2B6A]/70 font-semibold text-sm mb-4">Start exploring Egypt and save your favorite spots!</p>
                             <Link href="/destinations">
-                                <Button variant="outline" size="sm" className="border-blue-200 text-blue-600 hover:bg-blue-50">
+                                <Button size="sm" className="bg-[#1C2B6A] text-[#d5bb88] hover:bg-[#170C79] font-bold border border-[#d5bb88]/20">
                                     Explore Now
                                 </Button>
                             </Link>
@@ -195,20 +194,20 @@ export default function DashboardPage() {
                 <motion.div variants={item}>
                     <div className="max-w-2xl">
                         {/* Did You Know Card */}
-                        <Card className="border-none shadow-lg bg-gradient-to-br from-amber-50 to-orange-50 overflow-hidden">
+                        <Card className="glass-card border-[#d5bb88]/25 shadow-lg overflow-hidden">
                             <CardContent className="p-6">
                                 <div className="flex items-start gap-4">
-                                    <div className="w-12 h-12 bg-gradient-to-br from-amber-500 to-orange-500 rounded-xl flex items-center justify-center flex-shrink-0 shadow-lg">
-                                        <Sparkles className="w-6 h-6 text-white" />
+                                    <div className="relative flex-shrink-0">
+                                        <div className="w-12 h-12 bg-[#1C2B6A] rounded-xl flex items-center justify-center shadow-lg">
+                                            <Sparkles className="w-6 h-6 text-[#d5bb88]" />
+                                        </div>
+                                        <div className="absolute -inset-0.5 rounded-xl border border-[#d5bb88]/30 pointer-events-none" />
                                     </div>
                                     <div className="flex-1">
-                                        <h3 className="font-bold text-xl mb-3 text-bronze">Did You Know?</h3>
-                                        <p className="text-bronze/80 leading-relaxed mb-4">
+                                        <h3 className="font-bold text-xl mb-3 text-[#d5bb88]">Did You Know?</h3>
+                                        <p className="text-[#1C2B6A] font-semibold leading-relaxed">
                                             The Great Pyramid of Giza was the tallest man-made structure in the world for over 3,800 years, standing at 146.6 meters tall.
                                         </p>
-                                        <Button variant="outline" size="sm" className="bg-white hover:bg-gray-50 border-amber-200 text-amber-700 hover:text-amber-800 rounded-lg">
-                                            Discover More
-                                        </Button>
                                     </div>
                                 </div>
                             </CardContent>

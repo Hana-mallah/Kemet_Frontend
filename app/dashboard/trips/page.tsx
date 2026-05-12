@@ -80,33 +80,33 @@ export default function TripsPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 flex items-center justify-center">
-                <div className="text-center">
-                    <motion.div
-                        animate={{ rotate: 360 }}
-                        transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
-                        className="w-16 h-16 border-b-4 border-blue-600 rounded-full mx-auto mb-4"
-                    />
-                    <p className="text-gray-600 font-medium">Gathering your adventures...</p>
-                </div>
+            <div className="min-h-screen bg-background flex items-center justify-center">
+            <div className="text-center">
+                <motion.div
+                    animate={{ rotate: 360 }}
+                    transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+                    className="w-16 h-16 border-b-4 border-[#1C2B6A] rounded-full mx-auto mb-4"
+                />
+                <p className="text-[#1C2B6A] font-semibold">Gathering your adventures...</p>
             </div>
+        </div>
         )
     }
 
     if (error) {
         return (
-            <div className="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 flex items-center justify-center p-4">
-                <Card className="max-w-md w-full border-none shadow-2xl bg-white/80 backdrop-blur-md">
-                    <CardContent className="p-8 text-center">
-                        <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                        <h2 className="font-display text-2xl font-bold text-gray-900 mb-2">Oops! Something went wrong</h2>
-                        <p className="text-gray-600 mb-6">We couldn't load your trips. This might be a temporary connection issue.</p>
-                        <Button onClick={() => window.location.reload()} className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white">
-                            Retry
-                        </Button>
-                    </CardContent>
-                </Card>
-            </div>
+            <div className="min-h-screen bg-background flex items-center justify-center p-4">
+            <Card className="max-w-md w-full glass-card border-[#d5bb88]/20 shadow-2xl">
+                <CardContent className="p-8 text-center">
+                    <AlertCircle className="w-16 h-16 text-red-500 mx-auto mb-4" />
+                    <h2 className="font-display text-2xl font-bold text-[#1C2B6A] mb-2">Oops! Something went wrong</h2>
+                    <p className="text-[#1C2B6A]/70 font-semibold mb-6">We couldn&apos;t load your trips. This might be a temporary connection issue.</p>
+                    <Button onClick={() => window.location.reload()} className="w-full bg-[#1C2B6A] text-[#d5bb88] hover:bg-[#170C79] font-bold border border-[#d5bb88]/20">
+                        Retry
+                    </Button>
+                </CardContent>
+            </Card>
+        </div>
         )
     }
 
@@ -116,16 +116,16 @@ export default function TripsPage() {
                 {/* Header */}
                 <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6">
                     <div>
-                        <h1 className="font-display text-4xl sm:text-5xl font-bold text-bronze mb-2 leading-tight">
+                        <h1 className="font-display text-4xl sm:text-5xl font-bold text-[#1C2B6A] mb-2 leading-tight">
                             My Journeys
                         </h1>
-                        <p className="text-bronze/80 text-lg">
+                        <p className="text-[#1C2B6A]/70 font-semibold text-lg">
                             Keep track of all your planned adventures in Egypt.
                         </p>
                     </div>
                     <Link href="/dashboard/trips/generate">
-                        <Button className="bg-primary hover:bg-primary/90 text-bronze shadow-lg shadow-amber-500/20 h-14 px-8 rounded-xl group text-base font-bold btn-active-taupe">
-                            <Sparkles className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform" />
+                        <Button className="btn-kio text-[#d5bb88] font-bold shadow-lg hover:shadow-xl hover:shadow-[#1C2B6A]/30 transition-all duration-300 h-14 px-8 rounded-xl group text-base">
+                            <Sparkles className="w-5 h-5 mr-3 group-hover:rotate-12 transition-transform text-[#eace83]" />
                             Create New Trip
                         </Button>
                     </Link>
@@ -137,18 +137,21 @@ export default function TripsPage() {
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95 }}
                             animate={{ opacity: 1, scale: 1 }}
-                            className="bg-white/60 backdrop-blur-xl rounded-[2rem] shadow-2xl p-16 text-center border border-amber-200/40"
+                            className="glass-card rounded-[2rem] shadow-2xl p-16 text-center border-[#d5bb88]/20"
                         >
                             <div className="max-w-md mx-auto">
-                                <div className="w-24 h-24 bg-amber-50/50 rounded-full flex items-center justify-center mx-auto mb-8 border border-amber-100">
-                                    <MapIcon className="w-12 h-12 text-gold" />
+                                <div className="relative w-24 h-24 mx-auto mb-8">
+                                    <div className="w-24 h-24 bg-[#1C2B6A] rounded-full flex items-center justify-center">
+                                        <MapIcon className="w-12 h-12 text-[#d5bb88]" />
+                                    </div>
+                                    <div className="absolute -inset-1 rounded-full border border-[#d5bb88]/30 pointer-events-none" />
                                 </div>
-                                <h3 className="font-display text-3xl font-bold text-bronze mb-4">No trips yet</h3>
-                                <p className="text-bronze/80 text-lg mb-8 leading-relaxed">
+                                <h3 className="font-display text-3xl font-bold text-[#1C2B6A] mb-4">No trips yet</h3>
+                                <p className="text-[#1C2B6A]/70 font-semibold text-lg mb-8 leading-relaxed">
                                     The land of Pharaohs is waiting! Start planning your dream vacation with our AI trip generator.
                                 </p>
                                 <Link href="/dashboard/trips/generate">
-                                    <Button size="lg" className="rounded-xl px-10 h-14 bg-primary hover:bg-primary/90 text-bronze group font-bold shadow-lg shadow-amber-500/20 btn-active-taupe">
+                                    <Button size="lg" className="btn-kio text-[#d5bb88] font-bold shadow-lg hover:shadow-xl hover:shadow-[#1C2B6A]/30 transition-all duration-300 rounded-xl px-10 h-14 group">
                                         Plan My First Trip
                                         <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
                                     </Button>
@@ -165,7 +168,7 @@ export default function TripsPage() {
                                     transition={{ delay: idx * 0.1 }}
                                     className="group"
                                 >
-                                    <Card className="border-amber-200/40 shadow-lg hover:shadow-2xl transition-all duration-500 bg-white/80 backdrop-blur-sm overflow-hidden rounded-[2rem] h-full flex flex-col">
+                                    <Card className="glass-card border-[#d5bb88]/20 shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden rounded-[2rem] h-full flex flex-col">
                                         {/* Image Section */}
                                         <div className="relative h-56 overflow-hidden">
                                             <img
@@ -174,12 +177,12 @@ export default function TripsPage() {
                                                 className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
                                             />
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                                            <div className="absolute top-4 right-4 bg-primary/90 backdrop-blur-md px-4 py-1.5 rounded-full text-sm font-bold text-bronze shadow-lg">
+                                            <div className="absolute top-4 right-4 bg-[#1C2B6A]/90 backdrop-blur-md px-4 py-1.5 rounded-full text-sm font-bold text-[#d5bb88] shadow-lg border border-[#d5bb88]/20">
                                                 {trip.price} EGP
                                             </div>
                                             <div className="absolute bottom-4 left-6 right-6">
                                                 <div className="flex gap-2">
-                                                    <span className="px-3 py-1 bg-black/60 backdrop-blur-md border border-gold/30 text-gold text-[10px] font-bold uppercase tracking-widest rounded-full">
+                                                    <span className="px-3 py-1 bg-black/60 backdrop-blur-md border border-[#d5bb88]/30 text-[#d5bb88] text-[10px] font-bold uppercase tracking-widest rounded-full">
                                                         {getTravelStyleLabel(trip.travelStyle)}
                                                     </span>
                                                 </div>
@@ -187,24 +190,24 @@ export default function TripsPage() {
                                         </div>
 
                                         <CardContent className="p-8 flex-1 flex flex-col">
-                                            <h3 className="font-display text-2xl font-bold text-bronze mb-3 group-hover:text-gold transition-colors line-clamp-1">
+                                            <h3 className="font-display text-2xl font-bold text-[#1C2B6A] mb-3 group-hover:text-[#d5bb88] transition-colors line-clamp-1">
                                                 {trip.title}
                                             </h3>
-                                            <p className="text-bronze/80 text-sm mb-6 line-clamp-2 leading-relaxed">
+                                            <p className="text-[#1C2B6A]/70 font-semibold text-sm mb-6 line-clamp-2 leading-relaxed">
                                                 {trip.description}
                                             </p>
 
                                             <div className="space-y-3 mb-8">
-                                                <div className="flex items-center text-sm font-medium text-bronze/70">
-                                                    <Calendar className="w-4 h-4 mr-3 text-gold" />
+                                                <div className="flex items-center text-sm font-semibold text-[#1C2B6A]/80">
+                                                    <Calendar className="w-4 h-4 mr-3 text-[#d5bb88]" />
                                                     {formatDate(trip.startDate)} - {formatDate(trip.endDate)}
                                                 </div>
-                                                <div className="flex items-center text-sm font-medium text-bronze/70">
-                                                    <Clock className="w-4 h-4 mr-3 text-gold" />
+                                                <div className="flex items-center text-sm font-semibold text-[#1C2B6A]/80">
+                                                    <Clock className="w-4 h-4 mr-3 text-[#d5bb88]" />
                                                     {trip.durationDays} Magical Days
                                                 </div>
-                                                <div className="flex items-center text-sm font-medium text-bronze/70">
-                                                    <Users className="w-4 h-4 mr-3 text-gold" />
+                                                <div className="flex items-center text-sm font-semibold text-[#1C2B6A]/80">
+                                                    <Users className="w-4 h-4 mr-3 text-[#d5bb88]" />
                                                 {getCompanionsLabel(trip.travelCompanions)}
                                                 </div>
                                             </div>
@@ -214,7 +217,7 @@ export default function TripsPage() {
                                                     href={`/dashboard/trips/view?id=${trip.id}`}
                                                     className="flex-[2]"
                                                 >
-                                                    <Button className="w-full h-11 bg-primary hover:bg-primary/90 text-bronze font-bold rounded-xl shadow-md transition-all btn-active-taupe">
+                                                    <Button className="w-full h-11 bg-[#1C2B6A] hover:bg-[#170C79] text-[#d5bb88] font-bold rounded-xl shadow-md transition-all border border-[#d5bb88]/20">
                                                         View Details
                                                         <ExternalLink className="w-4 h-4 ml-2" />
                                                     </Button>
@@ -223,7 +226,7 @@ export default function TripsPage() {
                                                     size="icon"
                                                     onClick={() => trip.id && setTripToDelete(trip.id)}
                                                     variant="outline"
-                                                    className="w-11 h-11 border-gray-100 bg-gray-50 hover:bg-red-50 hover:border-red-100 hover:text-red-900 rounded-xl transition-all btn-active-taupe"
+                                                    className="w-11 h-11 border-[#d5bb88]/20 bg-transparent hover:bg-red-50 hover:border-red-200 hover:text-red-600 rounded-xl transition-all"
                                                 >
                                                     <Trash2 className="w-4 h-4" />
                                                 </Button>
