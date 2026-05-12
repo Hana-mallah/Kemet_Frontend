@@ -39,20 +39,20 @@ export default function ChatbotPage() {
     return (
         <div className="max-w-5xl mx-auto h-[calc(100vh-8rem)] flex flex-col font-sans">
             <div className="mb-6">
-                <Link href="/dashboard" className="inline-flex items-center text-sm font-bold text-gray-400 uppercase tracking-widest hover:text-blue-600 mb-4 transition-colors group">
+                <Link href="/dashboard" className="inline-flex items-center text-sm font-bold text-[#1C2B6A]/50 uppercase tracking-widest hover:text-[#1C2B6A] mb-4 transition-colors group">
                     <ArrowLeft className="w-4 h-4 mr-2 group-hover:-translate-x-1 transition-transform" />
                     Back to Dashboard
                 </Link>
                 <div className="flex items-center justify-between">
                     <div>
-                        <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-gray-900 mb-2 flex items-center gap-4">
-                            <span className="bg-gradient-to-br from-blue-600 to-purple-600 p-3 rounded-2xl text-white shadow-lg">
+                        <h1 className="font-display text-3xl sm:text-4xl font-extrabold text-[#1C2B6A] mb-2 flex items-center gap-4">
+                            <span className="bg-[#1C2B6A] p-3 rounded-2xl text-[#d5bb88] shadow-lg border border-[#d5bb88]/30">
                                 <Bot className="w-7 h-7 sm:w-9 sm:h-9" />
                             </span>
                             Kemet Guide AI
                         </h1>
-                        <p className="text-gray-500 font-medium text-base sm:text-lg">
-                            Your professional KEMET assistant for exploring Egypt's wonders.
+                        <p className="text-[#1C2B6A]/70 font-bold text-base sm:text-lg">
+                            Your professional KEMET assistant for exploring Egypt&apos;s wonders.
                         </p>
                     </div>
                 </div>
@@ -70,8 +70,8 @@ export default function ChatbotPage() {
                     >
                         {/* Voiceflow will inject the chat widget here */}
                         <div className="flex flex-col items-center justify-center h-full space-y-4">
-                            <div className="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin" />
-                            <p className="text-gray-400 font-bold uppercase tracking-widest text-xs">Initializing KEMET Assistant...</p>
+                            <div className="w-12 h-12 border-4 border-[#1C2B6A] border-t-transparent rounded-full animate-spin" />
+                            <p className="text-[#1C2B6A]/40 font-bold uppercase tracking-widest text-xs">Initializing KEMET Assistant...</p>
                         </div>
                     </div>
                 </Card>

@@ -56,7 +56,7 @@ export default function AboutPage() {
                             <Button
                                 size="lg"
                                 onClick={handlePlanJourney}
-                                className="h-14 px-8 text-base bg-[#d5bb88] text-[#170C79] hover:bg-[#eace83] border border-[#170C79]/20 font-bold transition-all duration-300 shadow-md"
+                                className="h-14 px-8 text-base bg-[#d5bb88] text-[#1C2B6A] hover:bg-[#eace83] border border-[#1C2B6A]/20 font-bold transition-all duration-300 shadow-md"
                             >
                                 Plan Your Journey
                             </Button>
@@ -242,7 +242,7 @@ export default function AboutPage() {
                                                 <h3 className="font-bold text-xl mb-2 text-[#1C2B6A]">
                                                     {item.title}
                                                 </h3>
-                                                <p className="text-base font-semibold text-[#1C2B6A] leading-relaxed">
+                                                <p className="text-base font-bold text-[#1C2B6A] leading-relaxed">
                                                     {item.desc}
                                                 </p>
                                             </div>

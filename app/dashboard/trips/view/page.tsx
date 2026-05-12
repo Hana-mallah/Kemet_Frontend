@@ -154,7 +154,7 @@ function TripDetailContent() {
                         <div className="absolute bottom-0 left-0 right-0 p-8 sm:p-12">
                             <div className="flex flex-wrap items-center gap-3 mb-4">
                                 {trip.experienceTypes?.map((type, idx) => (
-                                    <span key={idx} className="px-4 py-1.5 bg-black/60 backdrop-blur-md border border-gold/30 text-gold text-[10px] font-bold uppercase tracking-wider rounded-full">
+                                    <span key={idx} className="px-4 py-1.5 bg-[#1C2B6A]/80 backdrop-blur-md border border-[#d5bb88]/30 text-[#d5bb88] text-[10px] font-bold uppercase tracking-wider rounded-full">
                                         {type}
                                     </span>
                                 ))}
@@ -162,16 +162,16 @@ function TripDetailContent() {
                             <h1 className="font-display text-4xl sm:text-6xl font-extrabold text-white mb-4 leading-tight drop-shadow-lg">
                                 {trip.title}
                             </h1>
-                            <div className="flex items-center text-white/90 font-medium">
-                                <span className="text-2xl font-extrabold text-primary mr-2">EGP</span>
+                            <div className="flex items-center text-white/90 font-bold">
+                                <span className="text-2xl font-extrabold text-[#d5bb88] mr-2">EGP</span>
                                 <span className="text-3xl font-bold text-white mr-2">{Number(trip.price).toLocaleString()}</span>
-                                <span className="text-white/60 text-base">Total Estimated Price</span>
+                                <span className="text-white/70 text-base">Total Estimated Price</span>
                             </div>
                         </div>
                     </div>
 
                     <div className="p-8 sm:p-12">
-                        <p className="text-bronze/80 text-lg sm:text-xl leading-relaxed mb-10">
+                        <p className="text-[#1C2B6A] font-bold text-lg sm:text-xl leading-relaxed mb-10">
                             {trip.description}
                         </p>
 
@@ -187,8 +187,8 @@ function TripDetailContent() {
                 {/* Itinerary Section */}
                 <div className="space-y-10">
                     <div className="flex items-center gap-4 mb-2">
-                        <div className="w-1.5 h-10 gradient-egyptian rounded-full" />
-                        <h2 className="font-display text-3xl font-bold text-bronze">Your Detailed Itinerary</h2>
+                        <div className="w-1.5 h-10 bg-[#d5bb88] rounded-full" />
+                        <h2 className="font-display text-3xl font-bold text-[#1C2B6A]">Your Detailed Itinerary</h2>
                     </div>
 
                     {!trip.days || trip.days.length === 0 ? (
@@ -210,27 +210,27 @@ function TripDetailContent() {
                                     className="relative pl-8 sm:pl-12 border-l-2 border-dashed border-gold/30"
                                 >
                                     {/* Timeline Marker */}
-                                    <div className="absolute top-0 left-0 -translate-x-1/2 w-14 h-8 rounded-full gradient-egyptian flex items-center justify-center text-bronze font-bold text-sm shadow-lg shadow-amber-500/20 ring-4 ring-background">
+                                    <div className="absolute top-0 left-0 -translate-x-1/2 w-14 h-8 rounded-full bg-[#1C2B6A] flex items-center justify-center text-[#d5bb88] font-bold text-sm shadow-lg border border-[#d5bb88]/30 ring-4 ring-background">
                                         Day {day.dayNumber}
                                     </div>
 
                                     <div className="bg-white/60 backdrop-blur-md rounded-3xl p-8 shadow-xl border border-amber-200/40 group hover:shadow-2xl transition-all duration-300">
                                         <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
                                             <div>
-                                                <div className="text-gold font-bold uppercase tracking-widest text-[10px] mb-1">
+                                                <div className="text-[#d5bb88] font-bold uppercase tracking-widest text-[10px] mb-1">
                                                     {formatDate(day.date)}
                                                 </div>
-                                                <h3 className="font-sans text-base font-medium text-gray-500">
+                                                <h3 className="font-display text-xl font-bold text-[#1C2B6A]">
                                                     {day.title}
                                                 </h3>
                                             </div>
-                                            <div className="flex items-center bg-amber-50/50 px-4 py-2 rounded-xl text-bronze/80 font-medium text-sm border border-amber-100/50">
-                                                <MapPin className="w-4 h-4 mr-2 text-gold" />
+                                            <div className="flex items-center bg-[#1C2B6A]/10 px-4 py-2 rounded-xl text-[#1C2B6A] font-bold text-sm border border-[#1C2B6A]/20">
+                                                <MapPin className="w-4 h-4 mr-2 text-[#d5bb88]" />
                                                 {day.city}
                                             </div>
                                         </div>
 
-                                        <p className="text-bronze/80 text-lg mb-8 leading-relaxed italic border-l-4 border-gold/50 pl-4 py-1">
+                                        <p className="text-[#1C2B6A] font-bold text-lg mb-8 leading-relaxed italic border-l-4 border-[#d5bb88] pl-4 py-1">
                                             {day.description}
                                         </p>
 
@@ -247,27 +247,27 @@ function TripDetailContent() {
                                                     return (
                                                         <div
                                                             key={activity.id}
-                                                            className="bg-white/80 p-6 rounded-2xl border border-amber-100/50 shadow-sm hover:border-gold/50 hover:shadow-md transition-all group/activity hover:bg-white"
+                                                            className="bg-white/80 p-6 rounded-2xl border border-[#d5bb88]/20 shadow-sm hover:border-[#1C2B6A]/30 hover:shadow-md transition-all group/activity hover:bg-white"
                                                         >
                                                             <div className="flex items-start gap-4">
-                                                                <div className="w-10 h-10 rounded-xl bg-amber-50 text-gold flex items-center justify-center flex-shrink-0 group-hover/activity:bg-primary group-hover/activity:text-bronze transition-all mt-1">
+                                                                <div className="w-10 h-10 rounded-xl bg-[#1C2B6A] text-[#d5bb88] flex items-center justify-center flex-shrink-0 shadow-lg mt-1">
                                                                     <Clock className="w-5 h-5" />
                                                                 </div>
                                                                 <div className="flex-1">
-                                                                    <h4 className="font-sans font-extrabold text-2xl text-gray-900 mb-1 group-hover/activity:text-blue-600 transition-colors">
+                                                                    <h4 className="font-display font-bold text-2xl text-[#1C2B6A] mb-1 group-hover:text-[#d5bb88] transition-colors">
                                                                         {placeName}
                                                                     </h4>
                                                                     <div className="flex items-center justify-between mb-2">
                                                                         <div className="flex items-center gap-2">
-                                                                            <span className="font-sans text-gray-900 font-bold text-base tracking-tight">{formatTime12h(activity.startTime)}</span>
-                                                                            <span className="w-1.5 h-1.5 bg-gold/50 rounded-full" />
-                                                                            <span className="text-gold text-[10px] font-bold uppercase tracking-tighter">
+                                                                            <span className="font-display text-[#1C2B6A] font-bold text-base tracking-tight">{formatTime12h(activity.startTime)}</span>
+                                                                            <span className="w-1.5 h-1.5 bg-[#d5bb88] rounded-full" />
+                                                                            <span className="text-[#d5bb88] text-[10px] font-bold uppercase tracking-tighter">
                                                                                 {getActivityTypeLabel(activity.activityType)}
                                                                             </span>
                                                                         </div>
-                                                                        <div className="text-gray-400 text-xs font-medium">{activity.durationHours}h</div>
+                                                                        <div className="text-[#1C2B6A]/50 text-xs font-bold">{activity.durationHours}h</div>
                                                                     </div>
-                                                                    <p className="font-sans text-sm text-gray-600 leading-snug mt-1">
+                                                                    <p className="font-display text-sm text-[#1C2B6A] font-bold leading-relaxed mt-1">
                                                                         {activity.description}
                                                                     </p>
                                                                 </div>
@@ -293,8 +293,8 @@ function TripDetailContent() {
                         <h3 className="font-display text-2xl font-bold text-bronze mb-2">Ready to take the next step?</h3>
                         <p className="text-bronze/80 mb-4 max-w-lg">Looking for more ideas or travel advice? Let KEMET Assistant assist you with anything you need for your trip in Egypt.</p>
                         <Link href="/dashboard/chatbot" className="inline-flex items-center justify-center">
-                            <button className="flex items-center gap-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-bold py-4 px-8 rounded-2xl shadow-lg shadow-blue-500/30 hover:shadow-2xl hover:scale-105 transition-all duration-300">
-                                <MessageSquare className="w-6 h-6" />
+                            <button className="flex items-center gap-3 btn-kio py-4 px-10 rounded-2xl text-lg group">
+                                <MessageSquare className="w-6 h-6 group-hover:rotate-12 transition-transform" />
                                 Chat with KEMET Assistant
                             </button>
                         </Link>
@@ -307,12 +307,12 @@ function TripDetailContent() {
 
 function StatCard({ icon, label, value }: { icon: React.ReactNode, label: string, value: string | number }) {
     return (
-        <div className="bg-white/60 p-6 rounded-2xl border border-amber-200/30 shadow-sm flex flex-col items-center text-center group hover:bg-white transition-all">
-            <div className={`w-12 h-12 rounded-xl gradient-egyptian flex items-center justify-center text-bronze mb-4 shadow-lg group-hover:scale-110 transition-transform`}>
+        <div className="bg-[#1C2B6A] p-6 rounded-2xl border border-[#d5bb88]/30 shadow-lg flex flex-col items-center text-center group hover:scale-105 transition-all duration-300">
+            <div className={`w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-[#d5bb88] mb-4 shadow-inner group-hover:bg-[#d5bb88] group-hover:text-[#1C2B6A] transition-all`}>
                 {icon}
             </div>
-            <div className="text-[10px] text-bronze/60 font-bold uppercase tracking-widest mb-1">{label}</div>
-            <div className="text-lg font-bold text-bronze leading-tight">{value}</div>
+            <div className="text-[10px] text-[#d5bb88]/60 font-bold uppercase tracking-widest mb-1">{label}</div>
+            <div className="text-lg font-bold text-white leading-tight">{value}</div>
         </div>
     )
 }

@@ -16,6 +16,15 @@ export function Navbar() {
 
     const isActive = (path: string) => pathname === path
 
+    const getInitials = (name: string) => {
+        return name
+            .split(" ")
+            .map((n) => n[0])
+            .join("")
+            .toUpperCase()
+            .slice(0, 2)
+    }
+
     return (
         <nav
             className="sticky top-0 z-50 w-full transition-all duration-300"
@@ -40,10 +49,10 @@ export function Navbar() {
                         </div>
 
                         <div>
-                            <span className="font-display text-xl font-bold text-[#1C2B6A] uppercase">
+                            <span className="font-display text-xl font-bold kio-logo-gradient uppercase">
                                 KEMET
                             </span>
-                            <p className="text-xs text-[#2A2A2A]/80 font-medium">Discover Ancient Wonders</p>
+                            <p className="text-[10px] text-[#1C2B6A] font-bold uppercase tracking-wider">Ancient Wonders</p>
                         </div>
                     </Link>
 
@@ -51,19 +60,19 @@ export function Navbar() {
                     <div className="hidden lg:flex items-center space-x-1">
                         <Link
                             href="/"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
                         >
                             Home
                         </Link>
                         <Link
                             href="/destinations"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
                         >
                             Destinations
                         </Link>
                         <Link
                             href="/about"
-                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                            className={`px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88] shadow-md" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
                         >
                             About Kemet
                         </Link>
@@ -78,12 +87,18 @@ export function Navbar() {
                                 </Link>
                                 <div className="flex items-center space-x-3 ml-4 pl-4 border-l border-amber-200">
                                     <div className="flex items-center space-x-2">
-                                        <div className="w-8 h-8 bg-[#1C2B6A] ag-glass rounded-full flex items-center justify-center">
-                                            <User className="h-4 w-4 text-[#d5bb88] chat-bubble-icon" />
+                                        <div className="w-9 h-9 bg-[#1C2B6A] rounded-full flex items-center justify-center border border-[#d5bb88]/30 shadow-md">
+                                            {user?.name ? (
+                                                <span className="text-[#d5bb88] text-xs font-bold tracking-tighter">
+                                                    {getInitials(user.name)}
+                                                </span>
+                                            ) : (
+                                                <User className="h-4 w-4 text-[#d5bb88]" />
+                                            )}
                                         </div>
                                         <div className="hidden sm:block">
-                                            <p className="text-sm font-bold text-bronze">{user?.name?.split(" ")[0]}</p>
-                                            <p className="text-xs text-bronze/70">Explorer</p>
+                                            <p className="text-sm font-bold text-[#1C2B6A]">{user?.name?.split(" ")[0]}</p>
+                                            <p className="text-[10px] uppercase tracking-wider font-bold text-[#1C2B6A]/60">Explorer</p>
                                         </div>
                                     </div>
                                     <Button onClick={logout} variant="outline" size="sm" className="hover:bg-red-50 hover:border-red-200 hover:text-red-900 border-amber-200 text-bronze btn-active-taupe">
@@ -93,7 +108,7 @@ export function Navbar() {
                             </>
                         ) : (
                             <div className="flex items-center space-x-3 ml-4">
-                                <Link href="/login" className="px-4 py-2 rounded-xl text-sm font-bold transition-all duration-200 text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]">
+                                <Link href="/login" className="kio-btn-login text-sm font-bold text-[#1C2B6A]">
                                     Login
                                 </Link>
                                 <Link href="/register">
@@ -120,43 +135,49 @@ export function Navbar() {
                         <div className="glass-card rounded-2xl p-4 space-y-2">
                             <Link
                                 href="/"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Home
                             </Link>
                             <Link
                                 href="/destinations"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/destinations") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
                                 onClick={() => setIsOpen(false)}
                             >
                                 Destinations
                             </Link>
                             <Link
                                 href="/about"
-                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                                className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/about") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
                                 onClick={() => setIsOpen(false)}
                             >
-                                About Egypt
+                                About Kemet
                             </Link>
                             {isAuthenticated ? (
                                 <>
                                     <div className="border-t border-amber-200 pt-2 mt-2">
                                         <Link
                                             href={isAdmin ? "/admin" : "/dashboard"}
-                                            className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88]"}`}
+                                            className={`block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 ${isActive("/dashboard") || isActive("/admin") ? "bg-[#1C2B6A] text-[#d5bb88]" : "text-[#1C2B6A] hover:bg-[#1C2B6A]/10"}`}
                                             onClick={() => setIsOpen(false)}
                                         >
                                             {isAdmin ? "Admin" : "Dashboard"}
                                         </Link>
                                         <div className="flex items-center justify-between px-4 py-3">
-                                            <div className="flex items-center space-x-2">
-                                                <div className="w-8 h-8 bg-[#1C2B6A] ag-glass rounded-full flex items-center justify-center">
-                                                    <User className="h-4 w-4 text-[#d5bb88]" />
+                                            <div className="flex items-center space-x-3">
+                                                <div className="w-10 h-10 bg-[#1C2B6A] rounded-full flex items-center justify-center border border-[#d5bb88]/30 shadow-md">
+                                                    {user?.name ? (
+                                                        <span className="text-[#d5bb88] text-sm font-bold tracking-tighter">
+                                                            {getInitials(user.name)}
+                                                        </span>
+                                                    ) : (
+                                                        <User className="h-5 w-5 text-[#d5bb88]" />
+                                                    )}
                                                 </div>
                                                 <div>
-                                                    <p className="text-sm font-bold text-bronze">{user?.name?.split(" ")[0]}</p>
-                                                    <p className="text-xs text-bronze/70">Explorer</p>
+                                                    <p className="text-sm font-bold text-[#1C2B6A]">{user?.name}</p>
+                                                    <p className="text-[10px] uppercase tracking-wider font-bold text-[#1C2B6A]/60">Explorer</p>
                                                 </div>
                                             </div>
                                         </div>
@@ -167,7 +188,7 @@ export function Navbar() {
                                 </>
                             ) : (
                                 <div className="space-y-2 border-t border-amber-200 pt-2 mt-2">
-                                    <Link href="/login" className="block rounded-xl px-4 py-3 text-sm font-bold transition-all duration-200 text-[#2A2A2A] hover:bg-[#1C2B6A] hover:text-[#d5bb88] border border-transparent hover:border-amber-200/30 text-center" onClick={() => setIsOpen(false)}>
+                                    <Link href="/login" className="block kio-btn-login text-sm text-center" onClick={() => setIsOpen(false)}>
                                         Login
                                     </Link>
                                     <Link href="/register" className="block" onClick={() => setIsOpen(false)}>

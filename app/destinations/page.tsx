@@ -178,11 +178,10 @@ export default function DestinationsPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className={`h-8 w-8 rounded-full shadow-[0_4px_16px_0_rgba(0,0,0,0.1)] backdrop-blur-md transition-all ${isFavorite ? "bg-white text-[#1C2B6A]" : "bg-white/40 text-[#1C2B6A] hover:bg-white/60"
-                                                        }`}
+                                                    className="h-8 w-8 rounded-full bg-[#1C2B6A] text-[#d5bb88] hover:bg-[#170C79] transition-all shadow-lg border border-[#d5bb88]/30"
                                                     onClick={(e) => handleToggleFavorite(e, destination.id)}
                                                 >
-                                                    <Heart className={`w-4 h-4 ${isFavorite ? "fill-[#1C2B6A] text-[#1C2B6A]" : "text-[#1C2B6A]"}`} />
+                                                    <Heart className={`w-4 h-4 ${isFavorite ? "fill-current" : ""}`} />
                                                 </Button>
                                             </div>
 

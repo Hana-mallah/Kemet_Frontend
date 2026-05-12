@@ -138,7 +138,7 @@ export default function HomePage() {
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
                             transition={{ delay: 0.4 }}
-                            className="text-lg md:text-xl text-bronze/80 max-w-3xl mx-auto leading-relaxed font-light"
+                            className="text-lg md:text-xl text-[#1C2B6A] max-w-3xl mx-auto leading-relaxed font-bold"
                         >
                             Your intelligent companion for exploring ancient wonders, vibrant culture, and unforgettable experiences.
                         </motion.p>
@@ -388,7 +388,7 @@ export default function HomePage() {
                         </div>
                         {/* Button */}
                         <div className="w-16 h-16 btn-kio rounded-full flex items-center justify-center border-2 border-white/20">
-                            <MessageSquare className="w-7 h-7 text-white drop-shadow-md" />
+                            <MessageSquare className="w-7 h-7 text-[#d5bb88] drop-shadow-md" />
                         </div>
                     </div>
                 </motion.div>

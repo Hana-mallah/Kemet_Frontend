@@ -38,13 +38,13 @@ export default function FavoritesPage() {
     if (!isAuthenticated) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50 flex-col gap-6 px-4 text-center">
-                <div className="w-20 h-20 bg-red-100 rounded-full flex items-center justify-center text-red-600">
-                    <Heart className="w-10 h-10" />
+                <div className="w-20 h-20 bg-[#1C2B6A] rounded-full flex items-center justify-center text-[#d5bb88] shadow-xl">
+                    <Heart className="w-10 h-10 fill-current" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-900">Login Required</h2>
                 <p className="text-gray-600 max-w-sm">Please login to view your favorite destinations.</p>
-                <Link href="/auth/login">
-                    <Button size="lg" className="bg-blue-600 hover:bg-blue-700">Login Now</Button>
+                <Link href="/login">
+                    <Button size="lg" className="btn-kio font-bold px-8">Login Now</Button>
                 </Link>
             </div>
         )
@@ -52,8 +52,8 @@ export default function FavoritesPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
+            <div className="min-h-screen flex items-center justify-center bg-background">
+                <Loader2 className="h-12 w-12 animate-spin text-[#1C2B6A]" />
             </div>
         )
     }
@@ -76,12 +76,12 @@ export default function FavoritesPage() {
                         initial={{ opacity: 0, x: -20 }}
                         animate={{ opacity: 1, x: 0 }}
                     >
-                        <h1 className="font-display text-4xl font-bold text-bronze mb-2">My Favorites</h1>
-                        <p className="text-bronze/80">All the places you&apos;ve saved for your adventure</p>
+                        <h1 className="font-display text-4xl font-bold text-[#1C2B6A] mb-2">My Favorites</h1>
+                        <p className="text-[#1C2B6A]/70 font-semibold">All the places you&apos;ve saved for your adventure</p>
                     </motion.div>
 
                     <Link href="/destinations">
-                        <Button variant="outline" className="border-amber-200 text-bronze hover:bg-amber-50 rounded-xl">
+                        <Button variant="outline" className="border-[#d5bb88]/30 text-[#1C2B6A] hover:bg-[#d5bb88]/10 rounded-xl font-bold">
                             Explore More
                         </Button>
                     </Link>
@@ -124,7 +124,7 @@ export default function FavoritesPage() {
                                                 <Button
                                                     variant="ghost"
                                                     size="icon"
-                                                    className="h-8 w-8 rounded-full bg-red-500 text-white hover:bg-red-600 transition-colors shadow-lg"
+                                                    className="h-8 w-8 rounded-full bg-[#1C2B6A] text-[#d5bb88] hover:bg-[#170C79] transition-colors shadow-lg border border-[#d5bb88]/30"
                                                     onClick={(e) => handleRemoveFavorite(e, destination.id)}
                                                 >
                                                     <Heart className="w-4 h-4 fill-current" />
@@ -133,12 +133,12 @@ export default function FavoritesPage() {
 
                                             <div className="absolute bottom-3 left-3 z-10 flex items-center gap-2">
                                                 {destination.estimatedPrice !== undefined && (
-                                                    <div className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-bronze shadow-sm">
+                                                    <div className="bg-[#1C2B6A]/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#d5bb88] shadow-sm border border-[#d5bb88]/20">
                                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
                                                     </div>
                                                 )}
                                                 {destination.vrUrlImage && (
-                                                    <div className="bg-primary/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-bronze shadow-sm">
+                                                    <div className="bg-[#1C2B6A]/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-bold text-[#d5bb88] shadow-sm border border-[#d5bb88]/20">
                                                         VR
                                                     </div>
                                                 )}
@@ -146,15 +146,15 @@ export default function FavoritesPage() {
                                         </div>
 
                                         <CardContent className="p-5">
-                                            <h3 className="font-display text-xl font-bold text-bronze mb-2 line-clamp-1 group-hover:text-gold transition-colors">
+                                            <h3 className="font-display text-xl font-bold text-[#1C2B6A] mb-2 line-clamp-1 group-hover:text-[#d5bb88] transition-colors">
                                                 {destination.name}
                                             </h3>
 
-                                            <p className="text-sm text-bronze/80 line-clamp-2 mb-4 leading-relaxed">
+                                            <p className="text-sm text-[#1C2B6A]/70 font-semibold line-clamp-2 mb-4 leading-relaxed">
                                                 {destination.description}
                                             </p>
 
-                                            <div className="flex items-center text-gold text-sm font-semibold group-hover:gap-2 transition-all">
+                                            <div className="flex items-center text-[#d5bb88] text-sm font-bold group-hover:gap-2 transition-all">
                                                 View Details
                                                 <ArrowRight className="ml-1 w-4 h-4 group-hover:translate-x-1 transition-transform" />
                                             </div>
@@ -171,15 +171,15 @@ export default function FavoritesPage() {
                     >
                         <Card className="border-2 border-dashed border-amber-200/50 bg-white/60">
                             <CardContent className="py-20 text-center flex flex-col items-center">
-                                <div className="w-20 h-20 bg-amber-50 rounded-full flex items-center justify-center mb-6 border border-amber-100">
-                                    <Heart className="w-10 h-10 text-gold/50" />
+                                <div className="w-20 h-20 bg-[#1C2B6A] rounded-full flex items-center justify-center mb-6 shadow-xl border border-[#d5bb88]/20">
+                                    <Heart className="w-10 h-10 text-[#d5bb88]" />
                                 </div>
-                                <h3 className="text-2xl font-bold text-bronze mb-2">No favorites yet</h3>
-                                <p className="text-bronze/60 max-w-xs mb-8">
+                                <h3 className="text-2xl font-bold text-[#1C2B6A] mb-2">No favorites yet</h3>
+                                <p className="text-[#1C2B6A]/70 font-semibold max-w-xs mb-8">
                                     Browse destinations and click the heart icon to save them here.
                                 </p>
                                 <Link href="/destinations">
-                                    <Button size="lg" className="bg-primary hover:bg-primary/90 text-bronze font-bold px-8 rounded-xl h-12 shadow-lg hover:shadow-amber-500/20 transition-all btn-active-taupe">
+                                    <Button size="lg" className="btn-kio font-bold px-8 rounded-xl h-12 shadow-lg">
                                         Browse Destinations
                                     </Button>
                                 </Link>
