@@ -24,7 +24,7 @@ export default function DestinationDetailPageWrapper() {
     return (
         <Suspense fallback={
             <div className="flex justify-center items-center h-96">
-                <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+                <Loader2 className="w-8 h-8 animate-spin text-[#1C2B6A]" />
             </div>
         }>
             <DetailPageContent />

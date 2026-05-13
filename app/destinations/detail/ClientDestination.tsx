@@ -53,7 +53,7 @@ export default function ClientDestination({ destinationId }: { destinationId: st
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-gray-50">
-                <Loader2 className="h-12 w-12 animate-spin text-blue-600" />
+                <Loader2 className="h-12 w-12 animate-spin text-[#1C2B6A]" />
             </div>
         )
     }
@@ -131,12 +131,12 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             transition={{ duration: 0.6 }}
                         >
                             <div className="flex flex-wrap gap-2 mb-4">
-                                <Badge className="bg-black/60 backdrop-blur-md text-white border-gold/50">
-                                    <MapPin className="h-3.5 w-3.5 mr-1.5 text-gold" />
-                                    {destination.city}
+                                <Badge className="bg-[#1C2B6A] backdrop-blur-md text-[#d5bb88] border-[#d5bb88]/30 px-4 py-1.5 rounded-full shadow-lg">
+                                    <MapPin className="h-4 w-4 mr-2 text-[#d5bb88]" />
+                                    <span className="font-bold uppercase tracking-widest text-xs">{destination.city}</span>
                                 </Badge>
                                 {destination.estimatedPrice !== undefined && (
-                                    <Badge className="bg-primary/90 backdrop-blur-md text-bronze border-none font-bold rounded-full px-3">
+                                    <Badge className="bg-[#d5bb88] backdrop-blur-md text-[#1C2B6A] border-none font-bold rounded-full px-4 py-1.5 shadow-lg">
                                         {destination.estimatedPrice === 0 ? "Free" : `${destination.estimatedPrice} EGP`}
                                     </Badge>
                                 )}
@@ -164,15 +164,17 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.6, delay: 0.2 }}
                         >
-                            <Card className="border-amber-200/40 shadow-sm bg-white/60 backdrop-blur-sm">
-                                <CardHeader className="border-b border-amber-200/20">
-                                    <CardTitle className="text-2xl font-display flex items-center gap-2 text-bronze">
-                                        <Info className="w-5 h-5 text-gold" />
+                            <Card className="border-[#d5bb88]/20 shadow-xl bg-white/80 backdrop-blur-md ag-float">
+                                <CardHeader className="border-b border-[#d5bb88]/10">
+                                    <CardTitle className="text-3xl font-display flex items-center gap-3 text-[#1C2B6A]">
+                                        <div className="w-10 h-10 bg-[#1C2B6A] rounded-xl flex items-center justify-center shadow-lg">
+                                            <Info className="w-5 h-5 text-[#d5bb88]" />
+                                        </div>
                                         About
                                     </CardTitle>
                                 </CardHeader>
-                                <CardContent className="pt-6">
-                                    <p className="text-bronze/90 leading-relaxed text-base whitespace-pre-line">
+                                <CardContent className="pt-8">
+                                    <p className="text-[#1C2B6A] leading-relaxed text-lg font-bold whitespace-pre-line">
                                         {destination.description}
                                     </p>
                                 </CardContent>
@@ -186,13 +188,15 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.6, delay: 0.3 }}
                             >
-                                <Card className="border-amber-200/40 shadow-sm overflow-hidden">
-                                    <CardHeader className="gradient-egyptian text-white border-none">
-                                        <CardTitle className="flex items-center gap-2 text-xl text-bronze font-bold">
-                                            <Eye className="w-5 h-5 text-bronze" />
+                                <Card className="border-[#d5bb88]/20 shadow-2xl overflow-hidden ag-float">
+                                    <CardHeader className="bg-[#1C2B6A] text-[#d5bb88] border-none py-6">
+                                        <CardTitle className="flex items-center gap-3 text-2xl font-bold">
+                                            <div className="w-10 h-10 bg-[#d5bb88] rounded-xl flex items-center justify-center shadow-inner">
+                                                <Eye className="w-6 h-6 text-[#1C2B6A]" />
+                                            </div>
                                             Virtual Tour
                                         </CardTitle>
-                                        <p className="text-sm text-bronze/80 mt-1 font-medium">
+                                        <p className="text-sm text-[#d5bb88]/80 mt-2 font-bold uppercase tracking-widest">
                                             Experience {destination.name} in immersive 360° virtual reality
                                         </p>
                                     </CardHeader>
@@ -219,25 +223,31 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.4 }}
                         >
-                            <Card className="border-amber-200/40 shadow-sm bg-white/60 backdrop-blur-sm">
-                                <CardHeader className="border-b border-amber-200/20 pb-3">
-                                    <CardTitle className="text-base font-semibold text-bronze">Practical Information</CardTitle>
+                            <Card className="border-none shadow-2xl bg-[#1C2B6A] overflow-hidden ag-float">
+                                <CardHeader className="border-b border-[#d5bb88]/20 pb-4 pt-6">
+                                    <CardTitle className="text-lg font-bold text-[#d5bb88] uppercase tracking-widest flex items-center gap-3">
+                                        Practical Information
+                                    </CardTitle>
                                 </CardHeader>
-                                <CardContent className="pt-4 space-y-4">
-                                    <div className="flex items-start gap-3">
-                                        <MapPin className="w-4 h-4 text-gold mt-0.5" />
+                                <CardContent className="pt-6 pb-8 space-y-6">
+                                    <div className="flex items-start gap-4 group">
+                                        <div className="w-10 h-10 rounded-xl bg-[#d5bb88]/10 border border-[#d5bb88]/20 flex items-center justify-center group-hover:bg-[#d5bb88] transition-all duration-300">
+                                            <MapPin className="w-5 h-5 text-[#d5bb88] group-hover:text-[#1C2B6A]" />
+                                        </div>
                                         <div>
-                                            <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Location</p>
-                                            <p className="text-sm font-medium text-bronze">{destination.city}, Egypt</p>
+                                            <p className="text-[10px] text-[#d5bb88]/60 uppercase tracking-widest font-bold mb-1">Location</p>
+                                            <p className="text-base font-bold text-white">{destination.city}, Egypt</p>
                                         </div>
                                     </div>
 
                                     {(destination.fromWorkingHours || destination.endWorkingHours) && (
-                                        <div className="flex items-start gap-3">
-                                            <Clock className="w-4 h-4 text-gold mt-0.5" />
+                                        <div className="flex items-start gap-4 group">
+                                            <div className="w-10 h-10 rounded-xl bg-[#d5bb88]/10 border border-[#d5bb88]/20 flex items-center justify-center group-hover:bg-[#d5bb88] transition-all duration-300">
+                                                <Clock className="w-5 h-5 text-[#d5bb88] group-hover:text-[#1C2B6A]" />
+                                            </div>
                                             <div>
-                                                <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Working Hours</p>
-                                                <p className="text-sm font-medium text-bronze">
+                                                <p className="text-[10px] text-[#d5bb88]/60 uppercase tracking-widest font-bold mb-1">Working Hours</p>
+                                                <p className="text-base font-bold text-white">
                                                     {destination.fromWorkingHours?.substring(0, 5) || "09:00"} - {destination.endWorkingHours?.substring(0, 5) || "18:00"}
                                                 </p>
                                             </div>
@@ -245,11 +255,13 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                     )}
 
                                     {destination.estimatedPrice !== undefined && (
-                                        <div className="flex items-start gap-3">
-                                            <div className="w-4 h-4 mt-0.5" />
+                                        <div className="flex items-start gap-4 group">
+                                            <div className="w-10 h-10 rounded-xl bg-[#d5bb88]/10 border border-[#d5bb88]/20 flex items-center justify-center group-hover:bg-[#d5bb88] transition-all duration-300">
+                                                <DollarSign className="w-5 h-5 text-[#d5bb88] group-hover:text-[#1C2B6A]" />
+                                            </div>
                                             <div>
-                                                <p className="text-xs text-bronze/60 uppercase tracking-wide font-bold">Estimated Entry Fee</p>
-                                                <p className="text-sm font-medium text-bronze">
+                                                <p className="text-[10px] text-[#d5bb88]/60 uppercase tracking-widest font-bold mb-1">Estimated Entry Fee</p>
+                                                <p className="text-base font-bold text-white">
                                                     {destination.estimatedPrice === 0 ? "Free Entry" : `${destination.estimatedPrice} EGP`}
                                                 </p>
                                             </div>
@@ -264,14 +276,14 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.6, delay: 0.5 }}
                         >
-                            <Card className="border-amber-200/40 shadow-sm sticky top-6 bg-white/60 backdrop-blur-sm">
-                                <CardContent className="p-6">
-                                    <h3 className="font-bold text-lg mb-2 text-bronze">Plan Your Visit</h3>
-                                    <p className="text-bronze/80 text-sm mb-6 leading-relaxed">
+                            <Card className="border-[#d5bb88]/20 shadow-2xl sticky top-6 bg-white/80 backdrop-blur-md ag-float">
+                                <CardContent className="p-8">
+                                    <h3 className="font-bold text-2xl mb-3 text-[#1C2B6A] font-display">Plan Your Visit</h3>
+                                    <p className="text-[#1C2B6A]/80 text-base mb-8 leading-relaxed font-bold">
                                         Add {destination.name} to your personalized Egypt itinerary and let our AI help you plan the perfect trip.
                                     </p>
                                     <Link href="/dashboard/trips/generate">
-                                        <Button className="w-full bg-[#1C2B6A] hover:bg-[#1C2B6A]/90 text-white font-bold h-11 shadow-lg shadow-black/10">
+                                        <Button className="w-full btn-kio text-[#d5bb88] font-bold h-14 rounded-2xl shadow-xl shadow-[#1C2B6A]/20">
                                             Create Travel Plan
                                         </Button>
                                     </Link>
