@@ -116,8 +116,8 @@ export default function FavoritesPage() {
                                             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-transparent opacity-60" />
 
                                             <div className="absolute top-3 left-3 right-3 flex justify-between items-start z-10">
-                                                <div className="bg-black/60 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-medium text-white border border-gold/30 flex items-center gap-1">
-                                                    <MapPin className="h-3 w-3 text-gold" />
+                                                <div className="bg-[#1C2B6A]/90 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-[#d5bb88] border border-[#d5bb88]/30 flex items-center gap-1 shadow-sm">
+                                                    <MapPin className="h-3 w-3 text-[#d5bb88]" />
                                                     {destination.city}
                                                 </div>
 

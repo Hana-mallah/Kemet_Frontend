@@ -141,8 +141,8 @@ export default function ClientDestination({ destinationId }: { destinationId: st
                                     </Badge>
                                 )}
                                 {destination.vrUrlImage && (
-                                    <Badge className="bg-primary/90 backdrop-blur-md text-bronze border-none font-bold rounded-full px-3">
-                                        VR
+                                    <Badge className="bg-[#1C2B6A] backdrop-blur-md text-[#d5bb88] border-[#d5bb88]/30 px-4 py-1.5 rounded-full shadow-lg">
+                                        <span className="font-bold uppercase tracking-widest text-xs">VR</span>
                                     </Badge>
                                 )}
                             </div>

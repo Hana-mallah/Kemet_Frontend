@@ -34,25 +34,25 @@ export default function ForgotPasswordPage() {
         <div className="min-h-screen flex items-center justify-center p-8 app-surface">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h2 className="font-display text-2xl font-bold">Forgot Password</h2>
-                    <p className="text-gray-600">Enter your email to receive a reset code.</p>
+                    <h2 className="font-display text-3xl font-bold text-[#1C2B6A] mb-2">Forgot Password</h2>
+                    <p className="text-[#1C2B6A] font-bold">Enter your email to receive a reset code.</p>
                 </div>
                 <Card className="border-none shadow-xl glass-card">
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
                             <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-white/50" />
+                                <Label htmlFor="email" className="font-bold text-[#1C2B6A]">Email</Label>
+                                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-white/50 border-gray-200 focus:border-[#1C2B6A] focus:ring-0 font-bold text-[#1C2B6A]" />
                             </div>
 
                             {message && <div className="p-3 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg">{message}</div>}
                             {error && <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">{error}</div>}
 
-                            <Button type="submit" className="w-full bg-gray-800 hover:bg-gray-900 h-12" disabled={isLoading}>
+                            <Button type="submit" className="w-full btn-kio text-[#d5bb88] font-bold h-12 shadow-lg" disabled={isLoading}>
                                 {isLoading ? "Sending..." : "Send Reset Code"}
                             </Button>
-                            <div className="text-center text-sm mt-2">
-                                <Link href="/login" className="text-gray-500 hover:text-gray-700">Back to login</Link>
+                            <div className="text-center mt-4">
+                                <Link href="/login" className="text-[#1C2B6A] hover:text-[#170C79] font-bold text-sm transition-colors underline-offset-4 hover:underline">Back to login</Link>
                             </div>
                         </form>
                     </CardContent>

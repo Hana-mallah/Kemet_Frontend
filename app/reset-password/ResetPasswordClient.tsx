@@ -46,38 +46,38 @@ export default function ResetPasswordClient() {
         <div className="min-h-screen flex items-center justify-center p-8 app-surface">
             <div className="w-full max-w-md">
                 <div className="text-center mb-8">
-                    <h2 className="font-display text-2xl font-bold">Reset Password</h2>
-                    <p className="text-gray-600">Enter the code from your email and set a new password.</p>
+                    <h2 className="font-display text-3xl font-bold text-[#1C2B6A] mb-2">Reset Password</h2>
+                    <p className="text-[#1C2B6A] font-bold">Enter the code from your email and set a new password.</p>
                 </div>
                 <Card className="border-none shadow-xl glass-card">
                     <CardContent className="pt-6">
                         <form onSubmit={handleSubmit} className="space-y-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="email">Email</Label>
-                                <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-white/50" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="otp">Reset code</Label>
-                                <Input id="otp" type="text" inputMode="numeric" value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} required className="bg-white/50 tracking-widest" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="newPassword">New password</Label>
-                                <Input id="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required className="bg-white/50" />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="confirmPassword">Confirm password</Label>
-                                <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="bg-white/50" />
-                            </div>
+                             <div className="space-y-2">
+                                 <Label htmlFor="email" className="font-bold text-[#1C2B6A]">Email</Label>
+                                 <Input id="email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} required className="bg-white/50 border-gray-200 focus:border-[#1C2B6A] focus:ring-0 font-bold text-[#1C2B6A]" />
+                             </div>
+                             <div className="space-y-2">
+                                 <Label htmlFor="otp" className="font-bold text-[#1C2B6A]">Reset code</Label>
+                                 <Input id="otp" type="text" inputMode="numeric" value={otp} onChange={(e) => setOtp(e.target.value.replace(/\D/g, '').slice(0, 6))} required className="bg-white/50 border-gray-200 focus:border-[#1C2B6A] focus:ring-0 font-bold text-[#1C2B6A] tracking-widest" />
+                             </div>
+                             <div className="space-y-2">
+                                 <Label htmlFor="newPassword" className="font-bold text-[#1C2B6A]">New password</Label>
+                                 <Input id="newPassword" type="password" value={newPassword} onChange={(e) => setNewPassword(e.target.value)} required className="bg-white/50 border-gray-200 focus:border-[#1C2B6A] focus:ring-0 font-bold text-[#1C2B6A]" />
+                             </div>
+                             <div className="space-y-2">
+                                 <Label htmlFor="confirmPassword" className="font-bold text-[#1C2B6A]">Confirm password</Label>
+                                 <Input id="confirmPassword" type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required className="bg-white/50 border-gray-200 focus:border-[#1C2B6A] focus:ring-0 font-bold text-[#1C2B6A]" />
+                             </div>
 
                             {message && <div className="p-3 bg-green-50 border border-green-200 text-green-700 text-sm rounded-lg">{message}</div>}
                             {error && <div className="p-3 bg-red-50 border border-red-200 text-red-600 text-sm rounded-lg">{error}</div>}
 
-                            <Button type="submit" className="w-full bg-gray-800 hover:bg-gray-900 h-12" disabled={isLoading}>
-                                {isLoading ? "Resetting..." : "Reset Password"}
-                            </Button>
-                            <div className="text-center text-sm mt-2">
-                                <Link href="/login" className="text-gray-500 hover:text-gray-700">Back to login</Link>
-                            </div>
+                             <Button type="submit" className="w-full btn-kio text-[#d5bb88] font-bold h-12 shadow-lg" disabled={isLoading}>
+                                 {isLoading ? "Resetting..." : "Reset Password"}
+                             </Button>
+                             <div className="text-center mt-4">
+                                 <Link href="/login" className="text-[#1C2B6A] hover:text-[#170C79] font-bold text-sm transition-colors underline-offset-4 hover:underline">Back to login</Link>
+                             </div>
                         </form>
                     </CardContent>
                 </Card>
