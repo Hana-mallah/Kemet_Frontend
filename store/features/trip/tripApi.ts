@@ -78,6 +78,7 @@ const formatTime = (time: any): string => {
 // ─── Trip API endpoints ───────────────────────────────────────────────────────
 
 export const tripApi = api.injectEndpoints({
+    overrideExisting: true,
     endpoints: (builder) => ({
 
         // Get all trips

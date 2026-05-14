@@ -338,7 +338,7 @@ export default function TripGeneratorPage() {
                                         </motion.div>
                                         {isDisabled && (
                                             <p className="mt-2 text-[10px] text-gray-400 font-medium text-center leading-tight">
-                                                Available for coastal areas only<br/>(Not in current scope)
+                                                Available for coastal areas only<br />(Not in current scope)
                                             </p>
                                         )}
                                     </div>
@@ -349,29 +349,25 @@ export default function TripGeneratorPage() {
                         <motion.div
                             initial={{ opacity: 0, y: 8 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className={`flex items-center gap-3 px-5 py-4 rounded-2xl border-2 transition-all ${
-                                meetsMinimum
-                                    ? 'border-emerald-200 bg-emerald-50'
-                                    : 'border-orange-200 bg-orange-50'
-                            }`}
+                            className={`flex items-center gap-3 px-5 py-4 rounded-2xl border-2 transition-all ${meetsMinimum
+                                ? 'border-emerald-200 bg-emerald-50'
+                                : 'border-orange-200 bg-orange-50'
+                                }`}
                         >
-                            <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-extrabold text-sm ${
-                                meetsMinimum ? 'bg-emerald-500 text-white' : 'bg-orange-400 text-white'
-                            }`}>
+                            <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center font-extrabold text-sm ${meetsMinimum ? 'bg-emerald-500 text-white' : 'bg-orange-400 text-white'
+                                }`}>
                                 {selectedCount}
                             </div>
                             <div className="flex-1">
-                                <p className={`text-sm font-bold ${
-                                    meetsMinimum ? 'text-emerald-700' : 'text-orange-700'
-                                }`}>
+                                <p className={`text-sm font-bold ${meetsMinimum ? 'text-emerald-700' : 'text-orange-700'
+                                    }`}>
                                     {meetsMinimum
                                         ? `✓ ${selectedCount} interest${selectedCount > 1 ? 's' : ''} selected — you're good to go!`
                                         : `${selectedCount} / 3 minimum selected — please choose at least ${3 - selectedCount} more interest${3 - selectedCount > 1 ? 's' : ''} to continue.`
                                     }
                                 </p>
-                                <p className={`text-xs mt-0.5 ${
-                                    meetsMinimum ? 'text-emerald-500' : 'text-orange-500'
-                                }`}>
+                                <p className={`text-xs mt-0.5 ${meetsMinimum ? 'text-emerald-500' : 'text-orange-500'
+                                    }`}>
                                     {meetsMinimum
                                         ? 'More interests = a richer, more varied itinerary'
                                         : 'At least 3 interests are required for a well-rounded trip plan'
@@ -424,9 +420,9 @@ export default function TripGeneratorPage() {
                                 <SummaryBadge label="Pace" value={travelStyles.find(s => s.id === preferences.travelStyle)?.label} />
                                 <SummaryBadge label="Travelers" value={
                                     preferences.groupSize === 1 ? 'Solo' :
-                                    preferences.groupSize === 2 ? 'Couple' :
-                                    preferences.groupSize === 4 ? 'Small Group' :
-                                    'Large Group'
+                                        preferences.groupSize === 2 ? 'Couple' :
+                                            preferences.groupSize === 4 ? 'Small Group' :
+                                                'Large Group'
                                 } />
                                 <SummaryBadge label="Duration" value={`${computeDays(preferences)} Days`} />
                                 <SummaryBadge label="Interests" value={`${preferences.interests.length} Categories`} />

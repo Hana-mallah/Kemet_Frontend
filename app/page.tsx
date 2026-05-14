@@ -123,13 +123,24 @@ export default function HomePage() {
                 <div className="absolute top-20 left-20 w-72 h-72 bg-gold/10 rounded-full blur-3xl" />
                 <div className="absolute bottom-20 right-20 w-96 h-96 bg-primary/10 rounded-full blur-3xl" />
 
-                <div className="relative container mx-auto px-4 text-center max-w-5xl">
+                <div className="relative container mx-auto px-4 text-center max-w-5xl z-20">
                     <motion.div
                         initial={{ opacity: 0, y: 40 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, ease: "easeOut" }}
-                        className="space-y-6"
+                        className="flex flex-col items-center w-full"
                     >
+                        {/* Gold Logo with 16px gap to headline */}
+                        <Image
+                            src="/swirl-logo.png"
+                            alt="Kemet Logo"
+                            width={110}
+                            height={100}
+                            className="h-[100px] w-auto mb-4 drop-shadow-lg"
+                            priority
+                        />
+
+                        <div className="space-y-6 w-full">
                         {/* Main heading — mouse-reactive specular gold */}
                         <GoldSpecularHeading />
 
@@ -161,6 +172,7 @@ export default function HomePage() {
                                 </Button>
                             </Link>
                         </motion.div>
+                        </div>
                     </motion.div>
 
 

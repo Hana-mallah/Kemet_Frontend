@@ -24,6 +24,7 @@ export interface TravelPlanState {
 
 // Travel Plan API
 export const travelPlanApi = api.injectEndpoints({
+    overrideExisting: true,
     endpoints: (builder) => ({
         // Get all travel plans for user
         getTravelPlans: builder.query<TravelPlan[], void>({
