@@ -186,6 +186,7 @@ export const tripApi = api.injectEndpoints({
                     // ── Precision systemPrompt (ultra-short s = fewer tokens = no hallucination) ─
                     const systemPrompt = [
                         'Output ONLY a raw JSON object. No prose, no markdown, no code fences.',
+                        'CRITICAL: NEVER use double quotes (") inside any string values. Use single quotes (\') instead.',
                         `Shape: {"title":"","desc":"","d":[{"d":1,"h":"","city":"","a":[{"n":"","s":"","t":"09:00 AM","dur":2,"p":0,"destId":"ID"}]}]}`,
                         'Keys: d=dayNum h=header a=activities n=name s=summary t=time dur=hrs p=priceEGP destId=id',
                         '',
@@ -241,15 +242,45 @@ export const tripApi = api.injectEndpoints({
 
                     console.log('[KEMET Assistant] Response (first 400 chars):', content.substring(0, 400))
 
-                    // ── 5. Parse JSON ───────────────────────────────────────
+                    // ── 5. Parse JSON (Aggressive Healing) ───────────────────────────────────────
                     let rawTripData: any
                     try {
                         rawTripData = JSON.parse(content.trim())
-                    } catch {
+                    } catch (e) {
+                        console.warn('[KEMET Assistant] JSON parse failed, attempting aggressive healing...')
                         let cleaned = content.replace(/```json\s*/gi, '').replace(/```\s*/g, '').trim()
                         const match = cleaned.match(/\{[\s\S]*\}/)
                         if (!match) throw new Error('KEMET Assistant response is not valid JSON')
-                        rawTripData = JSON.parse(match[0])
+                        
+                        cleaned = match[0]
+                        
+                        // Fix unescaped quotes inside string values (heuristic)
+                        // This replaces quotes that are not adjacent to brackets, braces, commas, or colons
+                        cleaned = cleaned.replace(/([a-zA-Z0-9.,!?])"([a-zA-Z0-9 ])/g, "$1'$2")
+                        
+                        // Fix trailing commas in arrays/objects
+                        cleaned = cleaned.replace(/,\s*([\]}])/g, '$1')
+                        
+                        // Fix missing commas between objects
+                        cleaned = cleaned.replace(/}\s*{/g, '},{')
+
+                        try {
+                            rawTripData = JSON.parse(cleaned)
+                        } catch (finalError) {
+                            console.error('[KEMET Assistant] Aggressive healing failed. Truncation detected.')
+                            // If it's a truncation issue, we gracefully recover by slicing the bad JSON array
+                            const validMatch = cleaned.match(/\{[\s\S]*"d"\s*:\s*\[[\s\S]*?(?=\}\s*,\s*\{|\}\s*\])/)
+                            if (validMatch) {
+                                let forced = validMatch[0] + '}]}'
+                                try {
+                                    rawTripData = JSON.parse(forced)
+                                } catch {
+                                    throw new Error('JSON is completely unrecoverable.')
+                                }
+                            } else {
+                                throw new Error('JSON structure is lost.')
+                            }
+                        }
                     }
 
                     // ── 6. Validate & fix destination IDs ───────────────────

@@ -267,9 +267,7 @@ function TripDetailContent() {
                                                                         </div>
                                                                         <div className="text-[#1C2B6A]/50 text-xs font-bold">{activity.durationHours}h</div>
                                                                     </div>
-                                                                    <p className="font-display text-sm text-[#1C2B6A] font-bold leading-relaxed mt-1">
-                                                                        {activity.description}
-                                                                    </p>
+
                                                                 </div>
                                                             </div>
                                                         </div>
